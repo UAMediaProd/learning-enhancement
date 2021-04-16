@@ -1,0 +1,102 @@
+body {
+    font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
+    height: auto;
+}
+.page {
+    display: none;
+}
+.page.active {
+    display: block;
+}
+
+.noUi-handle {
+    background-color: #008cba;
+    border: none;
+}
+.noUi-handle:hover,
+.noUi-handle:active {
+    background-color: #007095;
+}
+.noUi-pips {
+    color: #222;
+}
+
+.questions li {
+    padding-bottom: 1.5em;
+}
+.answer {
+    margin-top: 1em;
+    margin-left: 0;
+    margin-right: 2em;
+    margin-bottom: 4em;
+}
+.nav {
+    padding-top: 0em;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 0em;
+}
+.fa {
+    font-size: 200%;
+}
+.prev {
+    float: left;
+}
+.prev:after {
+    content: " Previous";
+    vertical-align: 20%;
+}
+.next {
+    float: right;
+}
+.next:before {
+    content: "Next ";
+    vertical-align: 20%;
+}
+.progress .meter {
+    color: white;
+}
+
+
+.chart {
+    text-align: center;
+}
+canvas {
+    width: 680px;
+    height: 650px;
+}
+#legend .radar-legend li {
+    list-style-type: none;
+    padding-top: 0.2em;
+}
+#legend .radar-legend span {
+    width: 5em;
+    height: 2em;
+    display: inline-block;
+    margin-right: 1em;
+    vertical-align: -35%;
+    border-style: solid;
+    border-width: thin;
+}
+
+/* footer */
+#footer {
+    border-top: thin solid #999;
+    font-size: 80%;
+    margin-top: 9ex;
+    margin-bottom: 5ex;
+    padding-top: 0.5ex;
+    width: 100%;
+}
+#footer .copyright-link {
+    padding: 0;
+    text-align: left;
+}
+#footer .usage {
+    white-space: nowrap;
+    display: inline-block;
+}
+#footer .references-link {
+    padding: 0;
+    text-align: right;
+}
