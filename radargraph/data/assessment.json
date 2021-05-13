@@ -2,16 +2,17 @@
 
     "title": "Assess your assessment",
     "introduction": "This radar graph is designed to enable you to review the existing assessment items contained in a course to determine the suitability of assessment across a series of five domains. Reflecting on the assessment items contained in this course, respond to the following statements in each domain by moving the slider to the appropriate location.",
+    "entry":true,
+    "entryLabel": "Please enter the title of the course you are assessing",
     "pages":[
        {
-            "name": "Authentic assessment",
-            "description":"Authentic assessment prepares the learner for what they are going to do next, meeting employer needs and testing knowledge and skills in a more realistic, contextualised and motivating way.",
+            "name": "Authentic",
+            "description":"Authentic assessment prepares the learner for what they are going to do next, meeting employer needs and testing knowledge and skills in a realistic, contextualised and motivating way.",
             "statements": [
-                "The assessment in this course contains options that are challenging and enable students to demonstrate knowledge and skills",
-                "The assessment in this course includes opportunities for peer and self-assessment.",
-                "The assessment in this course provides students with experiences that they are likely to encounter in the workplace.",
-                "There are a wide range of digital assessment types available in this course.",
-                "The assessment contained in this course reflects contemporary workplace practices."
+                "The assessment in this course contains options that challenge students to apply knowledge and skills via the production of an outcome",
+                "The assessment in this course reflects the type of activity that students are likely to encounter in the workplace.",
+                "Assessment in this course is designed for students to generate and submit electronically",
+                "The assessment contained in this course reflects contemporary workplace practices"
             ]
         },
         {
@@ -30,26 +31,26 @@
             "description":"Feedback is designed to provide specific and actionable feedback for students",
             "statements": [
                 "Marking and feedback of all assessment items is available via MyUni.",
+                "Each assessment item contains a clear set of criteria for students prior to submission",
                 "Feedback is timely and able to be actioned by students throughout the course.",
-                "Feedback is provided in a range of modes, e.g. written, audio.",
                 "Feedback supports ongoing skill development and promotes student learning.",
-                "Each assessment item contains a clear set of criteria for students prior to submission."
+                "The assessment in this course includes opportunities for peer and self-assessment"
             ]
         },
         {
-            "name": "Appropriately balanced",
+            "name": "Balanced",
             "description":"Assessment is rich in practice opportunities and reflecting the fact that students today need to be capable of lifelong learning, to adapt to changes in the world of work and across their lives rather than succeeding at one high stakes, high-stress exam.",
             "statements": [
-                "The assessment weightings contained in this course are applied evenly.",
-                "Assessments are at a reasonable space and pace to promote student learning.",
+                "The assessment weightings contained in this course are distributed evenly. i.e. there is not one single high stakes summative assessment at the end of the course",
+                "Assessments are delivered at a reasonable space and pace to support student learning.",
                 "The assessment contained in this course builds on a student’s knowledge and experience.",
                 "The assessment contained in this course is delivered in appropriately timed intervals.",
                 "Successive assessment tasks allow for the application of knowledge and skill growth and development."
             ]
         },
         {
-            "name": "Secure assessment",
-            "description":"Secure assessment design ensures that the right student is taking the right assessment and that the work they are submitting is their own and abides by the University’s academic integrity principles.",
+            "name": "Aademic Integrity",
+            "description":"Assessment design ensures that the right student is taking the right assessment and that the work they are submitting is their own and abides by the University’s academic integrity principles.",
             "statements": [
                 "Assessment contained in this course provides students with clear expectations regarding citations and referencing requirements.",
                 "Assessment items require students to demonstrate higher order thinking, rather than rote learning or reciting facts.",

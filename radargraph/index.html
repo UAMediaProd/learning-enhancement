@@ -1,110 +1,295 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Radargraph</title>
-        <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/jquery.nouislider.min.css">
-        <link rel="stylesheet" type="text/css" href="css/jquery.nouislider.pips.min.css">
-        <link rel="stylesheet" type="text/css" href="css/radar.css" />
-        <script src="js/vendor/modernizr.js"></script>
-        <script src="js/vendor/jquery.js"></script>
-        <script src="js/foundation.min.js"></script>
-        <script src="js/Chart.min.js"></script>
-        <script src="js/jquery.nouislider.all.min.js"></script>
-        <script src="js/jquery.nouislider.a11y.js"></script>
-        <script src="js/radar.js"></script>
-    </head>
-    <body>
-        <div id="content" class="small-centered columns">
-            <div id="intro">
-            &nbsp;
+  <head>
+    <title>Radargraph</title>
+    <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="css/jquery.nouislider.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="css/jquery.nouislider.pips.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="css/radar.css" />
+    <script src="js/vendor/modernizr.js"></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/Chart.min.js"></script>
+    <script src="js/jquery.nouislider.all.min.js"></script>
+    <script src="js/jquery.nouislider.a11y.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script src="js/radar.js"></script>
+
+    
+  </head>
+  <body>
+    <div id="content" class="small-centered columns">
+      <div id="intro">&nbsp;</div>
+        <label><strong>Enter the name of the course you are assessing:</strong></label>
+        <input class="courseName" type='text'/>
+
+
+      <div class="pager" id="paging">
+
+        <div id="chart" class="panel page">
+          <div class="row">
+            <h2 id="courseTitle">Course Title</h2>
+
+            <div id="legend"></div>
+            <div class="chart"><canvas id="characteristics"></canvas></div>
+          </div>
+          <div class="row feedback">
+            <div class="row intro">
+              <p>
+                Here are the results of your activity. Take note of further
+                considerations below.
+              </p>
             </div>
-            <div class="pager" id='paging'>
-                <!-- <div id="planning" class="page panel active">
-                    <h2>Planning</h2>
-                    <p>Planning is a key skill in a risk management process. The saying "failing to plan is planning to fail" is well known. Give some thought to a recent planning activity you undertook (in a project or otherwise), and respond to the following statements by moving the slider to the appropriate location:</p>
-                    <ol class="questions">
-                        <li>
-                            <label for="planning-1">I am good at organising human and other resources and allocate time appropriately to achieve an objective.</label>
-                            <div class="answer" id="planning-1"></div>
-                        </li>
-                        <li>
-                            <label for="planning-2">I consider time spent on planning as essential to achieving a successful outcome of an activity.</label>
-                            <div class="answer" id="planning-2"></div>
-                        </li>
-                        <li>
-                            <label for="planning-3">When required to perform an activity, I tend to identify and plan each task individually.</label>
-                            <div class="answer" id="planning-3"></div>
-                        </li>
-                        <li>
-                            <label for="planning-4">It is important for me to keep to deadlines I set when completing tasks or activities.</label>
-                            <div class="answer" id="planning-4"></div>
-                        </li>
-                        <li>
-                            <label for="planning-5">When planning, I usually start by considering the "big picture" before deciding on how best to sequence or combine the individual pieces of work that needs to be done.</label>
-                            <div class="answer" id="planning-5"></div>
-                        </li>
-                    </ol>
+            <div id="rows">
+              <div class="row detail hide">
+                <h3>Authentic</h3>
+                <p>
+                  Designing assessment tasks that are rich in opportunities for
+                  production and that enable students to connect their learning
+                  with real world application can motivate students.
+                </p>
+                <p>
+                  To improve student engagement in learning, and to support
+                  better quality learning outcomes, it is necessary that
+                  assessment tasks are designed to direct student attention to
+                  what needs to be learned and to the activities that best lead
+                  to this. Effective learning can be hampered by assessment
+                  tasks that focus student attention on grades and marks or
+                  reproductive thinking.
+                </p>
 
-                    <div class="row nav">
-                        <div class="progress radius round"><span class="meter"></span></div>
-                        <a href="#" class="next" title="next"><i class="fa-chevron-circle-right fa"></i></a>
-                    </div>
-                </div> -->
- 
+                <p>
+                  Assessment tasks should be significant learning activities in
+                  themselves, and not only enable judgements to be made about
+                  what has been learned. The potency of student engagement in
+                  learning is enhanced when assessment tasks require substantial
+                  involvement over time, and when they are designed in an
+                  interlinked, constructive, organised and coherent sequence.
+                </p>
 
-                <div id="chart" class="panel page">
+                <p>
+                  Consider adding in assessment tasks that reflect practices in
+                  industry or mirror activities that students would undertake in
+                  the workplace. For further reading in relation to authentic
+                  assessment, see Ashford-Rowe, K., Herrington, J., Brown, C.,
+                  Establishing the Critical elements that determine authentic
+                  assessment, Assessment & Evaluation in Higher Education, 39,
+                  205-222, (2014)
+                  <a
+                    href="https://doi.org/10.1080/02602938.2013.819566"
+                    target="_blank"
+                    >https://doi.org/10.1080/02602938.2013.819566</a
+                  >
+                </p>
+                <p>
+                  Feedback derived from the
+                  <a
+                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
+                    target="_blank"
+                    >Australian Learning & Teaching Council’s Assessment 2020</a
+                  >.
+                </p>
+              </div>
+              <div class="row detail hide">
+                <h3>Accessible</h3>
+                <p>
+                  Students come to higher education with great diversity in
+                  preparedness and understanding of what it involves. To ensure
+                  that all can engage equitably with assessment tasks, the
+                  implicit rules and expectations around what is required for
+                  success in any discipline need to be made accessible to
+                  students and opportunities provided for them to develop the
+                  academic skills they require to perform those tasks.
+                </p>
 
-                    <div id="legend"></div>
-                    <div class="chart"><canvas id="characteristics"></canvas></div>
+                <p>
+                  Intentionally designing assessment so that it does not require
+                  significant modifications to accommodate individual learners
+                  ensures that assessment is inclusive and achievable. You may
+                  ask a peer to review the instructions for your assessment
+                  items to see if they are clear. Consider whether or not
+                  assessment tasks are a stepped process. If so, are the steps
+                  provided to students in a logical, chronological way? Number
+                  the steps clearly. Are instructions for online submission
+                  clear to students? These can all be barriers to achieving
+                  assessment outcomes. Review the assessment set up in your
+                  course prior to the next delivery to see where opportunities
+                  for uplift might present.
+                </p>
+                <p>
+                  Feedback derived from the
+                  <a
+                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
+                    target="_blank"
+                    >Australian Learning & Teaching Council’s Assessment 2020</a
+                  >.
+                </p>
+              </div>
+              <div class="row detail hide">
+                <h3>Feedback</h3>
 
-                    <div class="row feedback">
-                        <div class="row intro">
-                            <p>Here are the results of your activity.</p>
-                        </div>
-                        <div id='rows'>
-                        <div class="row detail">
-                            <h3>Planning skills</h3>
-                            <p>
-                                Planning is a core activity in risk management. Planning and organisational skills are essential to being effective in the risk management process and in working with stakeholders. Taking time to understand the risks identified in any project, assessing them methodically and responding to them appropriately all form part of your ability to plan these processes properly and with accuracy. Thorough planning indicates preparedness and evidence-based decision making, contributing to the successful implementation of a risk management process.  </p>
-                        </div>
-                        <div class="row detail">
-                            <h3>Problem-solving skills</h3>
-                            <p>
-                                Problem-solving skills are core to the effectiveness and success of any project or risk manager. Risk management is essentially a set of activities developed and implemented based on future uncertain events. Creative thinking is required to best deal with unexpected challenges and problems that need to be solved. Creative thinking requires proper immersion through the use of various techniques to really think in-depth about problem solving perspectives before responding to it. Take time to facilitate brainstorming sessions with internal and external stakeholders to find alternative solutions that may be more effective than a single (off the shelf) solution approach you might usually take in assessing and responding to risk.  </p>
-                        </div>
-                        <div class="row detail">
-                            <h3>Communication skills</h3>
-                            <p>
-                                Risk Management within a project or organisation setting can be highly stressful. Good communication skills are essential in helping you to work effectively, build solid stakeholder relationships, identify, assess and respond to risks appropriately and monitor and review continuously. Successful risk management communication is about open and honest discussion, trust and listening to and responding to feedback. Effective communication is also about considering other points of view before taking an agreed upon action.  </p>
-                        </div>
-                        <div class="row detail">
-                            <h3>Analytical skills</h3>
-                            <p>
-                                Thorough analysis and evaluation in selecting the "best approach" to undertaking and completing risk management activities will inform overall planning, communication, and stakeholder management by clearly articulating the selected path to successfully achieving project objectives. Displaying analytical skills enables you to structure ideas and information logically, find ways to apply information practically. When you pay attention to detail, you develop your analytical skills, which will enable you to identify when something is likely to impact your project objectives.  </p>
-                        </div>
-                        <div class="row detail">
-                            <h3>Process-thinking skills</h3>
-                            <p>
-                                Process-thinking is a key skill in successful risk management. Process thinking involves your ability to see links between events and situations and how you might go about resolving them. Breaking down a perceived 'big' issue into smaller, more manageable parts, enables you to deal with smaller problems or issues one at a time, resulting in an overall challenge being solved more appropriately and successfully. Having a clear indication of the cause of a problem in the risk management process, enables you to think logically and practically about its effect and therefore you are in a better position to choose responses that are most effective.  </p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="row nav">
-                        <div class="progress radius round"><span class="meter"></span></div>
-                        <a href="#" class="prev" title="back"><i class="fa-chevron-circle-left fa"></i></a>
-                    </div>
-                </div>
+                <p>
+                  Students benefit from clear and helpful feedback on their
+                  learning. Everyday learning activities as well as special
+                  tasks and tests provide opportunities for the provision of
+                  feedback. This places responsibility on staff to plan
+                  assessment in order to (a) develop their own skills in
+                  providing quality feedback, and (b) develop in students the
+                  skills they need to provide sound feedback to each other.
+                </p>
+
+                <p>
+                  Students’ own skills of judgement are developed by their
+                  utilisation of feedback, guidance provided by those already
+                  inducted into the culture and standards of the discipline, and
+                  opportunities to grow their own skills of critical appraisal.
+                  They need to be able to seek and employ feedback from a
+                  variety of sources to develop a full range of outcomes from
+                  their studies.
+                </p>
+
+                <p>
+                  Marks and grades provide little information to students about
+                  specific qualities of their work and do not indicate how it
+                  might be improved. While marks and grades may provide a crude
+                  tracking measure of how well students are doing, they do not
+                  help students move beyond their present standard of
+                  performance. Specific and detailed information is needed to
+                  show students what has been done well, what has not, and how
+                  their work could be better.
+                </p>
+
+                <p id="low5Only">
+                  Providing students with an opportunity to review the quality
+                  of their own work and the work of others enables them to
+                  develop the skills of a practitioner. Embedding
+                  self-assessment and peer assessment opportunities throughout a
+                  course enables students to develop evaluative judgement. If
+                  you are interested in learning more about developing
+                  evaluative judgement, see Tai, J., Ajjawi, R., Boud, D. et al.
+                  Developing evaluative judgement: enabling students to make
+                  decisions about the quality of work. Higher Education 76,
+                  467–481 (2018).
+                  <a href="https://doi.org/10.1007/s10734-017-0220-3"
+                    >https://doi.org/10.1007/s10734-017-0220-3</a
+                  >
+                </p>
+
+                <p>
+                  Feedback derived from the
+                  <a
+                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
+                    target="_blank"
+                    >Australian Learning & Teaching Council’s Assessment 2020</a
+                  >.
+                </p>
+              </div>
+              <div class="row detail hide">
+                <h3>Balanced</h3>
+
+                <p>
+                  Assessment is not an ‘add-on’ to the curriculum structure of a
+                  course. It needs to be considered from the outset of course
+                  design and intimately embedded and linked to considerations of
+                  student learning as part of the curriculum. Assessment tasks,
+                  types and means of deployment need to be fully aligned with
+                  all other aspects of the curriculum.
+                </p>
+
+                <p>
+                  Many separate low-value pieces of assessment can fragment
+                  learning without providing evidence of how students’ knowledge
+                  and skills from a unit of study are interrelated. This is
+                  often compounded across subjects, leading students to
+                  experience knowledge as disconnected elements. Strong evidence
+                  of achievement of the totality of outcomes can be provided by
+                  larger-scale tasks that require students to demonstrate
+                  coherent integrated learning, not isolated or atomistic
+                  performance.
+                </p>
+
+                <p>
+                  Feedback derived from the
+                  <a
+                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
+                    target="_blank"
+                    >Australian Learning & Teaching Council’s Assessment 2020</a
+                  >.
+                </p>
+              </div>
+              <div class="row detail">
+                <h3>Academic Integrity</h3>
+                <p>
+                  For students to become independent and self-managing learners,
+                  they need to be supported in the development and acquisition
+                  of the skills they need for learning, including those of
+                  assessment. Critical to this attainment is early engagement in
+                  manageable assessed tasks to build confidence, and the
+                  expectation that learning requires not only an investment of
+                  effort but also the taking of initiative. This contributes to
+                  alleviating anxiety around assessment information,
+                  instructions, guidance, and performance. Early assessment
+                  provides information to both students and teachers on progress
+                  and achievement, and allows for identification of students in
+                  need of additional support.
+                </p>
+
+                <p>
+                  Academic integrity begins with a commitment to the values of
+                  honesty, trust, fairness, respect, responsibility and courage.
+                  Discuss these values with your students. Encourage and support
+                  the development of academic integrity throughout assessment
+                  tasks. Academic integrity can be scaffolded throughout. For
+                  further resources to support the development of academic
+                  integrity, contact the Academic Integrity Officer,
+                  <a href="mailto:amy.milka@adelaide.edu.au"
+                    >amy.milka@adelaide.edu.au</a
+                  >.
+                </p>
+
+                <p>
+                  Feedback derived from the
+                  <a
+                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
+                    target="_blank"
+                    >Australian Learning & Teaching Council’s Assessment 2020</a
+                  >.
+                </p>
+              </div>
             </div>
-
-            <div id="footer">
-                <div class="copyright-link columns small-6">
-                    <a href="http://www.adelaide.edu.au/legals/copyright.html">&copy; The University of Adelaide</a>,
-                    <div class="usage">all rights reserved</div>
-                </div>
-                
-            </div>
+          </div>
+          <div class="row butts">
+          <hr>
+            <p>Use the button below to generate a report of these results.</p>
+            <button clas="btn" id="reportThis">Download report</button>
+            <br/><br/>
+          </div>
+          <div class="row nav">
+            <div class="progress radius round"><span class="meter"></span></div>
+            <a href="#" class="prev" title="back"
+              ><i class="fa-chevron-circle-left fa"></i
+            ></a>
+          </div>
         </div>
-    </body>
+      </div>
+
+      <div id="footer">
+        <div class="copyright-link columns small-6">
+          <a href="http://www.adelaide.edu.au/legals/copyright.html"
+            >&copy; The University of Adelaide</a
+          >,
+          <div class="usage">all rights reserved</div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

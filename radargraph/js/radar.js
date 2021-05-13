@@ -38,20 +38,26 @@ $(document).ready(function() {
 
         $('#intro').append("<h1>" + title + "</h1>");
         $('#intro').append("<p>" + intro + "</p>");
+         //look for entry that dictates if the activity should have a name entry
+            //if so, append it after the intro
 
         for (var i = 0; i < data[0].pages.length; i++){
             var id = data[0].pages[i].name.toLowerCase();
             id = id.replace(/\s/g, '');
+
             //open div
             if(i == 0){
                 $('#chart').before(
                     "<div id='" + id + "' class = 'page panel active'>"
+
+
                 );
              } else {
                 $('#chart').before(
                     "<div id='" + id + "' class = 'page panel'>"
                 );
              }
+
 
              $('#' + id).append("<h2>" + data[0].pages[i].name + "</h2><p>" + data[0].pages[i].description + "</p>" +"<ol class='questions' id='" + id + "-qs'></ol>");
 
@@ -107,6 +113,9 @@ $(document).ready(function() {
            //final page functions
     $('#' + finalPage + ' .next').on('click', function() {
         console.log("Final page!");
+        var course = $('.courseName').val();
+        console.log(course);
+       $('#courseTitle').text(course);
         var labels = [];
         var scores = [];
         $('.page').each(function(idx, page) {
@@ -119,19 +128,49 @@ $(document).ready(function() {
 
             var score = 0;
             var hasAnswers = false;
+            var answerCount = $(page).find('.answer').length;
+            var adjustedCount = answerCount * 20;
+            
             $(page).find('.answer').each(function(idx, answer) {
                 hasAnswers = true;
                 score += parseFloat($(answer).val());
+               
             });
 
             if (hasAnswers) {
-                scores.push(score);
+                console.log("Raw Score: ", score);
+                console.log("Total points for this page: ", adjustedCount)
+                let percent = (score / adjustedCount) * 100;
+                console.log("Percent:", percent);
+                scores.push(percent);
                 labels.push(label);
+                console.log(scores);
+                console.log(labels);
             }
         });
 
         showChart('canvas', labels, scores);
         showFeedback('.feedback .detail', '.feedback', scores);
+
+    
+         //function to export report pdf
+        var makeReport = function(){
+            $( ".page" ).addClass("active")
+            $(".nav").css("display","none");
+            $(".butts").css("display","none");
+            $("#footer").css("display","none");
+            var element = document.body;
+            html2pdf().set({
+                pagebreak: { mode: 'avoid-all', after: ['.page', '.chart'] }
+              }).from(element).save();
+
+            // $( ".page" ).removeClass("active");
+            $("#chart").addClass("active");
+
+        }
+    
+        console.log($("#reportThis"));
+        $("#reportThis").on("click",makeReport);
     });
 
 
@@ -211,9 +250,9 @@ $(document).ready(function() {
                 // },
                 {
                     'label': "Your results",
-                    'fillColor':   "rgba(186, 46, 0, 0.2)",
-                    'strokeColor': "rgba(186, 46, 0, 1)",
-                    'pointColor':  "rgba(186, 46, 0, 1)",
+                    'fillColor':   "rgba(212, 0, 0, 0.2)",
+                    'strokeColor': "rgba(212, 0, 0, 1)",
+                    'pointColor':  "rgba(212, 0, 0, 1)",
                     'pointStrokeColor': "#fff",
                     'pointHighlightFill': "#fff",
                     'pointHighlightStroke': "rgba(151,187,205,1)",
@@ -223,7 +262,7 @@ $(document).ready(function() {
         };
 
         var config = {
-            'scaleShowLabels': true,
+            'scaleShowLabels': false,
             'scaleLabel' : "<%= value %>%",
             'scaleFontSize': 10,
             'scaleOverride': true,
@@ -248,22 +287,29 @@ $(document).ready(function() {
 
     // feedback for items will only show if the score is not high
     function showFeedback(dimensions, feedback, scores) {
-        var threshold = 75;
+        var threshold = 70;
         var $dimensions = $(dimensions);
         var $feedback = $(feedback);
 
-        $feedback.hide();
-        $dimensions.hide();
+        // console.log($dimensions);
+
+        // $(feedback).addClass('hide');
+        // $feedback.addClass('hide');
+        // $dimensions.addClass('hide');
 
         $(scores).each(function(idx, score) {
             if (score < threshold) {
-                $($dimensions.get(idx)).show();
-                $feedback.show();
+                $($dimensions.get(idx)).removeClass('hide');
+                $feedback.removeClass('hide');
             }
         });
     }
 
+
     
+
+
+   
 
     
 });

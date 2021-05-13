@@ -2,6 +2,14 @@ body {
     font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
     height: auto;
 }
+
+.row .detail {
+    margin-top: 2em;
+}
+
+.nav a {
+    color: #102535;
+}
 .page {
     display: none;
 }
@@ -10,12 +18,13 @@ body {
 }
 
 .noUi-handle {
-    background-color: #008cba;
+    background-color: #102535;
     border: none;
+    box-shadow: none !important;
 }
 .noUi-handle:hover,
 .noUi-handle:active {
-    background-color: #007095;
+    background-color: #102535;
 }
 .noUi-pips {
     color: #222;
@@ -55,6 +64,7 @@ body {
 }
 .progress .meter {
     color: white;
+    background: #102535;
 }
 
 
@@ -99,4 +109,21 @@ canvas {
 #footer .references-link {
     padding: 0;
     text-align: right;
+}
+.courseName {
+    box-shadow: none;
+    max-width: 400px;
+    border-radius: 4px !important;
+}
+
+#chart {
+    background: none !important;
+}
+
+.row .intro {
+    margin-top: 3em;
+}
+
+.hide {
+    display: none;
 }
