@@ -98,7 +98,10 @@ $(document).ready(function() {
             var $this = $(this);
             console.log($this);
             var $pages = $('.page');
+            console.log($pages);
+            console.log($this.closest('.page'));
             var pageNum = $this.closest('.page').index();
+            console.log(pageNum);
             $pages.removeClass('active');
     
             if ($this.hasClass('prev')) {
@@ -106,6 +109,8 @@ $(document).ready(function() {
             } else {
                 pageNum++;
             }
+
+            console.log(pageNum);
     
             $($pages.get(pageNum)).addClass('active');
         });

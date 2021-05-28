@@ -1,30 +1,30 @@
 [{
 
     "title": "Assess your assessment",
-    "introduction": "This radar graph is designed to enable you to review the existing assessment items contained in a course to determine the suitability of assessment across a series of five domains. Reflecting on the assessment items contained in this course, respond to the following statements in each domain by moving the slider to the appropriate location.",
+    "introduction": "This radar graph is designed to enable you to review the assessment items contained in a course to determine the suitability of assessment across a series of five domains. In some instances you may not know the answer. Where this is the case, ‘never’ is the same as I don’t know. This activity should take no longer than 15 minutes.",
     "entry":true,
-    "entryLabel": "Please enter the title of the course you are assessing",
+    "entryLabel": "Enter the name of the course you are assessing:",
     "pages":[
        {
-            "name": "Authentic",
-            "description":"Authentic assessment prepares the learner for what they are going to do next, meeting employer needs and testing knowledge and skills in a realistic, contextualised and motivating way.",
+            "name": "Balanced",
+            "description":"Assessment is rich in practice opportunities and reflecting the fact that students today need to be capable of lifelong learning, to adapt to changes in the world of work and across their lives rather than succeeding at one high stakes, high-stress exam.",
             "statements": [
-                "The assessment in this course contains options that challenge students to apply knowledge and skills via the production of an outcome",
-                "The assessment in this course reflects the types of activities that students are likely to encounter in the workplace",
-                "Assessment in this course is designed for students to generate and submit electronically",
-                "The assessment contained in this course utilises the types of tools that would be used to deliver this task in a contemporary workplace",
-                "Assessment in this course provides opportunities for students to work together collaboratively"
+                "The assessment weightings contained in this course are distributed evenly. i.e. there is not one single high stakes summative assessment at the end of the course.",
+                "Assessments are delivered at a reasonable space and pace to support student learning.",
+                "The assessment tasks are designed to ensure that students meet all of the learning outcomes upon completion of the course.",
+                "The assessment contained in this course is delivered in appropriately timed intervals in consideration of other courses in the program of study. OR when designing the assessment regime, the timing of assessments in other courses is taken into account.",
+                "Successive assessment tasks are integrated to allow for the application of knowledge and skill growth and development."
             ]
         },
         {
-            "name": "Accessible",
-            "description":"Accessible assessment is designed throughout to be usable by everyone to the greatest possible extent, including those who have a long-term disability, a short-term injury or a mental health challenge e.g. anxiety.",
+            "name": "Academic Integrity",
+            "description":"Assessment design ensures that the right student is taking the right assessment and that the work they are submitting is their own and abides by the University’s academic integrity principles.",
             "statements": [
-                "Assessment items contain clear instructions for students",
-                "All assessment is available via MyUni",
-                "Assessment items do not need significant revisions to accommodate the needs of individual learners.",
-                "Assessments are intentionally designed to be inclusive to all learners.",
-                "Assessment items are supported by appropriate technologies."
+                "Assessment contained in this course provides students with clear expectations regarding citations and referencing requirements",
+                "Assessment items require students to demonstrate higher order thinking, rather than rote learning or reciting facts.",
+                "Assessment is designed to promote student awareness of academic integrity.",
+                "Assessment items include the use of technologies to promote academic integrity. e.g. TurnItIn, GradeScope, etc.",
+                "Overall assessment design in the course ensures that the student work is authenticated."
             ]
         },
         {
@@ -39,25 +39,25 @@
             ]
         },
         {
-            "name": "Balanced",
-            "description":"Assessment is rich in practice opportunities and reflecting the fact that students today need to be capable of lifelong learning, to adapt to changes in the world of work and across their lives rather than succeeding at one high stakes, high-stress exam.",
+            "name": "Accessible",
+            "description":"Accessible assessment is designed throughout to be usable by everyone to the greatest possible extent, including those who have a long-term disability, a short-term injury or a mental health challenge e.g. anxiety.",
             "statements": [
-                "The assessment weightings contained in this course are distributed evenly. i.e. there is not one single high stakes summative assessment at the end of the course",
-                "Assessments are delivered at a reasonable space and pace to support student learning.",
-                "The assessment contained in this course builds on a student’s knowledge and experience.",
-                "The assessment contained in this course is delivered in appropriately timed intervals.",
-                "Successive assessment tasks allow for the application of knowledge and skill growth and development."
+                "Assessment items contain clear instructions for students.",
+                "All assessment tasks are available via MyUni.",
+                "The accessibility checker in MyUni is used regularly in this course.",
+                "Assessments are purposefully designed to be inclusive to all learners. i.e. Assessment items do not need significant revisions to accommodate the needs of individual learners.",
+                "Assessment items are supported by appropriate technologies."
             ]
         },
         {
-            "name": "Academic Integrity",
-            "description":"Assessment design ensures that the right student is taking the right assessment and that the work they are submitting is their own and abides by the University’s academic integrity principles.",
+            "name": "Authentic ",
+            "description":"Authentic assessment prepares the learner for what they are going to do next, meeting employer needs and testing knowledge and skills in a realistic, contextualised and motivating way.",
             "statements": [
-                "Assessment contained in this course provides students with clear expectations regarding citations and referencing requirements.",
-                "Assessment items require students to demonstrate higher order thinking, rather than rote learning or reciting facts.",
-                "Assessment is designed to promote student awareness of academic integrity.",
-                "Assessment items include the use of technologies to promote academic integrity. e.g. TurnItIn, GradeScope, etc.",
-                "Assessment design ensures that the student work is authenticated."
+                "The assessment in this course contains options that challenge students to apply knowledge and skills via the production of an outcome.",
+                "The assessment in this course reflects the type of activity that students are likely to encounter in the workplace.",
+                "Assessment in this course is designed for students to generate and submit electronically.",
+                "The assessment contained in this course reflects contemporary workplace practices.",
+                "Assessment tasks in this course are designed in collaboration with an industry partner."
             ]
         }
     ]
