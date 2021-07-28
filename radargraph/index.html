@@ -1,247 +1,754 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Radargraph</title>
-    <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="css/jquery.nouislider.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="css/jquery.nouislider.pips.min.css"
-    />
-    <link rel="stylesheet" type="text/css" href="css/radar.css" />
-    <script src="js/vendor/modernizr.js"></script>
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
-    <script src="js/Chart.min.js"></script>
-    <script src="js/jquery.nouislider.all.min.js"></script>
-    <script src="js/jquery.nouislider.a11y.js"></script>
-    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <script src="js/radar.js"></script>
 
-    
-  </head>
-  <body>
-    <div id="content" class="small-centered columns">
-      <div id="intro">&nbsp;</div>
-        <label><strong>Enter the name of the course you are assessing:</strong></label>
-        <input class="courseName" type='text'/>
-
-        <label><strong>Which of these best describes your role?</strong></label>
-        <select  elect class="courseName" name='role' id='role'>
-            <option value="null">-- Select --</option>
-            <option value="coordinator">Course Coordinator</option>
-            <option value="teacher">Tutor</option>
-            <option value="tutor">Marker</option>
-          </select>
+<head>
+  <title>Radargraph</title>
+  <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/jquery.nouislider.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/jquery.nouislider.pips.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/radar.css" />
+  <script src="js/vendor/modernizr.js"></script>
+  <script src="js/vendor/jquery.js"></script>
+  <script src="js/foundation.min.js"></script>
+  <script src="js/Chart.min.js"></script>
+  <script src="js/jquery.nouislider.all.min.js"></script>
+  <script src="js/jquery.nouislider.a11y.js"></script>
+  <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  <script src="js/radar.js"></script>
 
 
-        <p>Once you have completed all of the questions, you will receive customised feedback to provide you with considerations for potential revisions to the assessment practices in the course. You will also receive a customised report. Please save a copy of this report so that you can compare against any future revisions to the assessment tasks.</p>
+</head>
 
-        <p>Reflecting on the assessment items contained in this course, respond to the following statements by moving the slider to the appropriate location.</p>
+<body>
+  <div id="content" class="small-centered columns">
+    <div id="intro">&nbsp;</div>
+    <p class="disclaimer">Please Note: This tool does not store or record any data</p>
+    <label><strong>Enter the name of the course you are assessing:</strong></label>
+    <input class="courseName" type='text' />
 
-      <div class="pager" id="paging">
+    <label><strong>Which of these best describes your role?</strong></label>
+    <select class="courseName" name='role' id='role'>
+      <option value="null">-- Select --</option>
+      <option value="coordinator">Course Coordinator</option>
+      <option value="tutor">Tutor</option>
+      <option value="marker">Marker</option>
+    </select>
 
-        <div id="chart" class="panel page">
-          <div class="row">
-            <h2 id="courseTitle">Course Title</h2>
 
-            <div id="legend"></div>
-            <div class="chart"><canvas id="characteristics"></canvas></div>
+    <p>Once you have completed all of the questions, you will receive customised feedback to provide you with
+      considerations for potential revisions to the assessment practices in the course. You will also receive a
+      customised report. Please save a copy of this report so that you can compare against any future revisions to the
+      assessment tasks.</p>
+
+    <p>Reflecting on the assessment items contained in this course, respond to the following statements by moving the
+      slider to the appropriate location.</p>
+
+    <div class="pager" id="paging">
+
+      <div id="chart" class="panel page">
+        <div class="row">
+          <h2 id="courseTitle">Course Title</h2>
+
+          <div id="legend"></div>
+          <div class="chart"><canvas id="characteristics"></canvas></div>
+        </div>
+        <div class="row feedback">
+          <div class="row intro">
+            <p>
+              Here are the results of your activity. Take note of further
+              considerations below.
+            </p>
           </div>
-          <div class="row feedback">
-            <div class="row intro">
+          <div id="rows">
+
+            <div class="row detail marker hide">
+              <h3>Balanced</h3>
+
+              <p>As a marker in a course, where you may not have set the assessment but are delivering on behalf of a
+                Course Coordinator, there are still some things that you can do to ensure that there is a balance in the
+                assessment.</p>
+
+              <p>To approach this constructively, the following feedback may be helpful.</p>
+
+              <p>Discuss the timing of due dates for assessment tasks with the Course Coordinator. Determine whether or
+                not there is an achievable distribution in the workload for students.</p>
+
+              <p>As a marker, you have a unique view into identifying student submission patterns and to identify common
+                student mistakes in assessment tasks. Identifying whether or not there are certain tasks that students
+                struggle to complete on time? Or are there some lower weighted assessments which students choose not to
+                do because they are time poor?</p>
+
+              <p>When you are reviewing batches of assessments, you might notice some patterns that indicate, with
+                subtle changes students may have the opportunity to complete tasks. This might include making the task
+                available to students earlier.</p>
+
+
               <p>
-                Here are the results of your activity. Take note of further
-                considerations below.
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
               </p>
             </div>
-            <div id="rows">
 
-              <div class="row detail hide">
-                <h3>Balanced</h3>
+            <div class="row detail tutor hide">
+              <h3>Balanced</h3>
 
-                <p>To achieve a balanced assessment portfolio in your courses the following feedback may be helpful.</p>
-                <p>
-                  For improved student learning outcomes assessment should not be considered an ‘add-on’ to the curriculum structure of a course. It needs to be considered from the outset of course design and intimately embedded and linked to considerations of student learning as part of the curriculum. Assessment tasks, types and means of deployment need to be fully aligned with all other aspects of the curriculum.
-                </p>
+              <p>As a tutor in a course, where you may not have set the assessment but are delivering on behalf of a
+                Course Coordinator, there are still some things that you can do to ensure that there is a balance in the
+                assessment.</p>
+              <p>To approach this constructively, the following feedback may be helpful.</p>
+              <p>Discuss the workload distribution with students during tutorials. Provide them with realistic advice
+                and guidance on maintaining good study habits. The University has prepared resources to assist students
+                with preparation for assessment. This includes resources to support students in time management, exam
+                preparation. Encourage students to stay on top of their coursework by drawing out the links between the
+                course coursework and assessment items. You can also direct students to resources which relate to each
+                assignment. Or, how to find the resources required for the assignment, e.g. <a
+                  href="https://www.adelaide.edu.au/library/" target="_blank">Library Search</a>.</p>
 
-                <p>
-                  Many separate low-value pieces of assessment can fragment learning without providing evidence of how students’ knowledge and skills within a course or a program are interrelated. This is often compounded across courses, leading students to experience knowledge as disconnected elements. Strong evidence of achievement of the totality of outcomes can be provided by integrated tasks that require students to demonstrate coherent integrated learning, not isolated or atomistic performance.
-                </p>
-
-                <p>
-                  Feedback derived from the
-                  <a
-                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
-                    target="_blank"
-                    >Australian Learning & Teaching Council’s Assessment 2020</a
-                  >.
-                </p>
-              </div>
-
-              <div class="row detail">
-                <h3>Academic Integrity</h3>
-
-                <p>To improve students understanding of academic integrity and reduce likelihood of academic integrity breaches the following suggestions may be helpful.</p>
-                
-                <p>For students to become independent and self-managing learners, they need to be supported in the development and acquisition of the skills they need for learning, including those of academic integrity.</p>
-                
-      
-
-                <p>
-                  Academic integrity begins with a commitment to the values of honesty, trust, fairness, respect, responsibility and courage. Discuss these values with your students. Encourage and support the development of academic integrity throughout assessment tasks. Ensure that support resources to referencing guides are available or linked through MyUni course sites. Supporting students to develop an awareness of academic integrity can be supported via the encouragement of the use of tools such as TurnItIn. Academic integrity can be scaffolded throughout assessment design. Encourage students to utilise academic integrity support services such as the Writing Centre or the Library. For further resources to support the development of academic integrity, contact the Academic Integrity Officer,
-                  <a href="mailto:acintegrity@adelaide.edu.au"
-                    >acintegrity@adelaide.edu.au</a
-                  >.
-                </p>
-
-                <p>
-                  Feedback derived from the
-                  <a
-                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
-                    target="_blank"
-                    >Australian Learning & Teaching Council’s Assessment 2020</a
-                  >.
-                </p>
-              </div>
-
-              <div class="row detail hide">
-                <h3>Feedback</h3>
-                <p>To improve feedback to students the following suggestions may be helpful.</p>
-                <p>
-                  Students benefit from clear and helpful feedback on their learning. Everyday learning activities as well as special tasks and tests provide opportunities for the provision of feedback. This places responsibility on staff to plan assessment in order to (a) develop their own skills in providing quality feedback, and (b) develop in students the skills they need to provide sound feedback to each other.
-                </p>
-
-                <p>
-                  Students’ own skills of judgement are developed by:
-                </p>
-
-                <ul>
-                  <li>their utilisation of feedback, </li>
-                  <li>guidance provided by those already inducted into the culture and standards of the discipline,</li>
-                  <li>opportunities to grow their own skills of critical appraisal.</li>
-                </ul>
-                <p>Students need to be able to seek and action feedback from a variety of sources to build their confidence and develop the skills necessary to make informed decision in their specific discipline.</p>
-                <p>
-                  Marks and grades provide little information to students about specific qualities of their work and do not indicate how it might be improved. While marks and grades may provide a crude tracking measure of how well students are doing, they do not help students to develop as learners and emerging professionals. Specific and detailed feedback is needed to show students what has been done well, what has not, and how their work could be better.
-                </p>
-
-                <p id="low5Only">
-                  Providing students with an opportunity to review the quality of their own work and the work of others enables them to develop the skills of a practitioner. Embedding self-assessment and peer assessment opportunities throughout a course enables students to develop evaluative judgement. If you are interested in learning more about developing evaluative judgement, see  Tai, J., Ajjawi, R., Boud, D. et al.
-                  Developing evaluative judgement: enabling students to make
-                  decisions about the quality of work. Higher Education 76,
-                  467–481 (2018).
-                  <a href="https://doi.org/10.1007/s10734-017-0220-3"
-                    >https://doi.org/10.1007/s10734-017-0220-3</a
-                  >
-                </p>
-
-                <p>
-                  Feedback derived from the
-                  <a
-                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
-                    target="_blank"
-                    >Australian Learning & Teaching Council’s Assessment 2020</a
-                  >.
-                </p>
-              </div>
+              <p>If students are struggling with personal issues, be sure to refer them to the <a
+                  href="https://www.adelaide.edu.au/counselling/access-counselling#what-is-counselling-and-how-do-i-access-it"
+                  target="_blank">Counselling Service</a>.</p>
 
 
-              <div class="row detail hide">
-                <h3>Accessible</h3>
-                <p>To improve the accessibility of assessment in your courses the following feedback may be helpful.</p>
-                <p>
-                  Students commence higher education with great diversity in preparedness and understanding of what will be involved. To ensure that all can engage equitably with assessment tasks, the expectations around what is required for success in any discipline need to be made explicit and accessible to students. It is important to provide opportunities for them to develop the academic skills they require to perform those tasks.
-                </p>
-
-                <p>
-                  Intentionally designing assessment so that it does not require significant modifications to accommodate individual learners ensures that assessment is inclusive and achievable. One easy way to do this is to use the <a href="https://community.canvaslms.com/t5/Instructor-Guide/How-do-I-use-the-Accessibility-Checker-in-the-Rich-Content/ta-p/820" target="_blank">Accessibility Checker in MyUni</a>. Using this tool regularly will help identify areas for improvement. You may ask a peer to review the instructions for your assessment items to see if they are clear. Consider whether or not assessment tasks are a stepped process. If so, are the steps provided to students in a logical, chronological way? Number the steps clearly. Are instructions for online submission clear to students? These can all be barriers to achieving assessment outcomes. Review the assessment set up in your course prior to the next delivery to see where opportunities for uplift might present.
-                </p>
-                <p>
-                  Feedback derived from the
-                  <a
-                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
-                    target="_blank"
-                    >Australian Learning & Teaching Council’s Assessment 2020</a
-                  >.
-                </p>
-              </div>
-              <div class="row detail hide">
-                <h3>Authentic</h3>
-                <p>To increase the authenticity of assessment the following feedback may be helpful.</p>
-                <p>
-                  Designing assessment tasks that are rich in opportunities for production and that enable students to connect their learning with real world application can motivate students.
-                </p>
-                <p>
-                  To improve student engagement in learning, and to support better quality learning outcomes, it is important that assessment tasks are designed to direct student attention to what needs to be learned and to the activities that best lead to this. Effective learning can be hampered by assessment tasks that focus student attention on grades and marks or reproductive thinking.
-                </p>
-
-                <p>
-                  Assessment tasks can enable judgements to be made about what has been learned and can also be significant learning activities in themselves. Student engagement in learning is considerably enhanced when assessment tasks require substantial involvement over time, and when they are designed in an interlinked, constructive, organised and coherent sequence.
-                </p>
-
-                <p>
-                  Consider adding in assessment tasks that reflect practices in industry or mirror activities that students would undertake in the workplace.</p>
-                  
-                  <p>For further reading in relation to authentic
-                  assessment, see Ashford-Rowe, K., Herrington, J., Brown, C.,
-                  Establishing the Critical elements that determine authentic
-                  assessment, Assessment & Evaluation in Higher Education, 39,
-                  205-222, (2014)
-                  <a
-                    href="https://doi.org/10.1080/02602938.2013.819566"
-                    target="_blank"
-                    >https://doi.org/10.1080/02602938.2013.819566</a
-                  >
-                </p>
-                <p>
-                  Feedback derived from the
-                  <a
-                    href="https://ltr.edu.au/resources/Assessment%202020_final.pdf"
-                    target="_blank"
-                    >Australian Learning & Teaching Council’s Assessment 2020</a
-                  >.
-                </p>
-              </div>
-              
-              
-              
-             
-
-
-
-
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
             </div>
-          </div>
-          <div class="row butts">
-          <hr>
-            <p>Use the button below to generate a report of these results.</p>
-            <button clas="btn" id="reportThis">Download report</button>
-            <br/><br/>
-          </div>
-          <div class="row nav">
-            <div class="progress radius round"><span class="meter"></span></div>
-            <a href="#" class="prev" title="back"
-              ><i class="fa-chevron-circle-left fa"></i
-            ></a>
+
+
+            <div class="row detail ccHigh">
+              <h3>Balanced</h3>
+
+              <p>As the Course Coordinator it is your responsibility to ensure balanced assessment in the course. This
+                is an assessment design issue and is an integral part of curriculum planning. Assessments should be
+                organised holistically across the programme/s of study of which this course is a part. </p>
+              <p>To approach this constructively, the following feedback might be helpful.</p>
+              <p>Timing and due dates for assessment tasks should be decided in the very early stages of course design,
+                taking into consideration other courses which students are likely to be studying concurrently. Your aim
+                is to distribute the assessment workload in such a way as to support students to succeed. </p>
+              <p>To extend this further, you may wish to speak with colleagues teaching into the program. This can help
+                when setting due dates and distributing assessment tasks over a study period. You could also include the
+                Program Director in these conversations to ensure that there is a wide variety of assessment types
+                available to students throughout their program of study.</p>
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+
+            <div class="row detail ccLow">
+              <h3>Balanced</h3>
+
+              <p>As the Course Coordinator it is your responsibility to ensure balanced assessment in the course. This
+                is an assessment design issue and is an integral part of curriculum planning. Assessments should be
+                organised holistically across the programme/s of study of which this course is a part. </p>
+              <p>To approach this constructively, the following feedback might be helpful.</p>
+              <p>Timing and due dates for assessment tasks should be decided in the very early stages of course design,
+                taking into consideration other courses which students are likely to be studying concurrently. Your aim
+                is to distribute the assessment workload in such a way as to support students to succeed. </p>
+              <p>Tutors and markers are often in a position to provide useful feedback about how students are
+                progressing. Consult with them regularly and seek their feedback about the timing of assessments. Have
+                they noticed a certain assessment which students struggle to complete on time? Are there some
+                “low-stakes” assessments which some students choose not to complete because they are time poor? If this
+                is the case, you need to reconsider the timing of the assessments in this course with the programme/s of
+                study in mind. You might also need to reconsider assessment weightings so that students consider all
+                assessment tasks worthwhile and do not forgo completing some in favour of other which are “high stakes”.
+              </p>
+
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+
+
+
+            <div class="row detail marker hide">
+              <h3>Academic Integrity</h3>
+
+              <p>As a marker, you may be directly responsible for identifying breaches academic integrity.</p>
+
+              <p>To approach this constructively, the following feedback may be helpful.</p>
+
+              <p>In your role, it is important that you are aware of and familiar with the <a
+                  href="https://www.adelaide.edu.au/policies/230" target="_blank">Academic Integrity policy</a>. Make
+                sure that you have read the policy before you commence marking. Each school has an Academic Integrity
+                Officer. Check with your Course Coordinator to see who the contact is for your discipline area.</p>
+
+              <p>Hopefully you will not encounter a breach. However, make sure that you have read the <a
+                  href="https://www.adelaide.edu.au/learning/resources-for-educators/academic-integrity/guidelines-for-academic-integrity-investigations"
+                  target="_blank">Integrity investigation guidelines</a>, so that you are aware of your responsibilities
+                as a marker.</p>
+
+              <p>Check with your Course Coordinator to see which tools, if any, they are using to detect breaches of
+                academic integrity, for example TurnItIn. For further resources to support your role as a marker, you
+                can contact the Academic Integrity Officer,
+                <a href="mailto:acintegrity@adelaide.edu.au">acintegrity@adelaide.edu.au</a>.
+
+
+                <p>
+                  Feedback derived from the
+                  <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning
+                    & Teaching Council’s Assessment 2020</a>.
+                </p>
+            </div>
+
+            <div class="row detail tutor hide">
+              <h3>Academic Integrity</h3>
+
+              <p>As a tutor, you may have direct contact in providing students with advice and guidance in relation to
+                matters of academic integrity.</p>
+              <p>To approach this constructively, the following feedback may be helpful.</p>
+              <p>Academic integrity begins with a commitment to the values of honesty, trust, fairness, respect,
+                responsibility and courage. Discuss these values with students in your tutorial classes. Encourage and
+                support the development of academic integrity throughout assessment tasks. All commencing first year
+                students are asked to complete an Academic Integrity module. Check in to make sure that the students in
+                your tutorial group have done this.</p>
+              <p>In your role, it is important that you are aware of and familiar with the <a
+                  href="https://www.adelaide.edu.au/policies/230" target="_blank"> University’s Academic Integrity
+                  policy</a>. Make sure that you have read the policy before you commence tutoring.</p>
+              <p>Check with your Course Coordinator that links to support resources to referencing guides are available
+                through the MyUni course site. Encourage students to use tools such as TurnItIn to check their
+                assessment before submission. Encourage students to utilise academic integrity support services such as
+                the Writing Centre or the Library. For further resources to support your role as a marker, you can
+                contact the Academic Integrity Officer,
+                <a href="mailto:acintegrity@adelaide.edu.au">acintegrity@adelaide.edu.au</a>.</p>
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail ccHigh">
+              <h3>Academic Integrity</h3>
+
+              <p>As the Course Coordinator it is your responsibility to inform students about the standards associated
+                with evidence-based academic writing and scholarly conventions and the requirements of the <a
+                  href="https://www.adelaide.edu.au/policies/230" target="_blank"> University’s Academic Integrity
+                  policy</a>. You are also responsible for the assessment scheme contained within the course.</p>
+              <p>To approach this constructively, the following feedback may be helpful.</p>
+              <p>Talk openly with your students about the values underpinning academic integrity.</p>
+              <p>Where appropriate for the assessment type, use technologies (e.g. Turnitin, GradeScope) to promote
+                academic integrity and encourage and support students to become familiar with these tools.</p>
+              <p>Discuss the assessment scheme with the tutors and markers in the course. Make sure that they are aware
+                of the standards required in the assessment tasks. Explain the role of the Academic Integrity Officer to
+                tutors and markers. Encourage them to raise any suspected breaches of academic integrity with you. If
+                you suspect that there has been a breach of the policy, make sure that you have read the <a
+                  href="https://www.adelaide.edu.au/learning/resources-for-educators/academic-integrity/guidelines-for-academic-integrity-investigations"
+                  target="_blank">Academic Integrity investigation guidelines</a>, so that you are aware of your
+                responsibilities as a Course Coordinator.</p>
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail ccLow">
+              <h3>Academic Integrity</h3>
+
+              <p>As the Course Coordinator it is your responsibility to inform students about the standards associated
+                with evidence-based academic writing and scholarly conventions and the requirements of the <a
+                  href="https://www.adelaide.edu.au/policies/230" target="_blank"> University’s Academic Integrity
+                  policy</a>.</p>
+              <p>To approach this constructively, the following feedback may be helpful.</p>
+              <p>Consider redesigning the assessments so that students are required to demonstrate higher order thinking
+                rather than rote learning or reciting facts. Module 3 of <a
+                  href="https://myuni.adelaide.edu.au/courses/54336" target="_blank">Introduction to MyUni</a> has a
+                range of resources to support assessment design.</p>
+              <p>Include a reminder to students in each assessment regarding academic integrity and citation and
+                referencing requirements and make them aware of resources available via Assignment Help in the
+                Navigation menu of the course and on the University of Adelaide website.</p>
+              <p>Where appropriate for the assessment type, use technologies (e.g. Turnitin, GradeScope) to promote
+                academic integrity and encourage and support students to become familiar with these tools.</p>
+              <p>Read the <a href="https://www.adelaide.edu.au/policies/230" target="_blank">University’s Academic
+                  Integrity policy</a> and make your tutors and markers aware of it. Make sure you know who the Academic
+                Integrity Officer for your school is for your discipline area. Provide these contact details to your
+                tutors and markers and encourage them to seek out further resources by emailing <a
+                  href="mailto:acintegrity@adelaide.edu.au">acintegrity@adelaide.edu.au</a>.</p>
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+
+            <div class="row detail marker hide">
+              <h3>Feedback</h3>
+
+              <p>As a marker, you will be asked to provide feedback on students’ assessment items. To improve the way
+                that you deliver feedback to students the following suggestions may be helpful.</p>
+
+              <p>If you are new to marking, you might like to read David J. Nicol & Debra Macfarlane‐Dick (2006)
+                Formative assessment and self‐regulated learning: a model and seven principles of good feedback
+                practice, Studies in Higher Education, 31:2, 199-218, DOI: 10.1080/03075070600572090</p>
+
+              <p>Students benefit from clear and helpful feedback on their learning. Feedback can be delivered in many
+                formats, informal or formal, written or verbal, in person or via technology. Carefully consider the way
+                that you deliver feedback so that it is accurate, actionable and relevant.</p>
+
+              <p>When writing feedback include specific information about when students will have the opportunity to act
+                on the feedback you have provided. This might include an opportunity for resubmission or an assessment
+                task that is held later in the course where they can action your feedback.</p>
+
+              <p>This includes considering the tone, timeliness and specificity of the feedback. It is preferable to
+                provide specific feedback that a student can apply. Rather than saying, “Well done!” try, “This is a
+                constructive argument with a logical and convincing conclusion.” Vague comments are not instructive and
+                students will not know what it is that they need to improve upon. Relate the feedback to the learning
+                outcomes for the course and how the student is progressing toward achieving these.</p>
+
+              <p>Make sure that you are familiar with the tools that are used for marking. When using digital tools,
+                make sure that you know the full range of functionality of the tools. When marking online, you can use a
+                comment bank. This can ensure consistency of feedback to students. Digital tools also have features such
+                as video and audio recording. This can personalise and enhance the feedback for students.</p>
+
+              <p>It is often helpful to have marking rubric when assessing a student’s work. Make sure that you are
+                familiar with the rubric criteria and the range of points available for each. Discuss the assessment
+                requirements with the Course Coordinator to ensure that you meet their expectations when assessing
+                student work. This includes when grades or marks and accompanying feedback will be made available to
+                students.</p>
+
+              <p>Do not rely on a single score as feedback. A mark or a grade does not provide a student with sufficient
+                guidance for improvement.</p>
+
+              <p>Make sure that you are aware of the marking process, for example if there will be more than one marker
+                or if there is double blind marking required. </p>
+
+              <p>Given the amount of time and effort taken to mark a student’s work and provide detailed feedback,
+                discuss with the Course Coordinator how students will be encouraged to review their feedback. If the
+                work is formative or held earlier in the study period, later assessment items can include a requirement
+                for students to reflect upon their feedback. This reinforces student learning and application of
+                feedback.</p>
+
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail tutor hide">
+              <h3>Feedback</h3>
+
+              <p>As a tutor, you may be asked to provide feedback on students’ assessment items. To improve the way that
+                you deliver feedback to students the following suggestions may be helpful.</p>
+              <p>Students benefit from clear and explicit feedback on their learning. Feedback can be delivered in many
+                formats, informal or formal, written or verbal, in person or via technology. Carefully consider the way
+                that you deliver feedback so that it is accurate, actionable and relevant.</p>
+              <p>This includes considering the tone, timeliness and specificity of the feedback. It is preferable to
+                provide specific feedback that a student can apply. Rather than saying, “Well done!” try, “This is a
+                constructive argument with a logical and convincing conclusion.” Vague comments are not instructive and
+                students will not know what it is that they need to improve upon. Relate the feedback to the learning
+                outcomes for the course and how the student is progressing toward achieving these.</p>
+              <p>If your role as tutor requires that you mark assessment, make sure that you are familiar with the tools
+                that are used for marking. When using digital tools, make sure that you know the full range of
+                functionality available. When marking online, you can use a comment bank. This can ensure consistency of
+                feedback to students. Digital tools also have features such as video and audio recording. This can
+                personalise and enhance the feedback for students.</p>
+              <p>It is often helpful to have marking rubric when assessing a student’s work. Make sure that you are
+                familiar with the rubric criteria and the range of points available for each. Discuss the assessment
+                requirements with the Course Coordinator to ensure that you meet their expectations when assessing
+                student work. This includes when grades or marks and accompanying feedback will be made available to
+                students.</p>
+              <p>Do not rely on a single score as feedback. A mark or a grade does not provide a student with sufficient
+                guidance for improvement.</p>
+              <p>Make sure that you are aware of the marking process, for example if there will be more than one marker
+                or if there is double blind marking required.</p>
+              <p>Given the amount of time and effort taken to mark a student’s work and provide detailed feedback,
+                discuss with the Course Coordinator how students will be encouraged to review their feedback. If the
+                work is formative or held earlier in the study period, later assessment items can include a requirement
+                for students to reflect upon their feedback. This reinforces student learning and application of
+                feedback.</p>
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail ccHigh">
+              <h3>Feedback</h3>
+
+              <p>As the Course Coordinator it is your responsibility to ensure that constructive feedback is provided to
+                each student in MyUni after each assessment task. This feedback should enable them to improve. In some
+                courses, you will provide this feedback. In others you will need to support markers and tutors to
+                provide this feedback.</p>
+              <p>To approach this constructively, consider the following recommendations.</p>
+              <p>Encourage tutors and markers to work together. Clearly explain the requirements of each assessment item
+                to them. Provide opportunities for them to meet to discuss your expectations of the roles and the
+                purpose of the assessment tasks and the way that they have been designed to be delivered to students.
+                Explain the importance of consistency in the provision of feedback to students.</p>
+              <p>You may also start to incorporate feedback from students into your assessment practice. The University
+                of Adelaide has adopted a <a
+                  href="https://www.adelaide.edu.au/learning-enhancement-innovation/student-partnerships"
+                  target="_blank"> Students as Partners Framework</a>. Student partnership activities can include
+                co-designing and co-developing assessment items with previous students or current students. This can be
+                done in a variety of ways, having students generate practice questions for tests or having students
+                suggest new modes of delivering your assessment tasks. This can also be done in conjunction with a
+                Learning Designer</p>
+
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail ccLow">
+              <h3>Feedback</h3>
+
+              <p>As the Course Coordinator it is your responsibility to ensure that constructive feedback is provided to
+                each student in MyUni after each assessment task. This feedback should enable them to improve. In some
+                courses, you will provide this feedback. In others you will need to support markers and tutors to
+                provide this feedback.</p>
+              <p>To approach this constructively, consider the following recommendations.</p>
+              <p>Provide clear assessment criteria to students before they complete each assessment. These criteria
+                should be explicitly aligned with the course learning outcomes. Rubrics are an effective way to provide
+                this information. Clear assessment criteria will enable you (and the markers and/or tutors) to provide
+                very specific feedback to students. How have they met the criteria? How could they improve their
+                submission? What gaps in their learning does their submission identify? What course content do they need
+                to revise to fill these gaps?</p>
+              <p>Provide feedback which encourages students to take action. What can they do to better demonstrate their
+                learning and/or competency in a future assessment?</p>
+              <p>Provide opportunities for students to view and discuss exemplars. This will help develop their ability
+                to judge the quality of their own work and the work of others against agreed standards. How does an
+                (exemplar) submission meet the assessment criteria? What makes it exemplary? What
+                knowledge/skills/competencies are required to achieve this standard?</p>
+              <p>Prepare marking guides for your markers and encourage them to communicate with you and with each other
+                to provide consistency in feedback.</p>
+              <p>Consider delivering feedback in a range of formats- informal or formal, written or verbal, in person or
+                via technology e.g. video or audio recording.</p>
+              <p>Provide opportunities for students to develop the skills required for self and peer assessment and
+                encourage them to reflect on the feedback provided.</p>
+              <p>Remember that feedback needs to be much more than just a mark or a grade as these do not help students
+                improve.</p>
+              <p>Consider further developing your own skills in providing quality feedback. <a
+                  href="https://myuni.adelaide.edu.au/courses/54336/pages/how-to-give-feedback-to-students?"
+                  target="blank">How to give feedback to students</a> in <a
+                  href="https://myuni.adelaide.edu.au/courses/54336" target="_blank">Introduction to MyUni</a> is a good
+                starting point for this.</p>
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+
+
+            <div class="row detail marker hide">
+              <h3>Accessible</h3>
+              <p>As a marker in a course, you will encounter a wide variety of student work.</p>
+
+              <p>To assess the needs of a wide variety of student learners, the following feedback may be helpful.</p>
+
+              <p>To ensure that all can engage equitably with assessment tasks, the expectations around what is required
+                for success in any discipline need to be made explicit and accessible to students. It is important to
+                provide opportunities for them to develop the academic skills they require to perform those tasks.</p>
+
+
+              <p>
+                One way that you can improve accessibility, is to ask the Course Coordinator if they have used the <a
+                  href="https://community.canvaslms.com/t5/Instructor-Guide/How-do-I-use-the-Accessibility-Checker-in-the-Rich-Content/ta-p/820"
+                  target="_blank">Accessibility Checker in MyUni</a>. Using this tool regularly will help identify areas
+                for improvement. This will help to ensure that assessment tasks are accessible.
+              </p>
+
+              <p>You could also offer to review the instructions for the assessment items in the course. This may help
+                to determine whether or not the instructions are clear for students. Follow the instructions as they are
+                written and see if there is anything that is unclear or steps that are missing.</p>
+
+              <p>As a marker, you may also be able to either take the assessment task as though you were a student. Time
+                yourself. Are the time limits set reasonable for a student to achieve? An expert can often complete a
+                task in one third of the time it takes a novice. You may suggest revising the times accordingly.</p>
+
+              <p>Markers can also be useful in picking up errors in assessment tasks. We are all human and mistakes can
+                be made. Having another pair of eyes checking an assessment can be helpful for staff and students.</p>
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail tutor hide">
+              <h3>Accessible</h3>
+
+              <p>As a tutor in a course, you will encounter a wide variety of students, each with their own distinct
+                levels of preparedness for higher education</p>
+              <p>To support the diverse needs of a wide variety of student learners, the following feedback may be
+                helpful.</p>
+              <p>To ensure that all can engage equitably with assessment tasks, the expectations around what is required
+                for success in any discipline need to be made explicit and accessible to students. It is important to
+                provide opportunities for them to develop the academic skills they require to perform those tasks. You
+                can direct students to the Assignment Help tab in the Navigation Menu in MyUni.</p>
+              <p>One way that you can improve accessibility, is to ask the Course Coordinator if they have used the <a
+                  href="https://community.canvaslms.com/t5/Instructor-Guide/How-do-I-use-the-Accessibility-Checker-in-the-Rich-Content/ta-p/820"
+                  target="_blank">Accessibility Checker in MyUni</a>. Using this tool regularly will help identify areas
+                for improvement. This will help to ensure that assessment tasks are accessible.</p>
+              <p>You could offer to review the instructions for the assessment items in the course. This may help to
+                determine whether or not the instructions are clear for students. Follow the instructions as they are
+                written and see if there is anything that is unclear or steps that are missing.</p>
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail ccHigh">
+              <h3>Accessible</h3>
+
+              <p>As the Course Coordinator it is your responsibility to design assessments in MyUni which are accessible
+                to all students. To do this you will need to consider the needs of a wide variety of students including
+                those with long-term disabilities, short-term injuries and mental health conditions.</p>
+              <p>To approach this constructively, consider the following recommendations.</p>
+              <p>As an experienced Course Coordinator you may consider ways to expand student choice in assessment
+                tasks. This can ensure that students have accessible assessment tasks. Look at alternate ways of
+                delivering assessment items to ensure that they are accessible.</p>
+              <p>You may also choose to expand the way that you provide feedback to include audio or video based
+                feedback to students. This can be done for individual students or when giving feedback to the class.
+                Providing feedback in a range of modes can ensure that it is accessible to students.</p>
+
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail ccLow">
+              <h3>Accessible</h3>
+
+              <p>As the Course Coordinator it is your responsibility to design assessments in MyUni which are accessible
+                to all students. To do this you will need to consider the needs of a wide variety of students including
+                those with long-term disabilities, short-term injuries and mental health conditions.</p>
+              <p>To approach this constructively, consider the following recommendations.</p>
+              <p>Provide clear instructions for all assessments. The <a
+                  href="https://myuni.adelaide.edu.au/courses/54336/files/5723744/download?wrap=1"
+                  rel="noopener noreferrer" target="_blank">assessment instructions sample</a> in <a
+                  href="https://myuni.adelaide.edu.au/courses/54336" rel="noopener noreferrer"
+                  target="_blank">Introduction to MyUni</a> is a useful resource for this.</p>
+              <p>Use the <a
+                  href="https://community.canvaslms.com/t5/Instructor-Guide/How-do-I-use-the-Accessibility-Checker-in-the-Rich-Content/ta-p/820"
+                  rel="noopener noreferrer" target="_blank">Accessibility Checker in MyUni</a> regularly to identify
+                areas where accessibility could be improved.</p>
+              <p>Design assessments which can easily be revised to accommodate the needs of individual learners
+                referring to the <a href="https://www.adelaide.edu.au/policies/64/" rel="noopener noreferrer"
+                  target="_blank">Reasonable Adjustments to Learning, Teaching and Assessment for Students with a
+                  Disability Policy</a> and the <a href="https://www.adelaide.edu.au/policies/136/"
+                  rel="noopener noreferrer" target="_blank">Disability inclusion Action Plan 2020-2024</a>. Another
+                approach to accommodating individual needs is to involve students in assessment design and provide them
+                with choice as to how they will demonstrate their achievement of the course learning outcomes.</p>
+              <p>Seek feedback from your tutors and markers, asking them to review assessment instructions, comment on
+                the timing and notify you of any errors and/or instructions which are unclear.</p>
+              <p>If assessments are supported by technologies, make sure that access to these is not a barrier to
+                students. Provide links to support materials to assist students with MyUni and other technologies which
+                may be required.</p>
+              <p>Provide explicit instructions regarding rules and expectations with regard to assessment submission. In
+                the beginning students will need some induction into higher education assessment practices and the
+                academic skills required to succeed.</p>
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+
+
+            <div class="row detail marker hide">
+              <h3>Authentic</h3>
+
+              <p>As a marker, you may not have a role in preparing the assessment items for a course. However, the
+                following feedback may be helpful to increase the authenticity of assessment tasks.</p>
+
+              <p>Reflect on the assessment items in the course. When you consider what students are being asked to do,
+                are these activities motivating or inspiring? Are students being asked to do something or produce
+                something?</p>
+
+              <p>Designing assessment tasks that are rich in opportunities for production and that enable students to
+                connect their learning with real world application can motivate students.</p>
+
+              <p>Speak with the Course Coordinator to see if the assessment tasks reflect practices in industry or
+                mirror activities that students would undertake in the workplace. Consider whether or not exemplars have
+                been included in the course for students. If not, perhaps you could discuss this with the Course
+                Coordinator. Open discussions like this can help to improve assessment practice overall.</p>
+
+              <p>For further reading in relation to authentic
+                assessment, see Ashford-Rowe, K., Herrington, J., Brown, C.,
+                Establishing the Critical elements that determine authentic
+                assessment, Assessment & Evaluation in Higher Education, 39,
+                205-222, (2014)
+                <a href="https://doi.org/10.1080/02602938.2013.819566"
+                  target="_blank">https://doi.org/10.1080/02602938.2013.819566</a>
+              </p>
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail tutor hide">
+              <h3>Authentic</h3>
+
+              <p>As a tutor, you may not have a role in preparing the assessment items for a course. However, the
+                following feedback may be helpful to increase the authenticity of assessment tasks.</p>
+              <p>Reflect on the assessment items in the course. When you consider what students are being asked to do,
+                are these activities motivating or inspiring? Are students being asked to do something or produce
+                something? If you have worked in industry or in the discipline area then share your experiences with
+                students</p>
+              <p>Designing assessment tasks that are rich in opportunities for production and that enable students to
+                connect their learning with real world application can motivate students.</p>
+              <p>Speak with the Course Coordinator to see if the assessment tasks reflect practices in industry or
+                mirror activities that students would undertake in the workplace.</p>
+              <p>For further reading in relation to authentic
+                assessment, see Ashford-Rowe, K., Herrington, J., Brown, C.,
+                Establishing the Critical elements that determine authentic
+                assessment, Assessment & Evaluation in Higher Education, 39,
+                205-222, (2014)
+                <a href="https://doi.org/10.1080/02602938.2013.819566"
+                  target="_blank">https://doi.org/10.1080/02602938.2013.819566</a>
+              </p>
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+            <div class="row detail ccHigh">
+              <h3>Authentic</h3>
+
+              <p>As the Course Coordinator it is your responsibility to design quality assessments which meet the
+                requirements of the <a href="https://www.adelaide.edu.au/policies/700/" target="_blank">Assessment for
+                  Coursework Programs Policy</a>. Authentic assessment approaches are recommended. These are
+                characterised by students demonstrating the ability to apply knowledge and skills in a realistic way
+                according to explicitly stated criteria.</p>
+              <p>The following feedback may be helpful to increase the authenticity of assessment tasks.</p>
+              <p>Consult with industry partners wherever possible in the course and assessment design process. What
+                knowledge and skills do future employees need? What will they need to be able to produce in the
+                workplace? Can your industry partners provide examples of work or workplace scenarios to motivate
+                students?</p>
+              <p>Become familiar with latest trends in industry, including project manage methods, software, or other
+                work practices that you can replicate or introduce into assessment tasks to prepare students for their
+                career.</p>
+              <p>To support your own professional development in this area, consider taking the ADEPT course in
+                Designing and Delivering quality Work Integrated Learning experiences. This module covers WIL models,
+                assessment ideas for practice and innovation in WIL. This would be a great extension to your existing
+                assessment practice.</p>
+              <p>For further reading in relation to authentic
+                assessment, see Ashford-Rowe, K., Herrington, J., Brown, C.,
+                Establishing the Critical elements that determine authentic
+                assessment, Assessment & Evaluation in Higher Education, 39,
+                205-222, (2014)
+                <a href="https://doi.org/10.1080/02602938.2013.819566"
+                  target="_blank">https://doi.org/10.1080/02602938.2013.819566</a>
+              </p>
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+
+            <div class="row detail ccLow">
+              <h3>Authentic</h3>
+
+              <p>As the Course Coordinator it is your responsibility to design quality assessments which meet the requirements of the <a href="https://www.adelaide.edu.au/policies/700/" rel="noopener noreferrer" target="_blank">Assessment for Coursework Programs Policy</a>. Authentic assessment approaches are recommended. These are characterised by students demonstrating the ability to apply knowledge and skills in a realistic way according to explicitly stated criteria.</p>
+<p>The following feedback may be helpful to increase the authenticity of assessment tasks.</p>
+<p>Consider assessments to be learning opportunities in themselves, engaging students to apply knowledge and skills to produce something which has real world meaning and relevance to the workplace. Are students motivated by the assessment tasks? Is the real world application clear to them?</p>
+<p>Provide ongoing opportunities for students to practise applying knowledge and skills by scaffolding authentic assessments throughout the course and providing feedback supporting students to improve.</p>
+<p>Consult with industry partners wherever possible in the course and assessment design process. What knowledge and skills do their future employees need? What will they need to be able to produce in the workplace? Can your industry partners provide examples of work or workplace scenarios to motivate students?</p>
+<p>For further reading in relation to authentic assessment, see Ashford-Rowe, K., Herrington, J., Brown, C., Establishing the Critical elements that determine authentic assessment, Assessment &amp; Evaluation in Higher Education, 39, 205-222, (2014) <a href="https://doi.org/10.1080/02602938.2013.819566" rel="noopener noreferrer" target="_blank">https://doi.org/10.1080/02602938.2013.819566</a></p>
+
+
+
+              <p>
+                Feedback derived from the
+                <a href="https://ltr.edu.au/resources/Assessment%202020_final.pdf" target="_blank">Australian Learning &
+                  Teaching Council’s Assessment 2020</a>.
+              </p>
+            </div>
+
+
+
+
+
+
+
+
+
           </div>
         </div>
-      </div>
-
-      <div id="footer">
-        <div class="copyright-link columns small-6">
-          <a href="http://www.adelaide.edu.au/legals/copyright.html"
-            >&copy; The University of Adelaide</a
-          >,
-          <div class="usage">all rights reserved</div>
+        <div class="row butts">
+          <hr>
+          <p>Use the button below to generate a report of these results.</p>
+          <button clas="btn" id="reportThis">Download report</button>
+          <br /><br />
+        </div>
+        <div class="row nav">
+          <div class="progress radius round"><span class="meter"></span></div>
+          <a href="#" class="prev" title="back"><i class="fa-chevron-circle-left fa"></i></a>
         </div>
       </div>
     </div>
-  </body>
+
+    <div id="footer">
+      <div class="copyright-link columns small-6">
+        <a href="http://www.adelaide.edu.au/legals/copyright.html">&copy; The University of Adelaide</a>,
+        <div class="usage">all rights reserved</div>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>

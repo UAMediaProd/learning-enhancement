@@ -3,6 +3,10 @@ body {
     height: auto;
 }
 
+.disclaimer {
+    font-weight: 700;
+}
+
 .row .detail {
     margin-top: 2em;
 }
