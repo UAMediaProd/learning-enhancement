@@ -312,6 +312,8 @@ $(document).ready(function () {
         var $dimensions = $(dimensions);
         var $feedback = $(feedback);
 
+        console.log($dimensions);
+
 
         // $(feedback).addClass('hide');
         // $feedback.addClass('hide');
