@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <title>Clue</title>
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+  <link href="./css/app.css" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H5202J9F8D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-K9S7TBEFPT');
+</script>
+</head>
+
+<body class=" bg-gray-200">
+  <div id="app" class="bg-gray-200">
+
+    <div class="container mx-auto">
+      <br />
+      <h1
+        class="text-3xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-3xl sm:leading-none md:text-3xl">
+        The Amazing Outbreak Race</h1>
+      <br />
+      <p>You are a Public Health Officer for the Communicable Disease Control Branch, Oz State Department of Health. You
+        are aiming to win the Amazing Outbreak Race by completing tasks of an outbreak scenario. We hope that you will
+        be able to determine the cause of the outbreak and put control measures in place to prevent further cases of
+        disease.The outbreak scenario will be based on the <strong>Ten Steps to an outbreak investigation</strong>.
+
+        <br><br>You will be given instructions (a clue) at each station. The clue will direct you to complete a task,
+        before moving onto the next station. Complete all ten tasks in the order given. </p>
+      <p>Here, you can enter your answer for each clue and when you feel ready, you'll be given the
+        next clue and a link to the next entry page.</p>
+      <p></p>
+      <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="stack">
+        <div class="mb-4">
+          <p class="text-gray-700 mb-2"> <span class="text-indigo-700 font-bold text-lg">Clue 3:</span> <strong>Case definition</strong><br><br>
+            Write a case definition for this outbreak - include time, place and person parameters in your definition. (3 marks)
+          </p>
+          <label class="block text-gray-700 text-sm font-bold mb-2">
+            Type your answer below:
+          </label>
+          <textarea id="answerBox"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="answerBox" rows="5" cols="50" placeholder="Type your answer for this clue"></textarea>
+
+            <div class="flex justify-end space-x-4">
+              <button id="subButt" class="hover:bg-gray-200 text-indigo-300 font-bold py-2 px-4 rounded focus:outline-none"
+                onclick="reset()" type="button">
+                Clear
+              </button>
+              <button class="bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded focus:outline-none"
+                onclick="check(caseData, '#tip1','#pos1')" type="button">
+                Check your answer!
+              </button>
+            </div>
+
+            <br>
+        <div id="tip1" class="bg-orange-200 border border-none text-orange-700 px-4 py-4 rounded relative" role="alert">
+          <strong class="font-bold"> <i class="uil uil-times-circle text-xl"></i>Some things to remember for your submission:</strong>
+          <p>This is an automated piece of feedback - if you feel you have addressed the tips below, you can safely move to the next activity.</p>
+          <span id="tipText" class="block sm:inline"></span>
+          <br/>
+          <p>If you feel you've addressed the remaining feedback here, please feel free to get the next clue. <strong>It is highly recommended that you copy and paste the text you have here to use in your assignment submission!</strong></p>
+        </div>
+        <div id="pos1" class="bg-green-200 border border-none text-green-700 px-4 py-4 rounded relative" role="alert">
+          <strong class="font-bold"> <i class="uil uil-check-circle text-xl"></i> Well done!</strong>
+          <span id="posText" class="block sm:inline">It looks like you've addressed much of this clue! If you're feeling comfortable with your answer, <strong>remember to save it somewhere</strong> and move on to the next clue.</span>
+        </div>
+        <br>
+
+
+          <p>Count cases - How many people are included in your outbreak? (2 marks)</p>
+          <label class="block text-gray-700 text-sm font-bold mb-2">
+            Type your answer below:
+          </label>
+          <textarea id="answerBox"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="answerBox" rows="3" cols="50" placeholder="Type your answer for this clue"></textarea>
+
+        </div>
+<a href="clue2.html" role="link"><button id="backButt" style="float:left;" class="hover:bg-gray-200 text-indigo-300 font-bold py-2 px-4 rounded focus:outline-none"
+        type="button">
+       Go back to previous clue
+     </button>
+    </a>
+        <div class="flex justify-end space-x-4">
+          <button id="subButt" class="hover:bg-gray-200 text-indigo-300 font-bold py-2 px-4 rounded focus:outline-none"
+            onclick="reset()" type="button">
+            Clear
+          </button>
+          <button class="bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded focus:outline-none"
+            onclick="check(numData, '#tip2','#pos2')" type="button">
+            Check your answer!
+          </button>
+        </div>
+        <br>
+        <div id="tip2" class="bg-orange-200 border border-none text-orange-700 px-4 py-4 rounded relative" role="alert">
+          <strong class="font-bold"> <i class="uil uil-times-circle text-xl"></i>Some things to remember for your submission:</strong>
+          <p>This is an automated piece of feedback - if you feel you have addressed the tips below, you can safely move to the next activity.</p>
+          <span id="tipText" class="block sm:inline"></span>
+          <br/>
+          <p>If you feel you've addressed the remaining feedback here, please feel free to get the next clue. <strong>It is highly recommended that you copy and paste the text you have here to use in your assignment submission!</strong></p>
+          <p style="text-align: center; margin-top: 2em;"><button class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+              onclick="moveOn('./clue4.html')" type="button">
+              Get the next clue
+            </button>
+          </p>
+        </div>
+        <div id="pos2" class="bg-green-200 border border-none text-green-700 px-4 py-4 rounded relative" role="alert">
+          <strong class="font-bold"> <i class="uil uil-check-circle text-xl"></i> Well done!</strong>
+          <span id="posText" class="block sm:inline">It looks like you've addressed much of this clue! If you're feeling comfortable with your answer, <strong>remember to save it somewhere</strong> and move on to the next clue.</span>
+          <p style="text-align: center; margin-top: 2em;"><button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+            onclick="moveOn('./clue4.html')" type="button">
+            Get the next clue
+          </button>
+        </p>
+        </div>
+        <br>
+
+
+
+      </div>
+
+      
+
+      
+      
+
+    </div>
+
+
+  </div>
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://unpkg.com/compromise@latest/builds/compromise.min.js"></script>
+
+  <script>
+
+var caseData = [{
+    "keyWords": [
+      {"word": "14", "feedback": "What is the start date of the outbreak?", "found": false},
+      {"word":"28", "feedback":"What is the end date of the outbreak?", "found": false},
+      {"word":"august", "feedback":"The case definition can be broad, or it can be specific – think about what you will include in your case definition – think about descriptive epidemiology – time, place and person.", "found": false},
+      {"word": "South Australia", "feedback": "Where did the outbreak take place?", "found": false},
+      {"word": "Adelaide", "feedback": "Where did the outbreak take place?", "found": false},
+      {"word": "laboratory", "feedback": "How were cases defined – is it based on clinical or laboratory confirmation?", "found": false},
+      {"word": "clinical", "feedback": "How were cases defined – is it based on clinical or laboratory confirmation?", "found": false}
+    ]
+}]
+
+var numData = [{
+    "keyWords": [
+      {"word": "11", "feedback": "How many cases fall between your start and end dates?", "found": false}
+    ]
+}]
+
+
+
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="js/app.js"></script>
+  
+</body>
+
+</html>
