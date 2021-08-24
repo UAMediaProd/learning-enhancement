@@ -7,15 +7,18 @@
   <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
   <link href="./css/app.css" rel="stylesheet">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H5202J9F8D"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H5202J9F8D"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-K9S7TBEFPT');
-</script>
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-K9S7TBEFPT');
+  </script>
 </head>
 
 <body class=" bg-gray-200">
@@ -36,11 +39,19 @@
         before moving onto the next station. Complete all ten tasks in the order given. </p>
       <p>Here, you can enter your answer for each clue and when you feel ready, you'll be given the
         next clue and a link to the next entry page.</p>
-      <p></p>
+        <p></p>
+        <p>The following documents have been prepared to aid your progress in the race:</p>
+  
+          <ul>
+            <li><i class="uil uil-file-download"></i> <a href="./resources/rulebook.doc" download>Objectives and Rulebook</a></li>
+            <li><i class="uil uil-file-download"></i> <a href="./resources/booklet.pdf" download>Q Fever Booklet</a></li>
+          </ul>
+          <p></p>
       <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="stack">
         <div class="mb-4">
-          <p class="text-gray-700 mb-2"> <span class="text-indigo-700 font-bold text-lg">Clue 10:</span> <strong>Control and Prevention</strong><br><br>
-            What control and prevention measures could prevent other people becoming unwell? (3 marks)
+          <p class="text-gray-700 mb-2"> <span class="text-indigo-700 font-bold text-lg">Clue 10:</span> <strong>Control
+              and Prevention</strong><br><br>
+            What control and prevention measures could prevent other people becoming unwell? (6 marks)
           </p>
           <label class="block text-gray-700 text-sm font-bold mb-2">
             Type your answer below:
@@ -50,11 +61,11 @@
             name="answerBox" rows="8" cols="50" placeholder="Type your answer for this clue"></textarea>
 
         </div>
-<a href="clue9.html" role="link"><button id="backButt" style="float:left;" class="hover:bg-gray-200 text-indigo-300 font-bold py-2 px-4 rounded focus:outline-none"
-        type="button">
-       Go back to previous clue
-     </button>
-    </a>
+        <a href="clue9.html" role="link"><button id="backButt" style="float:left;"
+            class="hover:bg-gray-200 text-indigo-300 font-bold py-2 px-4 rounded focus:outline-none" type="button">
+            Go back to previous clue
+          </button>
+        </a>
         <div class="flex justify-end space-x-4">
           <button id="subButt" class="hover:bg-gray-200 text-indigo-300 font-bold py-2 px-4 rounded focus:outline-none"
             onclick="reset()" type="button">
@@ -69,16 +80,37 @@
 
       <div id="posAlert" class="bg-green-200 border border-none text-green-700 px-4 py-4 rounded relative" role="alert">
         <strong class="font-bold"> <i class="uil uil-check-circle text-xl"></i> Well done!</strong>
-        <span id="posText" class="block sm:inline">It looks like you've addressed much this clue! If you're feeling comfortable with your answer, <strong>remember to save it somewhere</strong> and work towards your assignment submission.</span>
+        <span id="posText" class="block sm:inline">It looks like you've addressed much this clue! If you're feeling
+          comfortable with your answer, <strong>remember to save it somewhere</strong> and work towards your assignment
+          submission.</span>
       </div>
 
-      <div id="tipAlert" class="bg-orange-200 border border-none text-orange-700 px-4 py-4 rounded relative" role="alert">
-        <strong class="font-bold"> <i class="uil uil-times-circle text-xl"></i>Some things to remember for your submission:</strong>
-        <p>This is an automated piece of feedback - if you feel you have addressed the tips below, you can safely copy your answer to later use in your assignment submission.</p>
+      <div id="tipAlert" class="bg-orange-200 border border-none text-orange-700 px-4 py-4 rounded relative"
+        role="alert">
+        <strong class="font-bold"> <i class="uil uil-times-circle text-xl"></i>Some things to remember for your
+          submission:</strong>
+        <p>This is an automated piece of feedback - if you feel you have addressed the tips below, you can safely copy
+          your answer to later use in your assignment submission.</p>
         <span id="tipText" class="block sm:inline"></span>
-        <br/>
+        <br />
       </div>
-      <br/><br/>
+      <br /><br />
+
+      
+      <p><strong>Outbreak investigation summary</strong></p>
+
+      <p>The Chief Public Health Officer, SA Health, has requested a briefing about the outbreak investigation in order to make a decision
+        concerning a media release alerting the public to the outbreak. This briefing to the Chief Public Health Officer should be a succinct summary
+        of key issues (6 marks):
+      </p>
+      <p>Produce a summary which describes:</p>
+      <ul>
+        <li>A description of the outbreak</li>
+        <li>What is the likely source of infection?</li>
+        <li>Who is at risk and why?</li>
+        <li>Are the public at risk? Why or why not?</li>
+        <li>How should SA Health respond to the outbreak - what needs to be done to protect those at risk?</li>
+      </ul>
 
     </div>
 
@@ -89,29 +121,59 @@
   <script src="https://unpkg.com/compromise@latest/builds/compromise.min.js"></script>
 
   <script>
-
-// change the feedback if they have at least half of these
-var data = [{
-    "keyWords": [
-      {"word": "vaccination", "feedback": "What can protect a large population of people from illness?", "found": false},
-      {"word":"equipment", "feedback":"What can individuals wear to protect themselves short-term?", "found": false},
-      {"word":"educate", "feedback":"Long-term change comes from knowledge - can a form of learning or knowledge sharing happen in workplaces?", "found": false},
-      {"word": "legislate", "feedback": "Is there anything that can be done at a legal or government level?", "found": false},
-      {"word": "visit", "feedback": "Reminder: It was not only workers who were exposed to Q fever, but people visiting", "found": false},
-      {"word": "minimise", "feedback": "What can we do to any remaining risks?", "found": false},
-      {"word": "ventilation", "feedback": "Is dispersal of airborne contaminants an issue? If so, what can be done about it?", "found": false},
-      {"word": "procedures", "feedback": "What administrative actions can be put in place at the workplace?", "found": false},
-      {"word": "training", "feedback": "What administrative actions can be put in place at the workplace?", "found": false},
-      {"word": "laundry", "feedback": "Laundry workers were getting infected - could this be made safer?", "found": false},
-    ]
-}]
-
-
-
+    // change the feedback if they have at least half of these
+    var data = [{
+      "keyWords": [{
+          "word": "vaccination",
+          "feedback": "What can protect a large population of people from illness?",
+          "found": false
+        },
+        {
+          "word": "equipment",
+          "feedback": "What can individuals wear to protect themselves short-term?",
+          "found": false
+        },
+        {
+          "word": "educate",
+          "feedback": "Long-term change comes from knowledge - can a form of learning or knowledge sharing happen in workplaces?",
+          "found": false
+        },
+        {
+          "word": "legislate",
+          "feedback": "Is there anything that can be done at a legal or government level?",
+          "found": false
+        },
+        {
+          "word": "visit",
+          "feedback": "Reminder: It was not only workers who were exposed to Q fever, but people visiting",
+          "found": false
+        },
+        {
+          "word": "minimise",
+          "feedback": "What can we do to any remaining risks?",
+          "found": false
+        },
+        {
+          "word": "ventilation",
+          "feedback": "Is dispersal of airborne contaminants an issue? If so, what can be done about it?",
+          "found": false
+        },
+        {
+          "word": "procedures",
+          "feedback": "What administrative actions can be put in place at the workplace?",
+          "found": false
+        },
+        {
+          "word": "training",
+          "feedback": "What administrative actions can be put in place at the workplace?",
+          "found": false
+        },
+      ]
+    }]
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <script src="js/app.js"></script>
-  
+
 </body>
 
 </html>
