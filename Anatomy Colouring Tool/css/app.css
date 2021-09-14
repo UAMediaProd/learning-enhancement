@@ -1,3 +1,18 @@
 p {
   color:red;
 }
+
+/* new class that hides the fill - transparent */
+.invisibleClass {
+  fill-opacity: 0;
+  opacity: 0;
+}
+
+
+/* same class as above :hover less transparent opacity: 0.2 */
+
+.hoverClass {
+  opacity:1;
+}
+
+/* classes for correct and incorrect - set these on check */
