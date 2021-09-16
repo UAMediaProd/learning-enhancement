@@ -31,7 +31,7 @@ var parts = [ //array of the boney bois
         "bone_number": 5,
         "bone": "sacro-iliac joint",
         "correct": "section_5",
-        "color": "rgb(0, 0, 158)"
+        "color": "rgb(145, 23, 254)"
     },
     {
         "bone_number": 6,
@@ -109,7 +109,7 @@ var parts = [ //array of the boney bois
         "bone_number": 18,
         "bone": "anterior superior iliac",
         "correct": "section_18",
-        "color": "rgb(153, 254, 0)"
+        "color": "rgb(226, 240, 23)"
     },
     {
         "bone_number": 19,
@@ -134,14 +134,10 @@ var currentSelectedBone;
 var colouring = false;
 var currentColor;
 
-for (i=0; i<parts.length; i++) {
+for (i = 0; i < parts.length; i++) {
     var element = document.getElementById("boneList");
-    element.innerHTML += "<p><a href='#!' onClick=\"select(this, '" + parts[i].bone_number + "', '" + parts[i].color + "')\">"+parts[i].bone+"</a><p>";
+    element.innerHTML += "<p><a href='#!' onClick=\"select(this, '" + parts[i].bone_number + "', '" + parts[i].color + "')\">" + parts[i].bone + "</a><p>";
 }
-
-//<p><a href="#!" onClick="select(this, '20', '3500fe')">anterior</a></p>
-
-//select(beans, '20', '3500fe');
 
 // write a function select() which enables colouring and does something
 
@@ -150,19 +146,19 @@ function select(element, bone_number, color) {
     // set currentSelectedBone to bone_number
     currentSelectedBone = bone_number;
     // set the background of the element to color
-    element.style.backgroundColor= color;
+    element.style.backgroundColor = color;
     // set colouring to true
     colouring = true;
 
     // for each item in array, add the class that makes it transparent
-for (var i = 0; i < arraySectionIDs.length; i++) {
-    var element = document.getElementById(arraySectionIDs[i]);
-    element.classList.add("invisibleClass");
-    if (colouring && !element.classList.contains("selectedClass") && !element.classList.contains("correctClass")) {
-     element.style = "fill: " + currentColor;
+    for (var i = 0; i < arraySectionIDs.length; i++) {
+        var element = document.getElementById(arraySectionIDs[i]);
+        element.classList.add("invisibleClass");
+        if (colouring && !element.classList.contains("selectedClass") && !element.classList.contains("correctClass")) {
+            element.style = "fill: " + currentColor;
+        }
+
     }
-    
-}
 
 
 
@@ -187,17 +183,17 @@ for (let i = 0; i < arraySectionIDs.length; i++) {
 // function to prepare the sections for interactivity
 function setClicks(e, index) {
     var element = document.getElementById(arraySectionIDs[index]);
-    element.style.fill=currentColor;
+    element.style.fill = currentColor;
     var selectedItems = document.getElementsByClassName("selectedClass");
 
 
     if (element.classList.contains("selectedClass")) {
         element.classList.remove("selectedClass");
     } else {
-        
-        
-        for (var i = 0; i < selectedItems.length; i++){
-            if(selectedItems[i].style.fill == currentColor){
+
+
+        for (var i = 0; i < selectedItems.length; i++) {
+            if (selectedItems[i].style.fill == currentColor) {
                 selectedItems[i].classList.remove("selectedClass");
             }
         }
@@ -213,35 +209,35 @@ function setClicks(e, index) {
 document.getElementById("checker").addEventListener("click", check);
 
 function check() {
-    var selectedItems = document.getElementsByClassName("selectedClass");
+    console.log("doing this once only!");
+    var colouredIn = document.getElementsByClassName("selectedClass");
+    console.log(colouredIn);
+    var bob = colouredIn.length;
+    for (var i = 0; i < bob; i++) {
 
-    for (var i = 0; i < selectedItems.length; i++) {
+
+        //console.log(i);
+        console.log(bob + " coloured in length");
 
         // get the id of what has been coloured
-        var clicked = selectedItems[i].id
-        console.log("coloured bone id", clicked);
+        var clicked = colouredIn[i].id;
 
 
-        if(clicked != "section_21" && clicked != "section_22" && clicked != "section_23" && clicked != "section_24" && clicked != "section_25" &&clicked != "section_26"){
 
-        //look inside of parts, find the `correct` value of the selected bone
-        var test = (parts.find(element => element.correct == clicked));
+        if (clicked != "section_21" && clicked != "section_22" && clicked != "section_23" && clicked != "section_24" && clicked != "section_25" && clicked != "section_26") {
 
-            if (selectedItems[i].style.fill == test.color){
+
+            //look inside of parts, find the `correct` value of the selected bone
+            var test = (parts.find(element => element.correct == clicked));
+
+            if (colouredIn[i].style.fill == test.color) {
                 //add a class of 'correctClass' to the element classList
-                selectedItems[i].classList.add("correctClass");
-            };
+                colouredIn[i].classList.add("correctClass");
+                colouredIn[i].classList.remove("selectedClass");
+            } else {
 
+            }
         }
-
-
-
-
-
-            selectedItems[i].classList.remove("selectedClass");
+        colouredIn[i].classList.remove("selectedClass");
     }
-
-
-
-
 }
