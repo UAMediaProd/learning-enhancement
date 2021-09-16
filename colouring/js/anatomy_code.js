@@ -13,115 +13,115 @@ var parts = [ //array of the boney bois
         "bone_number": 2,
         "bone": "iliac fossa",
         "correct": "section_2",
-        "color": "rgb(255,102,52)"
+        "color": "rgb(255, 102, 52)"
     },
     {
         "bone_number": 3,
         "bone": "ala of sacrum",
         "correct": "section_3",
-        "color": "rgb(0,153,0)"
+        "color": "rgb(0, 153, 0)"
     },
     {
         "bone_number": 4,
         "bone": "anterior sacral foramina",
         "correct": "section_4",
-        "color": "rgb(0,0,158)"
+        "color": "rgb(0, 0, 158)"
     },
     {
         "bone_number": 5,
         "bone": "sacro-iliac joint",
         "correct": "section_5",
-        "color": "rgb(0,0,158)"
+        "color": "rgb(0, 0, 158)"
     },
     {
         "bone_number": 6,
         "bone": "pecten pubis",
         "correct": "section_6",
-        "color": "rgb(194,0,218)"
+        "color": "rgb(194, 0, 218)"
     },
     {
         "bone_number": 7,
         "bone": "bony margin of acetabulum",
         "correct": "section_7",
-        "color": "rgb(254,184,0)"
+        "color": "rgb(254, 184, 0)"
     },
     {
         "bone_number": 8,
         "bone": "iliopubic eminence",
         "correct": "section_8",
-        "color": "rgb(0,207,63)"
+        "color": "rgb(0, 207, 63)"
     },
     {
         "bone_number": 9,
         "bone": "pubic tuberde",
         "correct": "section_9",
-        "color": "rgb(255,102,0)"
+        "color": "rgb(255, 102, 0)"
     },
     {
         "bone_number": 10,
         "bone": "coccyx",
         "correct": "section_10",
-        "color": "rgb(255,0,204)"
+        "color": "rgb(255, 0, 204)"
     },
     {
         "bone_number": 11,
         "bone": "obturator foramen",
         "correct": "section_11",
-        "color": "rgb(125,126,0)"
+        "color": "rgb(125, 126, 0)"
     },
     {
         "bone_number": 12,
         "bone": "ischial ramus",
         "correct": "section_12",
-        "color": "rgb(255,24,34)"
+        "color": "rgb(255, 24, 34)"
     },
     {
         "bone_number": 13,
         "bone": "ischial tuberosity",
         "correct": "section_13",
-        "color": "rgb(1,125,125)"
+        "color": "rgb(1, 125, 125)"
     },
     {
         "bone_number": 14,
         "bone": "neck of femur",
         "correct": "section_14",
-        "color": "rgb(224,1,58)"
+        "color": "rgb(224, 1, 58)"
     },
     {
         "bone_number": 15,
         "bone": "shaft of femur",
         "correct": "section_15",
-        "color": "rgb(255,255,0)"
+        "color": "rgb(255, 255, 0)"
     },
     {
         "bone_number": 16,
         "bone": "greater trochanter",
         "correct": "section_16",
-        "color": "rgb(169,71,58)"
+        "color": "rgb(169, 71, 58)"
     },
     {
         "bone_number": 17,
         "bone": "iliac crest",
         "correct": "section_17",
-        "color": "rgb(153,254,0)"
+        "color": "rgb(153, 254, 0)"
     },
     {
         "bone_number": 18,
         "bone": "anterior superior iliac",
         "correct": "section_18",
-        "color": "rgb(153,254,0)"
+        "color": "rgb(153, 254, 0)"
     },
     {
         "bone_number": 19,
         "bone": "lesser trochanter",
         "correct": "section_19",
-        "color": "rgb(33,32,2)"
+        "color": "rgb(33, 32, 2)"
     },
     {
         "bone_number": 20,
         "bone": "anterior inferior iliac spine",
         "correct": "section_20",
-        "color": "rgb(53,0,254)"
+        "color": "rgb(53, 0, 254)"
     }
 ];
 
@@ -188,15 +188,18 @@ for (let i = 0; i < arraySectionIDs.length; i++) {
 function setClicks(e, index) {
     var element = document.getElementById(arraySectionIDs[index]);
     element.style.fill=currentColor;
+    var selectedItems = document.getElementsByClassName("selectedClass");
 
 
     if (element.classList.contains("selectedClass")) {
         element.classList.remove("selectedClass");
     } else {
-        var selectedItems = document.getElementsByClassName("selectedClass");
+        
         
         for (var i = 0; i < selectedItems.length; i++){
+            if(selectedItems[i].style.fill == currentColor){
                 selectedItems[i].classList.remove("selectedClass");
+            }
         }
         element.classList.add("selectedClass");
     }
