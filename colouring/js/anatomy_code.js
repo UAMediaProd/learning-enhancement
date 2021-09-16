@@ -210,7 +210,7 @@ document.getElementById("checker").addEventListener("click", check);
 
 function check() {
     console.log("doing this once only!");
-    var colouredIn = document.getElementsByClassName("selectedClass");
+    var colouredIn = document.querySelectorAll(".selectedClass");
     console.log(colouredIn);
     var bob = colouredIn.length;
     for (var i = 0; i < bob; i++) {
