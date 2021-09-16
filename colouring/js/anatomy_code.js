@@ -136,7 +136,7 @@ var currentColor;
 
 for (i = 0; i < parts.length; i++) {
     var element = document.getElementById("boneList");
-    element.innerHTML += "<p><a href='#!' onClick=\"select(this, '" + parts[i].bone_number + "', '" + parts[i].color + "')\">" + parts[i].bone + "</a><p>";
+    element.innerHTML += "<p><a href='#!' onClick=\"select(this, '" + parts[i].bone_number + "', '" + parts[i].color + "')\">" + parts[i].bone + "</a></p>";
 }
 
 // write a function select() which enables colouring and does something
@@ -210,7 +210,7 @@ document.getElementById("checker").addEventListener("click", check);
 
 function check() {
     console.log("doing this once only!");
-    var colouredIn = document.querySelectorAll(".selectedClass");
+    var colouredIn = document.querySelectorAll("selectedClass");
     console.log(colouredIn);
     var bob = colouredIn.length;
     for (var i = 0; i < bob; i++) {
