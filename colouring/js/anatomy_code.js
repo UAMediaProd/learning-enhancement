@@ -130,6 +130,8 @@ var arraySectionIDs = ["section_1", "section_2", "section_3", "section_4", "sect
 var boolIsColoring = false; // If the user has selected a colour, this variable is True. It will only be False before anyone has selected a colour, and after the 'Check' button has been clicked.
 var RGBcurrentColor; // A variable to store the RGB value of the currently selected bone's colour.
 
+var numCorrect = 0;
+
 //-------Setting Up the Initial Page-----------
 
 // Sets up all the selectable bone options as clickable objects. This is an example of the HTML link that is generated: <a href="#!" onClick="funcSelectBone(this, '1', 'rgb(255,255,255)')">boneName</a>
@@ -196,8 +198,7 @@ function funcCheckProgress() {
 
     //This line is essentially the same as GetElementID, but works slightly differently. <bit hazy on the details>
     var colouredInSegments = document.querySelectorAll(".selectedClass");
-    var numCorrect = 0;
-
+    
     //We go through each segment that has been coloured in (no need to check the ones that have not been)
     for (var i = 0; i < colouredInSegments.length; i++) {
 
