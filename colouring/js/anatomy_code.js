@@ -196,6 +196,7 @@ function funcCheckProgress() {
 
     //This line is essentially the same as GetElementID, but works slightly differently. <bit hazy on the details>
     var colouredInSegments = document.querySelectorAll(".selectedClass");
+    var numCorrect = 0;
 
     //We go through each segment that has been coloured in (no need to check the ones that have not been)
     for (var i = 0; i < colouredInSegments.length; i++) {
@@ -213,8 +214,12 @@ function funcCheckProgress() {
             if (colouredInSegments[i].style.fill == test.color) {
                 colouredInSegments[i].classList.add("correctClass");
                 colouredInSegments[i].classList.remove("selectedClass");
+                numCorrect++;
             } 
         }
         colouredInSegments[i].classList.remove("selectedClass");
     }
+        
+    document.getElementById('countryBody').innerHTML = "<p>So far, you've gotten " + numCorrect + " of the bone segments correct.</p></br> The incorrect ones have been removed for you to give it another try.";
+    $('#CountryModal').modal();
 }

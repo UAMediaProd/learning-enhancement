@@ -4,11 +4,33 @@
 
 <head>
     <title>Anatomy Colouring Prototype</title>
-    <link rel="stylesheet" href="./css/app.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <!-- <link rel="stylesheet" href="https://uamediaprod.github.io/uoa-styles/assets/style.css" type="text/css"/> -->
 </head>
 
 <body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="CountryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CountryTitle">Progress so far</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="countryBody">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="one" id="boneList">
 
@@ -186,13 +208,18 @@
             <button class="btn-primary" id="checker">Check</button>
         </div>
 
-    </div>
+
+
 
     </div>
 
+    <!-- </div> -->
 
-    
-    <script type="text/javascript" src="./js/anatomy_code.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/anatomy_code.js"></script>
 
 </body>
 
