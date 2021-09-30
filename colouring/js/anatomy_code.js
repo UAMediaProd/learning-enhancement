@@ -135,9 +135,19 @@ var numCorrect = 0;
 //-------Setting Up the Initial Page-----------
 
 // Sets up all the selectable bone options as clickable objects. This is an example of the HTML link that is generated: <a href="#!" onClick="funcSelectBone(this, '1', 'rgb(255,255,255)')">boneName</a>
+//document.getElementById("boneList").innerHTML = "<div class='grid-4'>";
+
 for (i = 0; i < arrayBoneParts.length; i++) {
     var element = document.getElementById("boneList");
-    element.innerHTML += "<p><a href='#!' onClick=\"funcSelectBone(this, '" + arrayBoneParts[i].color + "')\">" + arrayBoneParts[i].bone + "</a></p>";
+    var borderColour;
+    console.log(arrayBoneParts[i].color);
+    
+    if (arrayBoneParts[i].color == "rgb(255, 255, 255)") {
+        borderColour = "rgb(0, 0, 0)";
+    } else {
+        borderColour = arrayBoneParts[i].color;
+    };
+    element.innerHTML += "<button onClick=\"funcSelectBone(this, '" + arrayBoneParts[i].color + "')\" class='adx-button primary' style='border-color:"+borderColour+"; background-color:"+ arrayBoneParts[i].color.substring(0, arrayBoneParts[i].color.length-1)+', 0.25)' +"'>" + arrayBoneParts[i].bone + "</button>";
 }
 
 // For each object in arraySectionIDs array, add a class that makes it transparent.
