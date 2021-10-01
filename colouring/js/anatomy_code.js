@@ -6,141 +6,121 @@ var arrayBoneParts = [
         "bone_number": 1,
         "bone": "fovea for ligament of head",
         "correct": "section_1",
-        "color": "rgb(255, 255, 255)",
-        "color_class": "color-cream"
+        "color": "rgb(255, 255, 255)"
     },
     {
         "bone_number": 2,
         "bone": "iliac fossa",
         "correct": "section_2",
-        "color": "rgb(255, 102, 52)",
-        "color_class": "color-mandarin"
+        "color": "rgb(255, 102, 52)"
     },
     {
         "bone_number": 3,
         "bone": "ala of sacrum",
         "correct": "section_3",
-        "color": "rgb(0, 153, 0)",
-        "color_class": "color-emerald"
+        "color": "rgb(0, 153, 0)"
     },
     {
         "bone_number": 4,
         "bone": "anterior sacral foramina",
         "correct": "section_4",
-        "color": "rgb(0, 0, 158)",
-        "color_class": "color-navy"
+        "color": "rgb(0, 0, 158)"
     },
     {
         "bone_number": 5,
         "bone": "sacro-iliac joint",
         "correct": "section_5",
-        "color": "rgb(145, 23, 254)",
-        "color_class": "color-violet"
+        "color": "rgb(145, 23, 254)"
     },
     {
         "bone_number": 6,
         "bone": "pecten pubis",
         "correct": "section_6",
-        "color": "rgb(194, 0, 218)",
-        "color_class": "color-wysteria"
+        "color": "rgb(194, 0, 218)"
     },
     {
         "bone_number": 7,
         "bone": "bony margin of acetabulum",
         "correct": "section_7",
-        "color": "rgb(254, 184, 0)",
-        "color_class": "color-golden"
+        "color": "rgb(254, 184, 0)"
     },
     {
         "bone_number": 8,
         "bone": "iliopubic eminence",
         "correct": "section_8",
-        "color": "rgb(0, 207, 63)",
-        "color_class": "color-mid-green"
+        "color": "rgb(0, 207, 63)"
     },
     {
         "bone_number": 9,
         "bone": "pubic tuberde",
         "correct": "section_9",
-        "color": "rgb(255, 102, 0)",
-        "color_class": "color-orange"
+        "color": "rgb(255, 102, 0)"
     },
     {
         "bone_number": 10,
         "bone": "coccyx",
         "correct": "section_10",
-        "color": "rgb(255, 0, 204)",
-        "color_class": "color-hot-pink"
+        "color": "rgb(255, 0, 204)"
     },
     {
         "bone_number": 11,
         "bone": "obturator foramen",
         "correct": "section_11",
-        "color": "rgb(125, 126, 0)",
-        "color_class": "color-olive"
+        "color": "rgb(125, 126, 0)"
     },
     {
         "bone_number": 12,
         "bone": "ischial ramus",
         "correct": "section_12",
-        "color": "rgb(255, 24, 34)",
-        "color_class": "color-red"
+        "color": "rgb(255, 24, 34)"
     },
     {
         "bone_number": 13,
         "bone": "ischial tuberosity",
         "correct": "section_13",
-        "color": "rgb(1, 125, 125)",
-        "color_class": "color-teal"
+        "color": "rgb(1, 125, 125)"
     },
     {
         "bone_number": 14,
         "bone": "neck of femur",
         "correct": "section_14",
-        "color": "rgb(224, 1, 58)",
-        "color_class": "color-golden"
+        "color": "rgb(224, 1, 58)"
     },
     {
         "bone_number": 15,
         "bone": "shaft of femur",
         "correct": "section_15",
-        "color": "rgb(255, 255, 0)",
-        "colour_class": "color-yellow"
+        "color": "rgb(255, 255, 0)"
     },
     {
         "bone_number": 16,
         "bone": "greater trochanter",
         "correct": "section_16",
-        "color": "rgb(169, 71, 58)",
-        "color_class": "color-brown"
+        "color": "rgb(169, 71, 58)"
     },
     {
         "bone_number": 17,
         "bone": "iliac crest",
         "correct": "section_17",
-        "color": "rgb(153, 254, 0)",
-        "color_class": "color-lime"
+        "color": "rgb(153, 254, 0)"
     },
     {
         "bone_number": 18,
         "bone": "anterior superior iliac",
         "correct": "section_18",
-        "color": "rgb(226, 240, 23)",
-        "color_class": "color-citrus"
+        "color": "rgb(226, 240, 23)"
     },
     {
         "bone_number": 19,
         "bone": "lesser trochanter",
         "correct": "section_19",
-        "color": "rgb(33, 32, 2)",
-        "color_class": "color-black"
+        "color": "rgb(33, 32, 2)"
     },
     {
         "bone_number": 20,
         "bone": "anterior inferior iliac spine",
         "correct": "section_20",
-        "color": "rgb(53, 0, 254)",
-        "color_class": "color-royal-blue"
+        "color": "rgb(53, 0, 254)"
     }
 ];
 
@@ -160,20 +140,14 @@ var numCorrect = 0;
 for (i = 0; i < arrayBoneParts.length; i++) {
     var element = document.getElementById("boneList");
     var borderColour;
-    console.log(arrayBoneParts[i].color_class);
-
-    //element.classList.add('color-orange');
-    //element.innerHTML += "<p>"+arrayBoneParts[i].bone+"</p>";
-
-    element.innerHTML += "<button onClick=\"funcSelectBone(this, '" + arrayBoneParts[i].color + "')\" class='adx-button primary' class='"+ arrayBoneParts[i].color_class +"'>" + arrayBoneParts[i].bone + "</button>";
-//console.log(element.innerHTML);
-
-    /* if (arrayBoneParts[i].color == "rgb(255, 255, 255)") {
+    console.log(arrayBoneParts[i].color);
+    
+    if (arrayBoneParts[i].color == "rgb(255, 255, 255)") {
         borderColour = "rgb(0, 0, 0)";
     } else {
         borderColour = arrayBoneParts[i].color;
     };
-    element.innerHTML += "<button onClick=\"funcSelectBone(this, '" + arrayBoneParts[i].color + "')\" class='adx-button primary' style='border-color:" + borderColour + "; background-color:" + arrayBoneParts[i].color.substring(0, arrayBoneParts[i].color.length - 1) + ', 0.25)' + "'>" + arrayBoneParts[i].bone + "</button>"; */
+    element.innerHTML += "<button onClick=\"funcSelectBone(this, '" + arrayBoneParts[i].color + "')\" class='adx-button primary' style='border-color:"+borderColour+"; background-color:"+ arrayBoneParts[i].color.substring(0, arrayBoneParts[i].color.length-1)+', 0.25)' +"'>" + arrayBoneParts[i].bone + "</button>";
 }
 
 // For each object in arraySectionIDs array, add a class that makes it transparent.
@@ -203,14 +177,12 @@ function funcSelectBone(element, color) {
     boolIsColoring = true;
 
     // Because of complexities with the MouseOver event, we do something different... Everytime we select a bone option, we set ALL bone part sections on the image to that colour. However, since they are all invisible, the only one that appears is the one that's being hovered over; thus seeming to change only that colour when you hover over it!
-
     for (var i = 0; i < arraySectionIDs.length; i++) {
-         var element = document.getElementById(arraySectionIDs[i]);
-         if (boolIsColoring && !element.classList.contains("selectedClass") && !element.classList.contains("correctClass")) {
-             element.style = "fill: " + RGBcurrentColor;
-         }
-     }
-    
+        var element = document.getElementById(arraySectionIDs[i]);
+        if (boolIsColoring && !element.classList.contains("selectedClass") && !element.classList.contains("correctClass")) {
+            element.style = "fill: " + RGBcurrentColor;
+        }
+    }
 }
 
 // Function that reveals the selected bone segment on the image and adds the associated classes. * Note - The segments are already coloured, we just need to reveal them.
@@ -236,7 +208,7 @@ function funcCheckProgress() {
 
     //This line is essentially the same as GetElementID, but works slightly differently. <bit hazy on the details>
     var colouredInSegments = document.querySelectorAll(".selectedClass");
-
+    
     //We go through each segment that has been coloured in (no need to check the ones that have not been)
     for (var i = 0; i < colouredInSegments.length; i++) {
 
@@ -254,11 +226,11 @@ function funcCheckProgress() {
                 colouredInSegments[i].classList.add("correctClass");
                 colouredInSegments[i].classList.remove("selectedClass");
                 numCorrect++;
-            }
+            } 
         }
         colouredInSegments[i].classList.remove("selectedClass");
     }
-
+        
     document.getElementById('countryBody').innerHTML = "<p>So far, you've gotten " + numCorrect + " of the bone segments correct.</p></br> The incorrect ones have been removed for you to give it another try.";
     $('#CountryModal').modal();
 }
