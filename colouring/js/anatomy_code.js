@@ -285,6 +285,7 @@ function funcCheckProgress(e) {
                 var correctButton = document.getElementsByClassName("adx-button primary " + test.color_class)[0];
                 console.log(correctButton);
                 correctButton.disabled = true;
+                correctButton.innerHTML+=": <i class=\"fas fa-check-circle\"></i>";
             }
         }
         colouredInSegments[i].classList.remove("selectedClass");
