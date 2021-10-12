@@ -162,11 +162,11 @@ for (i = 0; i < arrayBoneParts.length; i++) {
     var element_1 = document.getElementById("boneList1");
     var element_2 = document.getElementById("boneList2");
     var borderColour;
-    
-    if (i<=9) {
-        element_1.innerHTML += "<button onClick=\"funcSelectBoneButton(event, this, '" + arrayBoneParts[i].color + "', '" + arrayBoneParts[i].color_class +"')\" class='adx-button primary "+ arrayBoneParts[i].color_class +"'>" + arrayBoneParts[i].bone_number + ") " + arrayBoneParts[i].bone + "</button>";
+
+    if (i <= 9) {
+        element_1.innerHTML += "<button onClick=\"funcSelectBoneButton(event, this, '" + arrayBoneParts[i].color + "', '" + arrayBoneParts[i].color_class + "')\" class='adx-button primary " + arrayBoneParts[i].color_class + "'>" + arrayBoneParts[i].bone_number + ") " + arrayBoneParts[i].bone + "</button>";
     } else {
-        element_2.innerHTML += "<button onClick=\"funcSelectBoneButton(event, this, '" + arrayBoneParts[i].color + "', '" + arrayBoneParts[i].color_class +"')\" class='adx-button primary "+ arrayBoneParts[i].color_class +"'>" + arrayBoneParts[i].bone_number + ") " + arrayBoneParts[i].bone + "</button>";
+        element_2.innerHTML += "<button onClick=\"funcSelectBoneButton(event, this, '" + arrayBoneParts[i].color + "', '" + arrayBoneParts[i].color_class + "')\" class='adx-button primary " + arrayBoneParts[i].color_class + "'>" + arrayBoneParts[i].bone_number + ") " + arrayBoneParts[i].bone + "</button>";
     }
 }
 
@@ -197,31 +197,33 @@ document.getElementById("nothing").addEventListener("click", function (e) {
 
 // Function to write a function funcSelectBoneButton() which enables colouring and does something
 function funcSelectBoneButton(event, element, color, color_class) {
-    funcUnClick ();
+    funcUnClick();
     console.log("Click on a colored button");
     RGBcurrentColor = color;
     element.classList.add("selected");
-                
+
     // set colouring to True, because we have now selected a bone option
     boolIsColoring = true;
 
     // Because of complexities with the MouseOver event, we do something different... Everytime we select a bone option, we set ALL bone part sections on the image to that colour. However, since they are all invisible, the only one that appears is the one that's being hovered over; thus seeming to change only that colour when you hover over it!
     for (var i = 0; i < arraySectionIDs.length; i++) {
-         var element = document.getElementById(arraySectionIDs[i]);
-         element.classList.add("activeClass");
-         if (boolIsColoring && !element.classList.contains("selectedClass") && !element.classList.contains("correctClass")) {
-             element.style = "fill: " + RGBcurrentColor;
-         }
-     }
+        var element = document.getElementById(arraySectionIDs[i]);
+        element.classList.add("activeClass");
+        if (boolIsColoring && !element.classList.contains("selectedClass") && !element.classList.contains("correctClass")) {
+            element.style = "fill: " + RGBcurrentColor;
+        }
+    }
     event.stopPropagation();
 }
 
 //When the user clicks off of a button, or clicks the Check button, we reset the interactive so nothing happens.
-function funcUnClick () {
+function funcUnClick() {
     console.log("unclick");
     for (var i = 0; i < arrayBoneParts.length; i++) {
         var element = document.getElementsByClassName(arrayBoneParts[i].color_class);
-        element[0].classList.remove("selected");
+        if (element[0].innerHTML.substring(element[0].innerHTML.length-4, element[0].innerHTML.length) !=  "</i>") {
+            element[0].classList.remove("selected");
+        }
     };
     for (var i = 0; i < arraySectionIDs.length; i++) {
         var element = document.getElementById(arraySectionIDs[i]);
@@ -234,10 +236,8 @@ function funcUnClick () {
 // Function that reveals the selected bone segment on the image and adds the associated classes. * Note - The segments are already coloured, we just need to reveal them.
 function funcRevealFill(e, index) {
     console.log("Clicks on a bone");
-    //console.log(RGBcurrentColor);
     var element = document.getElementById(arraySectionIDs[index]);
     var selectedItems = document.getElementsByClassName("selectedClass");
-    console.log(element);
 
     // Applies the appropriate classes to each bone segment as it is clicked on - or removes it if you're clicking it again and is the same colour
     //NOTE - Trying to replace a coloured bone segment with a different selected colour currently DOES NOT WORK!!
@@ -251,15 +251,13 @@ function funcRevealFill(e, index) {
         }
         element.classList.add("selectedClass");
     }
-    console.log(selectedItems);
+
     e.stopPropagation();
 }
 
 // Function to check the progress of what bone segments you've gotten correct and what you have gotten wrong. This function will also reset any of the incorrect bones segments, but leave the correct ones as they are. It also adds a 'Correct' class to the segment, indicating that it can't be reset or even changed to a different colour.
 function funcCheckProgress(e) {
     console.log("Clicks on the check button");
-
-    
 
     //This line is essentially the same as GetElementID, but works slightly differently. <bit hazy on the details>
     var colouredInSegments = document.querySelectorAll(".selectedClass");
@@ -275,24 +273,48 @@ function funcCheckProgress(e) {
 
             // Looks inside of arrayBoneParts, finds the `correct` value of the selected bone
             var test = (arrayBoneParts.find(element => element.correct == clickedID));
-            console.log(test.color+": TEST");
-
+            
             // If it is a correct selection, we assign the 'CorrectClass' to it, meaning it can't ever be unselected
             if (colouredInSegments[i].style.fill == test.color) {
                 colouredInSegments[i].classList.add("correctClass");
-                colouredInSegments[i].classList.remove("selectedClass");
-                numCorrect++;
                 var correctButton = document.getElementsByClassName("adx-button primary " + test.color_class)[0];
-                console.log(correctButton);
                 correctButton.disabled = true;
-                correctButton.innerHTML+=": <i class=\"fas fa-check-circle\"></i>";
+               
+                if (correctButton.innerHTML.substring(correctButton.innerHTML.length-4, correctButton.innerHTML.length) !=  "</i>") {
+                    correctButton.innerHTML += ": <i class=\"fas fa-check-circle\"></i>";
+                    correctButton.style.borderColor = "green";
+                    correctButton.style.borderWidth = "5px";
+                    numCorrect++;
+                }
+            } else {
+                colouredInSegments[i].classList.remove("selectedClass");
             }
         }
-        colouredInSegments[i].classList.remove("selectedClass");
+        
     }
+    //numCorrect = 20;
+    var ModalBodyText;
+    if (numCorrect == 0) {
+         ModalBodyText = "If you didn't click this button buy mistake, perhaps you'd like to revisit the material?";
+    } else if (numCorrect >=1 & numCorrect <=10){
+        ModalBodyText = "A good start, but there are many more to go. If you need to revist the material, feel free!";
+    } else if (numCorrect >=11 & numCorrect <=15) {
+        ModalBodyText = "Very nice work! Remember, this is a formative activity, so you're more than welcome to revist the material if you need some guidance.";
+    } else if (numCorrect >=16 & numCorrect <=19) {
+         ModalBodyText = "You've obviously got a great grasp of this material. Keep going, you got this!";
+    } else if (numCorrect == 20) {
+        ModalBodyText = "Fantastic! You have got all of them right. There's nothing stopping you from revisting this activity at any time should you need a refresher. Click the 'Reset' button below to have another go.";
+        document.getElementById('modalButton').innerHTML = "Reset";
+        document.getElementById("modalButton").addEventListener("click", function () {
+            location.reload();
+        });
+    }
+    document.getElementById('MainTitle').innerHTML = "Your score: " + numCorrect;
+    document.getElementById('MainBody').innerHTML = "<p>" + ModalBodyText + "</p>";
+    $('#MainModal').modal();
 
-    document.getElementById('countryBody').innerHTML = "<p>So far, you've gotten " + numCorrect + " of the bone segments correct.</p></br> The incorrect ones have been removed for you to give it another try.";
-    $('#CountryModal').modal();
+    e.stopPropagation();
 
-   e.stopPropagation();
+
 }
+
