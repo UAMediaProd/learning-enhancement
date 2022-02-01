@@ -156,6 +156,7 @@ $(document).ready(function () {
                     let percent = (score / adjustedCount) * 100;
                     scores.push(percent);
                     labels.push(label);
+                    console.log(scores);
 
                 }
             });
@@ -164,9 +165,16 @@ $(document).ready(function () {
             //set dimension for showFeedback to be one of the roles selected
 
             var dimensionRole;
-            dimensionRole = '.' + role;
 
-            showFeedback('.feedback ' + dimensionRole + '', '.feedback', scores);
+            if (role != null){
+                dimensionRole = '.' + role;
+
+                showFeedback('.feedback ' + dimensionRole + '', '.feedback', scores);
+            } else {
+                console.log("T");
+                showFeedback('.feedback', '.feedback', scores);
+            }
+          
 
 
             //function to export report pdf
@@ -308,7 +316,7 @@ $(document).ready(function () {
 
     // feedback for items will only show if the score is not high
     function showFeedback(dimensions, feedback, scores) {
-        var threshold = 70;
+        var threshold = 40;
         var $dimensions = $(dimensions);
         var $feedback = $(feedback);
 
@@ -340,8 +348,10 @@ $(document).ready(function () {
             }
             //standard for all other roles
             else if (score < threshold) {
+                console.log($dimensions.get(idx));
+                console.log(score);
                 $($dimensions.get(idx)).removeClass('hide');
-                $feedback.removeClass('hide');
+               
             }
 
         });

@@ -76,8 +76,8 @@ body {
     text-align: center;
 }
 canvas {
-    width: 680px;
-    height: 650px;
+    width: 900px;
+    height: 700px;
 }
 #legend .radar-legend li {
     list-style-type: none;
@@ -129,5 +129,5 @@ canvas {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
