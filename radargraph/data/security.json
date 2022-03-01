@@ -1,7 +1,7 @@
 [{
 
     "title": "Cybersecurity Self-evaluation",
-    "introduction": "This radar graph is designed to enable you to review your knowledge of cybersecurity across a series of five domains.",
+    "introduction": "This radar graph is designed to enable you to review your knowledge of cybersecurity across a series of five domains. A larger red area signifies a sound awareness of that particular domain.",
     "pages":[
        {
             "name": "Passwords and Accounts",

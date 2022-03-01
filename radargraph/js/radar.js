@@ -319,13 +319,14 @@ $(document).ready(function () {
         var threshold = 40;
         var $dimensions = $(dimensions);
         var $feedback = $(feedback);
+        var allHigh = true;
 
         console.log($dimensions);
 
 
-        // $(feedback).addClass('hide');
-        // $feedback.addClass('hide');
-        // $dimensions.addClass('hide');
+        $(feedback).addClass('hide');
+        $feedback.addClass('hide');
+        $dimensions.addClass('hide');
 
         $(scores).each(function (idx, score) {
             //custom extra step for score above threshold but only for CC
@@ -333,6 +334,7 @@ $(document).ready(function () {
             if (role == 'coordinator') {
                 console.log(score + " for " + idx);
                 if (score < 40) {
+                    allHigh = false;
                     //show low
                     var CCdimensions = $('.feedback .ccLow');
                     $(CCdimensions.get(idx)).removeClass('hide');
@@ -348,6 +350,7 @@ $(document).ready(function () {
             }
             //standard for all other roles
             else if (score < threshold) {
+                allHigh = false;
                 console.log($dimensions.get(idx));
                 console.log(score);
                 $($dimensions.get(idx)).removeClass('hide');
@@ -355,6 +358,13 @@ $(document).ready(function () {
             }
 
         });
+
+        if(allHigh) {
+            $(".allHigh").removeClass('hide');
+        }
+
+
+
     }
 
 
