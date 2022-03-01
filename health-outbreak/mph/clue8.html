@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <title>Amazing Outbreak Race: Legionella pneumonia Clue 8</title>
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+  <link href="./css/app.css" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YTTKD1NKGW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-YTTKD1NKGW');
+    </script>
+</head>
+
+<body class=" bg-gray-200">
+  <div id="app" class="bg-gray-200">
+
+    <div class="container mx-auto">
+      <br />
+      <img class="centered" src="./resources/logo.svg" alt="The Amazing Outbreak Race"/ width="500">
+      <br />
+      <p>You are a Public Health Officer for the Communicable Disease Control Branch, Oz State Department of Health. You
+        are aiming to win the Amazing Outbreak Race by completing tasks of an outbreak scenario. We hope that you will
+        be able to determine the cause of the outbreak and put control measures in place to prevent further cases of
+        disease.The outbreak scenario will be based on the <strong>Ten Steps to an outbreak investigation</strong>.
+
+        <br><br>You will be given instructions (a clue) at each station. The clue will direct you to complete a task,
+        before moving onto the next station. Complete all ten tasks in the order given. </p>
+      <p>Here, you can enter your answer for each clue and when you feel ready, you'll be given the
+        next clue and a link to the next entry page.</p>
+        <p></p>
+
+      <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="stack">
+        <div class="mb-4">
+          <p class="text-gray-700 mb-2"> <span class="text-indigo-700 font-bold text-lg">Clue 8:</span> <strong>Further investigations</strong><br><br>
+            After you have tested your hypothesis, are there further investigations you could do and why? (4 marks)
+          </p>
+          <label class="block text-gray-700 text-sm font-bold mb-2">
+            Type your answer below:
+          </label>
+          <textarea id="answerBox"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="answerBox" rows="8" cols="50" placeholder="Type your answer for this clue"></textarea>
+
+        </div>
+<a href="clue7.html" role="link"><button id="backButt" style="float:left;" class="hover:bg-gray-200 text-indigo-300 font-bold py-2 px-4 rounded focus:outline-none"
+        type="button">
+       Go back to previous clue
+     </button>
+    </a>
+        <div class="flex justify-end space-x-4">
+          <button id="subButt" class="hover:bg-gray-200 text-indigo-300 font-bold py-2 px-4 rounded focus:outline-none"
+            onclick="reset()" type="button">
+            Clear
+          </button>
+          <button class="bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded focus:outline-none"
+            onclick="check()" type="button">
+            Check your answer!
+          </button>
+        </div>
+      </div>
+
+      <div id="posAlert" class="bg-green-200 border border-none text-green-700 px-4 py-4 rounded relative" role="alert">
+        <strong class="font-bold"> <i class="uil uil-check-circle text-xl"></i> Well done!</strong>
+        <span id="posText" class="block sm:inline">It looks like you've addressed much this clue! If you're feeling comfortable with your answer, <strong>remember to save it somewhere</strong> and move on to the next clue.</span>
+        <p style="text-align: center; margin-top: 2em;"><button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+          onclick="moveOn('./clue9.html')" type="button">
+          Get the next clue
+        </button>
+      </p>
+      </div>
+
+      <div id="tipAlert" class="bg-orange-200 border border-none text-orange-700 px-4 py-4 rounded relative" role="alert">
+        <strong class="font-bold"> <i class="uil uil-times-circle text-xl"></i>Some things to remember for your submission:</strong>
+        <p>This is an automated piece of feedback - if you feel you have addressed the tips below, you can safely move to the next activity.</p>
+        <span id="tipText" class="block sm:inline"></span>
+        <br/>
+        <p>If you feel you've addressed the remaining feedback here, please feel free to get the next clue. <strong>It is highly recommended that you copy and paste the text you have here to use in your assignment submission!</strong></p>
+        <p style="text-align: center; margin-top: 2em;"><button class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+            onclick="moveOn('./clue9.html')" type="button">
+            Get the next clue
+          </button>
+        </p>
+      </div>
+      <br/><br/>
+
+    </div>
+
+
+  </div>
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://unpkg.com/compromise@latest/builds/compromise.min.js"></script>
+
+  <script>
+
+
+var data = [{
+    "keyWords": [
+      {"word": "environment", "feedback": "What can you test other than the people?", "found": false},
+      {"word":"soil", "feedback":"What can you test other than the people?", "found": false},
+      {"word":"animals", "feedback":"What can you test other than the people?", "found": false},
+      {"word": "control", "feedback": "Who else can you test?", "found": false},
+      {"word": "supply", "feedback": "What are some sources you could investigate?", "found": false},
+      {"word": "farm", "feedback": "hat are some sources you could investigate?", "found": false},
+      {"word": "wool", "feedback": "Would you test animal products and why, what will it tell you?", "found": false},
+      {"word": "prevent", "feedback": "Could your work help prevent further outbreaks?", "found": false},
+      {"word": "vaccinations", "feedback": "Are there other investigations you could undertake to learn more?", "found": false},
+    ]
+}]
+
+
+
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="js/app.js"></script>
+  
+</body>
+
+</html>
