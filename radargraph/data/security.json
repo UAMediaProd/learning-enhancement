@@ -1,0 +1,63 @@
+[{
+
+    "title": "Cybersecurity Self-evaluation",
+    "introduction": "This radar graph is designed to enable you to review your knowledge of cybersecurity across a series of five domains.",
+    "pages":[
+       {
+            "name": "Passwords and Accounts",
+            "description":"It is your responsibility to ensure your password(s) and account(s) are secure. <br><br> Having a strong password is the first step to security. Specific information about strong passwords can be found in the <a href='https://myuni.adelaide.edu.au/courses/69285'>MyUni Cybersecurity Training</a> course or on the <a href='https://adelaide.edu.au/technology/secure-it'>ITDS Secure IT</a> website.",
+            "statements": [
+                "I know what a strong password is.",
+                "I update or review my password regularly.",
+                "I use a Password Manager tool to secure all my accounts.",
+                "I am aware of the range of courses and tools available to help me secure my accounts.",
+                "I regularly restart my computer to ensure I have the latest patches and most up-to-date operating system."
+            ]
+        },
+        {
+            "name": "Data and Device Security",
+            "description":"It is your responsibility to ensure your data and device(s) are secure. <br><br> Specific information about how to secure your data and device(s) can be found in the <a href='https://myuni.adelaide.edu.au/courses/69285'>MyUni Cybersecurity Training</a> course or on the <a href='https://adelaide.edu.au/technology/secure-it'>ITDS Secure IT</a> website.",
+            "statements": [
+                "I lock my device(s) whenever I walk away from my desk (or wherever I am working at the time).",
+                "I never leave my device(s) unattended for long periods of time in an un-secured environment.",
+                "I use appropriately strong passwords, or a Password Manager tool, to ensure my data is secure.",
+                "I do not allow others to use my password or access my device(s) without my supervision.",
+                "I follow the University guidelines for appropriate storage, access, and security of my data."
+            ]
+        },
+        {
+            "name": "Email Text and Other Messaging Platforms",
+            "description":"It is your responsibility to ensure your work-related emails, text, and other messaging platform messages are safe, secure, and appropriate. <br><br> Specific information can be found in the <a href='https://myuni.adelaide.edu.au/courses/69285'>MyUni Cybersecurity Training</a> course or on the <a href='https://adelaide.edu.au/technology/secure-it'>ITDS Secure IT</a> website.",
+            "statements": [
+                "I use all messaging platforms appropriately.",
+                "I regularly restart my computer to ensure I have the most up-to-date patches and operating system to secure my emails and other messaging platforms.",
+                "I ensure my communication across the various messaging platforms are in line with the University guidelines and policies.",
+                "I do not allow others to use my password or access my device(s) without my supervision.",
+                "I am aware of what options there are to help me communicate and collaborate effectively, efficiently and securely"
+            ]
+        },
+        {
+            "name": "Incident Response",
+            "description":"It is your responsibility to ensure any incidences are reported quickly, appropriately, and with enough information to act upon. <br><br> Specific information can be found in the <a href='https://myuni.adelaide.edu.au/courses/69285'>MyUni Cybersecurity Training</a> course or on the <a href='https://adelaide.edu.au/technology/secure-it'>ITDS Secure IT</a> website.",
+            "statements": [
+                "I understand what to do if I find out something has been compromised.",
+                "I know who to contact if there is an incident.",
+                "I know where to find the information about how to report a suspicious situation.",
+                "I realise that the faster the incident is reported the quicker it can be investigated and fixed.",
+                "I have recently updated my knowledge about incident responses."
+            ]
+        },
+        {
+            "name": "Online Shopping Travelling and WiFi",
+            "description":"It is your responsibility to ensure any use of the University or non-University network(s), either at home or while travelling, to conduct any activities, including online shopping, is managed appropriately. <br><br> Specific information can be found in the <a href='https://myuni.adelaide.edu.au/courses/69285'>MyUni Cybersecurity Training</a> course or on the <a href='https://adelaide.edu.au/technology/secure-it'>ITDS Secure IT</a> website.",
+            "statements": [
+                "I ensure any online purchases are only from trusted sources.",
+                "I regularly restart my computer to ensure I have the latest patches and most up-to-date operating system",
+                "I never use untrusted public WiFi networks.",
+                "I have a secure and locked home network.",
+                "I ensure all my devices work on secure networks when I am travelling."
+            ]
+        }
+    ]
+
+}]
