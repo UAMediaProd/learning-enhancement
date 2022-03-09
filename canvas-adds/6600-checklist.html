@@ -7,104 +7,102 @@
 </head>
 
 <style>
-
     body main {
         width: 100vw;
         max-width: 100vw;
     }
 
-/* Customize the label (the container) */
-.container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 22px;
-  padding-top: .5em;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+    /* Customize the label (the container) */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 22px;
+        padding-top: .5em;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
-/* Hide the browser's default checkbox */
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
 
-/* Create a custom checkbox */
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #eee;
-}
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+    }
 
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  background-color: #ccc;
-}
+    /* On mouse-over, add a grey background color */
+    .container:hover input~.checkmark {
+        background-color: #ccc;
+    }
 
-/* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
-  background-color: #005a9c;
-}
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked~.checkmark {
+        background-color: #005a9c;
+    }
 
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
 
-/* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
+    /* Show the checkmark when checked */
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
 
-/* Style the checkmark/indicator */
-.container .checkmark:after {
-  left: 6px;
-  top: 2px;
-  width: 5px;
-  height: 9px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
 
-.indent {
-    margin-left: 2em;
-}
+    .indent {
+        margin-left: 2em;
+    }
 
-.adx label {
-    font-size: .8em;
-    color: #303030;
-    font-weight: 400;
-    transition: all 0.0s;
-    font-family: 'Lato', sans-serif;
-    padding-top: 2px;
-}
+    .adx label {
+        font-size: .8em;
+        color: #303030;
+        font-weight: 400;
+        transition: all 0.0s;
+        font-family: 'Lato', sans-serif;
+        padding-top: 2px;
+    }
 
-form {
-    max-width: 70ch !important;
-}
+    form {
+        max-width: 70ch !important;
+    }
 
-p {
-    color: #303030;
-    font-size: .8em;
-    font-family: 'Lato', sans-serif !important;
-}
-
+    p {
+        color: #303030;
+        font-size: .8em;
+        font-family: 'Lato', sans-serif !important;
+    }
 </style>
 
 <body>
@@ -115,76 +113,69 @@ p {
             <label class="container">Attend or access the orientation session
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
-              
-              <label class="container">Identify the tutorial group to which you have been assigned
+            </label>
+
+            <label class="container">Identify the tutorial group to which you have been assigned
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
-              
-              <label class="container">Access the <em>Introduction</em> for Module 1
+            </label>
+
+            <label class="container">Access the <em>Introduction</em> for Module 1
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
+            </label>
 
-              <label class="container indent">Identify the weekly learning outcomes for Module 1
+            <label class="container indent">Identify the weekly learning outcomes for Module 1
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
+            </label>
 
-              <label class="container indent">Identify the activities for Module 1
+            <label class="container indent">Identify the activities for Module 1
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
+            </label>
 
-              <label class="container indent">Identify the readings for Module 1
+            <label class="container indent">Identify the readings for Module 1
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
+            </label>
 
 
-              <div class="adx-cue-left indent" style="margin-bottom: 2em; margin-top: 2em;">
-                  <p>Note: Although the course can be approached in many ways, it was designed to work through it sequentially, starting here: Psychological Interviewing. By working through the course in this way, you will be sure not to miss any videos, quizzes, or discussion questions which will assist your learning</p>
-              </div>
+            <div class="adx-cue-left indent" style="margin-bottom: 2em; margin-top: 2em;">
+                <p>Note: Although the course can be approached in many ways, it was designed to work through it
+                    sequentially, starting here: Psychological Interviewing. By working through the course in this way,
+                    you will be sure not to miss any videos, quizzes, or discussion questions which will assist your
+                    learning</p>
+            </div>
 
-              
-              <label class="container">Find the <em>Introductions</em> discussion post and complete this
+
+            <label class="container">Find the <em>Introductions</em> discussion post and complete this
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
+            </label>
 
-              <label class="container">Check if there are any General Course Discussion posts
+            <label class="container">Check if there are any General Course Discussion posts
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
+            </label>
 
-              <label class="container">Check if there are any Assessment discussion posts
+            <label class="container">Check if there are any Assessment discussion posts
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
+            </label>
 
-              <label class="container">Take a look at the assessments for this course, including the due dates
+            <label class="container">Take a look at the assessments for this course, including the due dates
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
+            </label>
 
-              <label class="container">Locate the information about your Module 1 online tutorial session. Add any questions or responses to the pre-tutorial discussion
+            <label class="container">Locate the information about your Module 1 online tutorial session. Add any
+                questions or responses to the pre-tutorial discussion
                 <input type="checkbox">
                 <span class="checkmark"></span>
-              </label>
-        
-            <br><br>
-        
+            </label>
         </form>
-            
-            
-
     </main>
-  
-    <script>
-
-        
-    </script>
 </body>
 
 </html>
