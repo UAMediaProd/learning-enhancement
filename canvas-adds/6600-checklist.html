@@ -110,17 +110,22 @@
 
         <form>
             <h4>Week 1 Checklist (optional)</h4>
-            <label class="container">Attend (or access the recording of) the "Introduction to the Course" online session during Orientation Week. (More information is available on the "Online Tutorial Schedule" page in MyUni.)
+            <label class="container">Attend (or access the recording of) the "Introduction to the Course" online session
+                during Orientation Week. (More information is available on the "Online Tutorial Schedule" page in
+                MyUni.)
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Identify your tutorial group (including day and time for your online session). Please contact your Course Coordinator or Student Success if you have any difficulty identifying your tutorial group.
+            <label class="container">Identify your tutorial group (including day and time for your online session).
+                Please contact your Course Coordinator or Student Success if you have any difficulty identifying your
+                tutorial group.
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Access the “Introduction” for Module 1. You can access modules directly by using the menu item on the left of your screen.
+            <label class="container">Access the “Introduction” for Module 1. You can access modules directly by using
+                the menu item on the left of your screen.
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
@@ -135,7 +140,8 @@
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container indent">Identify the "Readings” for Module 1. Readings are also accessible under the “Course Readings” menu item on the left of your screen.
+            <label class="container indent">Identify the "Readings” for Module 1. Readings are also accessible under the
+                “Course Readings” menu item on the left of your screen.
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
@@ -149,7 +155,8 @@
             </div>
 
 
-            <label class="container">Access the discussions for this course. You can access the “Discussions” menu item on the left of your screen.
+            <label class="container">Access the discussions for this course. You can access the “Discussions” menu item
+                on the left of your screen.
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
@@ -169,26 +176,58 @@
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Take a look at the assessments for this course, including the due dates. You can access these by navigating to “Assignments” using the menu item on the left of your screen.
+            <label class="container">Take a look at the assessments for this course, including the due dates. You can
+                access these by navigating to “Assignments” using the menu item on the left of your screen.
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
-            <label class="container indent">You may also like to view the different sources of help which are available for your assessments, in addition to the Course Coordinator and your tutor (e.g., Smarthinking, The Writing Centre).
+            <label class="container indent">You may also like to view the different sources of help which are available
+                for your assessments, in addition to the Course Coordinator and your tutor (e.g., Smarthinking, The
+                Writing Centre).
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Locate the information about your Module 1 “Online Tutorial” session. 
+            <label class="container">Locate the information about your Module 1 “Online Tutorial” session.
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
-            <label class="container indent">Add any questions or responses to the “Pre-Tutorial Discussion”. You can also find this discussion by navigating through the menu item on the left of your screen.
+            <label class="container indent">Add any questions or responses to the “Pre-Tutorial Discussion”. You can
+                also find this discussion by navigating through the menu item on the left of your screen.
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
 
         </form>
     </main>
+
+    <script>
+        var checks = [];
+        var checkboxes = document.querySelectorAll("input"); //get all the checkboxes
+        //get local storage and pre-populate the checkboxes
+        var localStorage = window.localStorage;
+        //check if answers are living in local storage
+        if (localStorage.getItem('6600-check') != null) {
+            checks = JSON.parse(localStorage.getItem('6600-check'));
+            //loop through the checkboxes
+            for (let i = 0; i < checkboxes.length; i++) {
+                //if the checkbox is checked
+                if (checks[i] == true) {
+                    //check the checkbox
+                    checkboxes[i].checked = true;
+                }
+            }
+        }
+
+        //when a checkbox is clicked, update the local storage
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function () {
+                checks[i] = this.checked;
+                localStorage.setItem('6600-check', JSON.stringify(checks));
+            });
+        }
+    </script>
+
 </body>
 
 </html>
