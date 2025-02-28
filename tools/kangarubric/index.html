@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kangarubric - Canvas Rubric Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="roo.png">
-    
+
     <!-- Apple Touch Icons -->
     <link rel="apple-touch-icon" href="roo.png">
     <link rel="apple-touch-icon" sizes="152x152" href="roo.png">
@@ -17,11 +18,16 @@
     <script src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js"></script>
     <style>
         :root {
-            --primary-color: #2c5530;     /* Dark forest green */
-            --secondary-color: #4a7350;  /* Medium forest green */
-            --tertiary-color: #e1eae1; /* Sage */
-            --background-color: #f4f7f4; /* Light sage */
-            --text-color: #1a1f1a;      /* Dark green-gray */
+            --primary-color: #2c5530;
+            /* Dark forest green */
+            --secondary-color: #4a7350;
+            /* Medium forest green */
+            --tertiary-color: #e1eae1;
+            /* Sage */
+            --background-color: #f4f7f4;
+            /* Light sage */
+            --text-color: #1a1f1a;
+            /* Dark green-gray */
         }
 
         body {
@@ -87,7 +93,8 @@
 
         #output {
             margin-top: 30px;
-            margin-bottom: 60px; /* Make room for footer */
+            margin-bottom: 60px;
+            /* Make room for footer */
         }
 
         footer {
@@ -119,12 +126,13 @@
             border-collapse: collapse;
             margin: 20px 0;
             background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             border-radius: 6px;
             overflow: hidden;
         }
 
-        .rubric-table th, .rubric-table td {
+        .rubric-table th,
+        .rubric-table td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
@@ -137,16 +145,16 @@
             text-align: center;
             font-weight: 600;
         }
-        
+
         .rubric-table th:first-child {
             text-align: left;
             width: 25%;
         }
-        
+
         .rubric-table td:first-child {
             width: 25%;
         }
-        
+
         .rubric-table td {
             width: 15%;
             vertical-align: top;
@@ -274,7 +282,7 @@
         /* FAQ styles */
         .faq-section {
             margin-top: 3em;
-            margin-bottom:3em;
+            margin-bottom: 3em;
             border-top: 1px solid var(--primary-color);
         }
 
@@ -343,23 +351,34 @@
         }
     </style>
 </head>
+
 <body>
+    <script async data-id="101479163" src="//static.getclicky.com/js"></script>
+    <noscript>
+        <p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101479163ns.gif" /></p>
+    </noscript>
     <div class="container">
         <img src="roo.svg" alt="Kangaroo Logo" style="display: block; margin: 0 auto; width: 400px; height: 400px;">
         <h1>Kangarubric</h1>
         <div class="instructions">
             <p>Upload a course details Word document to generate Canvas rubric CSV files for each assessment rubric.</p>
-            <p>If you encounter any errors, check that your Word document includes max point percentages and CLOs for all criteria. Save, re-upload and re-run the tool.</p>
-            <p>To upload your CSV file to Canvas, simply navigate to 'Rubrics' in the course navigation menu. <br>Click 'Import Rubric', then upload the file you created with Kangarubric.</p>
-            <p class="note"><strong>Note: </strong>Unfortunately, Canvas <a href="https://community.canvaslms.com/t5/Known-Issues/OPEN-Rubric-imports-cannot-process-decimal-values-for-rating/ta-p/631147" target="_blank">doesn't know how to handle decimal points in rubric CSV files</a>. <br>You'll need to manually change them after your import your rubric.<br>A fix is coming in a future Canvas update.</p>
-            <p>If you're still running into trouble, please contact <a href="mailto:tim.churchward@adelaide.edu.au">Tim Churchward</a>.</p>
+            <p>If you encounter any errors, check that your Word document includes max point percentages and CLOs for
+                all criteria. Save, re-upload and re-run the tool.</p>
+            <p>To upload your CSV file to Canvas, simply navigate to 'Rubrics' in the course navigation menu. <br>Click
+                'Import Rubric', then upload the file you created with Kangarubric.</p>
+            <p class="note"><strong>Note: </strong>Unfortunately, Canvas <a
+                    href="https://community.canvaslms.com/t5/Known-Issues/OPEN-Rubric-imports-cannot-process-decimal-values-for-rating/ta-p/631147"
+                    target="_blank">doesn't know how to handle decimal points in rubric CSV files</a>. <br>You'll need
+                to manually change them after your import your rubric.<br>A fix is coming in a future Canvas update.</p>
+            <p>If you're still running into trouble, please contact <a href="mailto:tim.churchward@adelaide.edu.au">Tim
+                    Churchward</a>.</p>
         </div>
-        
+
         <div class="drop-zone" id="dropZone">
             <p>Drop your .docx file here or click to upload</p>
             <input type="file" id="fileInput" accept=".docx">
         </div>
-        
+
         <div style="text-align: center;">
             <button id="processButton" disabled>Hop to it!</button>
         </div>
@@ -374,9 +393,11 @@
                     <h3>What kind of rubrics are supported?</h3>
                 </div>
                 <div class="faq-content">
-                    <p>Kangarubric has been developed to import rubrics that follow the template provided in the course details form.</p>
+                    <p>Kangarubric has been developed to import rubrics that follow the template provided in the course
+                        details form.</p>
                     <p>It will only work reliably if that template has not been modified.</p>
-                    <p>Additional rating columns will not import correctly. If your rubric does not follow the structure of the template, please import it manually.</p>
+                    <p>Additional rating columns will not import correctly. If your rubric does not follow the structure
+                        of the template, please import it manually.</p>
                 </div>
             </div>
             <div class="faq-item">
@@ -389,7 +410,8 @@
                         <li>In your course, navigate to 'Rubrics' in the course menu on the left side.</li>
                         <li>In the top right, click 'Import rubric'.</li>
                         <li>Upload your CSV file.</li>
-                        <li>After a moment, it should successfully import. You will see it appear in your rubrics list as a draft.</li>
+                        <li>After a moment, it should successfully import. You will see it appear in your rubrics list
+                            as a draft.</li>
                         <li>Click the three dots '...' on the right of your imported rubric and click 'Edit'.</li>
                         <li>Click 'Save Rubric'. You can now add it to an assignment.</li>
                     </ol>
@@ -398,9 +420,12 @@
                         <li>Navigate to 'Assignments' in the course menu on the left side.</li>
                         <li>Open an assignment.</li>
                         <li>Click 'Find Rubric'.</li>
-                        <li>Select your rubric and click '+ Add'. If it doesn't appear in the list, follow the instructions above to save your draft rubric.</li>
+                        <li>Select your rubric and click '+ Add'. If it doesn't appear in the list, follow the
+                            instructions above to save your draft rubric.</li>
                     </ol>
-                    <p>If you cannot see your rubric in the 'Find a rubric' list, make sure that your rubric is not still a draft. Refresh the assignment page. If you still cannot see it, try duplicating the rubric and see if the copy appears.</p>
+                    <p>If you cannot see your rubric in the 'Find a rubric' list, make sure that your rubric is not
+                        still a draft. Refresh the assignment page. If you still cannot see it, try duplicating the
+                        rubric and see if the copy appears.</p>
 
                 </div>
             </div>
@@ -418,8 +443,13 @@
                         <li>P: 65% - 50% of the max points for the criterion.</li>
                         <li>F: &lt;50% of the max points for the criterion.</li>
                     </ul>
-                    <p>There is a 0.01 points 'gap' between each level. For example, if a given criterion is worth 50% of the marks, then a top score is 50 points, the low end of HD is 42.5 points, and the high end of D is 42.49 points.</p>
-                    <p>Please note: As of 14/2/25, Canvas has a bug where decimal points <strong>will not import</strong> and instead are truncated to their floor values (i.e. 10.9 or 10.1 both become 10). This bug has been fixed but not yet pushed out in an update. Until that happens, please manually adjust the points after importing your rubric.</p>
+                    <p>There is a 0.01 points 'gap' between each level. For example, if a given criterion is worth 50%
+                        of the marks, then a top score is 50 points, the low end of HD is 42.5 points, and the high end
+                        of D is 42.49 points.</p>
+                    <p>Please note: As of 14/2/25, Canvas has a bug where decimal points <strong>will not
+                            import</strong> and instead are truncated to their floor values (i.e. 10.9 or 10.1 both
+                        become 10). This bug has been fixed but not yet pushed out in an update. Until that happens,
+                        please manually adjust the points after importing your rubric.</p>
                 </div>
             </div>
             <div class="faq-item">
@@ -428,9 +458,14 @@
                     <h3>Why are there no decimal points in the rating points?</h3>
                 </div>
                 <div class="faq-content">
-                    <p>This is due to a bug in Canvas where decimal points <strong>will not import</strong> and instead are rounded down (i.e. 10.9 or 10.1 both become 10). This bug has been fixed but not yet pushed out in an update. Until that happens, please manually adjust the points after importing your rubric.</p>
+                    <p>This is due to a bug in Canvas where decimal points <strong>will not import</strong> and instead
+                        are rounded down (i.e. 10.9 or 10.1 both become 10). This bug has been fixed but not yet pushed
+                        out in an update. Until that happens, please manually adjust the points after importing your
+                        rubric.</p>
                     <p>You can see the correct values to use if you open the CSV file in Excel.</p>
-                    <p>Kangarubric is correctly including the decimal point values in your CSV, but Canvas is not correctly interpreting them. Once Instructure fix this bug, you will immediately be able to re-import any rubric created using Kangarubric and it will work as expected.</p>
+                    <p>Kangarubric is correctly including the decimal point values in your CSV, but Canvas is not
+                        correctly interpreting them. Once Instructure fix this bug, you will immediately be able to
+                        re-import any rubric created using Kangarubric and it will work as expected.</p>
                 </div>
             </div>
             <div class="faq-item">
@@ -439,8 +474,10 @@
                     <h3>Why weren't any rubrics found in my document?</h3>
                 </div>
                 <div class="faq-content">
-                    <p>Kangarubric only detects rubrics that use the AU Course Details form. If any headings or the rubric table have been modified (cells added or deleted), it may not work.</p>
-                    <p>Specifically, it retrieves all tables between the "* Assessment Rubric" and "* Course Content Breakdown" headings, then processes them assuming that they follow the template.</p>
+                    <p>Kangarubric only detects rubrics that use the AU Course Details form. If any headings or the
+                        rubric table have been modified (cells added or deleted), it may not work.</p>
+                    <p>Specifically, it retrieves all tables between the "* Assessment Rubric" and "* Course Content
+                        Breakdown" headings, then processes them assuming that they follow the template.</p>
                 </div>
             </div>
 
@@ -450,8 +487,10 @@
                     <h3>Why am I seeing red error text in my rubric?</h3>
                 </div>
                 <div class="faq-content">
-                    <p>These errors will appear if Kangarubric cannot find CLOs or percentage values in the criterion cell.</p>
-                    <p>For best results, format percentages like this: <strong>(50%)</strong><br>And CLOs like this: <strong>(CLO 1, 2, 3)</strong></p>
+                    <p>These errors will appear if Kangarubric cannot find CLOs or percentage values in the criterion
+                        cell.</p>
+                    <p>For best results, format percentages like this: <strong>(50%)</strong><br>And CLOs like this:
+                        <strong>(CLO 1, 2, 3)</strong></p>
                 </div>
             </div>
 
@@ -461,7 +500,8 @@
                     <h3>What happened to my bold/italics/lists?</h3>
                 </div>
                 <div class="faq-content">
-                    <p>Canvas does not support rich text in rubrics. Bold, italics and underlines are discarded, while lists are converted to plain text using a hyphen/dash as the marker.</p>
+                    <p>Canvas does not support rich text in rubrics. Bold, italics and underlines are discarded, while
+                        lists are converted to plain text using a hyphen/dash as the marker.</p>
                 </div>
             </div>
 
@@ -472,7 +512,9 @@
                 </div>
                 <div class="faq-content">
                     <p>Because Canvas does not support this. They used to. But now they don't. I don't know why.</p>
-                    <p>Kangarubric has been developed to support new lines in criteria descriptions as soon as Canvas supports this again. It's currently operating in a 'compatibility mode' of sorts, which will be turned off once this change is made in a future Canvas update.</p>
+                    <p>Kangarubric has been developed to support new lines in criteria descriptions as soon as Canvas
+                        supports this again. It's currently operating in a 'compatibility mode' of sorts, which will be
+                        turned off once this change is made in a future Canvas update.</p>
                     <p>In the meantime, there's nothing you can do about it. Sorry.</p>
                 </div>
             </div>
@@ -483,7 +525,9 @@
                     <h3>Why are my criteria being renamed to 'Criterion 1', 'Criterion 2', etc.?</h3>
                 </div>
                 <div class="faq-content">
-                    <p>Since criterion names share a cell with the description we cannot reliably tell where the name ends and the description begins. You can edit the names manually either in Kangarubric or in Canvas.</p>
+                    <p>Since criterion names share a cell with the description we cannot reliably tell where the name
+                        ends and the description begins. You can edit the names manually either in Kangarubric or in
+                        Canvas.</p>
                 </div>
             </div>
 
@@ -494,8 +538,13 @@
                 </div>
                 <div class="faq-content">
                     <p>While this shouldn't happen, it is possible.</p>
-                    <p>Kangarubric only expects to find paragraph text and lists in any rubric table cell. If your rubric contains any other content (such as images or hyperlinks), it probably won't work. Canvas doesn't support anything other than plain text anyway.</p>
-                    <p>If you you don't think there's anything wrong with your course details form and you are still having problems with Kangarubric, please email the word document, CSV file (if possible) and a detailed description of the problem to <a href="mailto:tim.churchward@adelaide.edu.au">Tim Churchward</a>.</p>
+                    <p>Kangarubric only expects to find paragraph text and lists in any rubric table cell. If your
+                        rubric contains any other content (such as images or hyperlinks), it probably won't work. Canvas
+                        doesn't support anything other than plain text anyway.</p>
+                    <p>If you you don't think there's anything wrong with your course details form and you are still
+                        having problems with Kangarubric, please email the word document, CSV file (if possible) and a
+                        detailed description of the problem to <a href="mailto:tim.churchward@adelaide.edu.au">Tim
+                            Churchward</a>.</p>
                 </div>
             </div>
 
@@ -505,8 +554,10 @@
                     <h3>Why did my rubric get split into multiple rubrics?</h3>
                 </div>
                 <div class="faq-content">
-                    <p>This can happen if the Word document contains mutliple tables for the one rubric. Check it carefully to see if the table ends, then a new one starts right below it.</p>
-                    <p>To fix this problem, remove the additional tables and move the content into the same table as the assessment rubric.</p>
+                    <p>This can happen if the Word document contains mutliple tables for the one rubric. Check it
+                        carefully to see if the table ends, then a new one starts right below it.</p>
+                    <p>To fix this problem, remove the additional tables and move the content into the same table as the
+                        assessment rubric.</p>
                 </div>
             </div>
 
@@ -520,7 +571,7 @@
                 </div>
             </div>
 
-            
+
         </div>
 
         <footer>
@@ -538,7 +589,7 @@
         document.querySelectorAll('.faq-header').forEach(header => {
             header.addEventListener('click', () => {
                 header.parentElement.classList.toggle('expanded');
-                
+
                 // If expanding, scroll the FAQ item into view with some padding at the top
                 if (header.parentElement.classList.contains('expanded')) {
                     setTimeout(() => {
@@ -566,12 +617,12 @@
         function processHtmlContent(element) {
             const p = document.createElement('p');
             let isFirstBlock = true;
-            
+
             // Helper function to process lists recursively
             function processListItems(listElement, level = 0) {
                 const items = listElement.children;
                 const results = [];
-                
+
                 Array.from(items).forEach((item, index) => {
                     // Get the item's direct text content (excluding nested lists)
                     let itemText = '';
@@ -582,12 +633,12 @@
                             itemText += node.textContent;
                         }
                     });
-                    
+
                     // Create the indentation
                     const indent = ' '.repeat(4 * level);
                     const marker = listElement.tagName === 'UL' ? '- ' : `${index + 1}. `;
                     results.push(indent + marker + itemText);
-                    
+
                     // Process any nested lists
                     const nestedLists = item.querySelectorAll(':scope > ul, :scope > ol');
                     nestedLists.forEach(nestedList => {
@@ -595,10 +646,10 @@
                         results.push(...nestedItems);
                     });
                 });
-                
+
                 return results;
             }
-            
+
             // Process each block element (p, ul, ol) in order
             const blocks = element.children;
             Array.from(blocks).forEach(block => {
@@ -621,26 +672,26 @@
                     const content = block.innerHTML;
                     const temp = document.createElement('div');
                     temp.innerHTML = content;
-                    
+
                     // First, collect all text and br nodes
                     const nodes = [];
                     const walker = document.createTreeWalker(
                         temp,
                         NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
                         {
-                            acceptNode: function(node) {
+                            acceptNode: function (node) {
                                 if (node.nodeType === Node.TEXT_NODE) return NodeFilter.FILTER_ACCEPT;
                                 if (node.tagName === 'BR') return NodeFilter.FILTER_ACCEPT;
                                 return NodeFilter.FILTER_SKIP;
                             }
                         }
                     );
-                    
+
                     let node;
                     while (node = walker.nextNode()) {
                         nodes.push(node);
                     }
-                    
+
                     // Then process them as a group
                     if (nodes.length > 0) {
                         let text = '';
@@ -651,7 +702,7 @@
                                 text += '\n';
                             }
                         });
-                        
+
                         const lines = text.split('\n');
                         lines.forEach((line, index) => {
                             if (index > 0) {
@@ -667,17 +718,17 @@
             // Trim the start and end without losing line breaks
             const firstChild = p.firstChild;
             const lastChild = p.lastChild;
-            
+
             // Trim start
             if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
                 firstChild.textContent = firstChild.textContent.trimStart();
             }
-            
+
             // Trim end
             if (lastChild && lastChild.nodeType === Node.TEXT_NODE) {
                 lastChild.textContent = lastChild.textContent.trimEnd();
             }
-            
+
             return p;
         }
 
@@ -702,7 +753,7 @@
             let maxScore = null;
             let scoreText = '';
             const scoreMatches = getAllTextContent(cell).match(/\(?\d{1,3}%\)?/g);
-            
+
             if (!scoreMatches) {
                 scoreText = '(NotFound%)';
             } else {
@@ -743,14 +794,14 @@
             // Version that matches both CLO/CO (commented out to avoid accidental matches with CO2 etc)
             // const cloRegex = /(?:\((?:(?:CLOs?|COs?)\W*\s*\d+(?:\s*[,;&]\s*(?:(?:CLOs?|COs?)\W*\s*)?\d+)*)\))|(?:(?:CLOs?|COs?)\W*\s*\d+(?:\s*[,;&]\s*(?:(?:CLOs?|COs?)\W*\s*)?\d+)*)/i;
 
-        // Version that only matches CLO variants (safer as it won't match CO2 etc)
-        const cloRegex = /(?:\((?:CLOs?\W*\s*\d+(?:\s*[,;&]\s*(?:CLOs?\W*\s*)?\d+)*)\))|(?:CLOs?\W*\s*\d+(?:\s*[,;&]\s*(?:CLOs?\W*\s*)?\d+)*)/gi;
+            // Version that only matches CLO variants (safer as it won't match CO2 etc)
+            const cloRegex = /(?:\((?:CLOs?\W*\s*\d+(?:\s*[,;&]\s*(?:CLOs?\W*\s*)?\d+)*)\))|(?:CLOs?\W*\s*\d+(?:\s*[,;&]\s*(?:CLOs?\W*\s*)?\d+)*)/gi;
             const allCloMatches = [...getAllTextContent(cell).matchAll(cloRegex)];
 
             if (allCloMatches.length > 0) {
                 // Set to store unique CLO numbers
                 const uniqueNumbers = new Set();
-                
+
                 // Process each CLO match
                 allCloMatches.forEach(match => {
                     const cloContent = match[0];
@@ -766,11 +817,11 @@
                             }
                         });
                 });
-                
+
                 // Convert to array, sort numerically, and format
                 const numbers = Array.from(uniqueNumbers)
                     .sort((a, b) => parseInt(a) - parseInt(b));
-                
+
                 cloText = numbers.length > 0 ? `(CLO ${numbers.join(', ')})` : '(CLO NotFound)';
             } else {
                 cloText = '(CLO NotFound)';
@@ -793,11 +844,11 @@
                 // Remove criterion names
                 text = text.replace(/(?:Criterion|Criteria)\s+\d+/gi, '');
                 text = cleanText(text);
-                
+
                 // Remove all percentages from the description
                 text = text.replace(/\(?\d+%\)?/g, '');
                 text = cleanText(text);
-                
+
                 // Remove CLOs if found
                 if (allCloMatches.length > 0) {
                     text = text.replace(cloRegex, '');
@@ -881,7 +932,7 @@
             // Clear any existing output
             const output = document.getElementById('output');
             output.innerHTML = '';
-            
+
             if (file && file.name.endsWith('.docx')) {
                 currentFile = file;
                 dropZone.querySelector('p').textContent = `Selected: ${file.name}`;
@@ -901,7 +952,7 @@
                 log('No file selected');
                 return;
             }
-            
+
             hasShownCOWarning = false; // Reset the warning flag for each new document
 
             log('Starting file processing');
@@ -920,20 +971,20 @@
 
                 // Helper function to extract content from a table
                 const extractTableContent = (table) => {
-                    log('Extracting content from nested table with dimensions: ' + 
-                        table.getElementsByTagName('tr').length + ' rows x ' + 
+                    log('Extracting content from nested table with dimensions: ' +
+                        table.getElementsByTagName('tr').length + ' rows x ' +
                         (table.getElementsByTagName('tr')[0]?.getElementsByTagName('td').length || 0) + ' columns');
-                    
+
                     // Create a single paragraph to hold all content
                     const paragraph = document.createElement('p');
                     paragraph.contentEditable = 'true';
-                    
+
                     // Process each row
                     const rows = table.getElementsByTagName('tr');
                     Array.from(rows).forEach((row, rowIndex) => {
                         const cells = row.getElementsByTagName('td');
                         if (cells.length === 0) return; // Skip header rows
-                        
+
                         Array.from(cells).forEach((cell, i) => {
                             // Get the text content, handling any nested tables recursively
                             const nestedTables = cell.getElementsByTagName('table');
@@ -943,7 +994,7 @@
                                     nestedTable.parentNode.replaceChild(nestedContent, nestedTable);
                                 });
                             }
-                            
+
                             const cellText = cell.textContent.trim();
                             if (cellText) {
                                 if (paragraph.textContent) {
@@ -954,7 +1005,7 @@
                             }
                         });
                     });
-                    
+
                     return paragraph;
                 };
 
@@ -987,7 +1038,7 @@
                         log('Flattened ' + nestedTableCount + ' nested tables in table ' + (index + 1));
                     }
                 });
-                
+
                 // Find all tables (now without any nested ones)
                 const tables = tempDiv.getElementsByTagName('table');
                 log(`Found ${tables.length} tables in document`);
@@ -999,17 +1050,17 @@
                 for (let i = 0; i < tables.length; i++) {
                     const table = tables[i];
                     const cells = table.getElementsByTagName('td');
-                    
+
                     if (cells.length === 1) {
                         const cellText = cells[0].textContent.trim();
                         log(`Found single-cell table with text: "${cellText}"`);
-                        
+
                         if (cellText.includes("Assessment Rubric")) {
                             foundRubricStart = true;
                             log('Found Assessment Rubric marker');
                             continue;
                         }
-                        
+
                         if (cellText.includes("Course Content Breakdown")) {
                             foundContentBreakdown = true;
                             log('Found Content Breakdown marker');
@@ -1032,33 +1083,33 @@
                     log('No rubrics found');
                 } else {
                     log(`Found ${rubricTables.length} rubric tables`);
-                    
+
                     // Clear the output before adding new content
                     output.innerHTML = '';
-                    
+
                     rubricTables.forEach((table, index) => {
                         // Create the accordion container
                         const rubricDiv = document.createElement('div');
                         rubricDiv.className = 'rubric-accordion expanded';
-                        
+
                         // Create header container
                         const headerDiv = document.createElement('div');
                         headerDiv.className = 'rubric-header';
-                        
+
                         // Add expand icon
                         const expandIcon = document.createElement('div');
                         expandIcon.className = 'expand-icon';
                         headerDiv.appendChild(expandIcon);
-                        
+
                         // Create content container
                         const contentDiv = document.createElement('div');
                         contentDiv.className = 'rubric-content';
-                        
+
                         // Add click handler for accordion
                         headerDiv.addEventListener('click', () => {
                             rubricDiv.classList.toggle('expanded');
                         });
-                        
+
                         // Extract assignment name from first row of this table
                         let assignmentName = '';
                         const firstRow = table.rows[0];
@@ -1082,21 +1133,21 @@
                         // Create clean table
                         const cleanTable = document.createElement('table');
                         cleanTable.className = 'rubric-table';
-                        
+
                         // Create header
                         const thead = document.createElement('thead');
                         const headerRow = document.createElement('tr');
                         const headers = ['Criteria', 'High Distinction', 'Distinction', 'Credit', 'Pass', 'Fail'];
-                        
+
                         headers.forEach(text => {
                             const th = document.createElement('th');
                             th.textContent = text;
                             headerRow.appendChild(th);
                         });
-                        
+
                         thead.appendChild(headerRow);
                         cleanTable.appendChild(thead);
-                        
+
                         const tbody = document.createElement('tbody');
                         cleanTable.appendChild(tbody);
 
@@ -1104,11 +1155,11 @@
                         const rows = table.getElementsByTagName('tr');
                         let skipNextRow = false;
                         let criterionNumber = 1; // Initialize criterion counter for this table
-                        
+
                         // Start from index 1 to skip the title row
                         for (let i = 1; i < rows.length; i++) {
                             const row = rows[i];
-                            
+
                             // Skip the Course Learning Outcomes row and the row after it
                             const rowText = row.textContent.trim().toLowerCase();
                             if (rowText.includes('course learning outcomes')) {
@@ -1147,7 +1198,7 @@
                                         hasContent = true;
                                     }
                                 }
-                                
+
                                 newRow.appendChild(newCell);
                             }
 
@@ -1160,7 +1211,7 @@
                         // Add the clean table to the rubric div
                         contentDiv.appendChild(cleanTable);
                         rubricDiv.appendChild(contentDiv);
-                        
+
                         // After processing, check if the table is blank
                         const isBlankTable = Array.from(cleanTable.rows).every(row => {
                             // Check all cells except the first one
@@ -1175,7 +1226,7 @@
                             // Add a download button for CSV export
                             const downloadButton = document.createElement('button');
                             downloadButton.textContent = 'Download CSV';
-                            downloadButton.onclick = function() {
+                            downloadButton.onclick = function () {
                                 const csvContent = generateCSVContent(cleanTable, heading.textContent.trim());
                                 downloadCSV(csvContent, `${heading.textContent.trim().replace(/\s+/g, '_')}_rubric.csv`);
                             };
@@ -1185,7 +1236,7 @@
 
                         // Add the complete rubric div to the output
                         output.appendChild(rubricDiv);
-                        
+
                         // If this is the first rubric, scroll to its heading
                         if (index === 0) {
                             // Use requestAnimationFrame to wait for DOM update
@@ -1326,6 +1377,7 @@
 
         log('Application initialized');
     </script>
-   
+
 </body>
+
 </html>
