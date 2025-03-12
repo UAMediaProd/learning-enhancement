@@ -1,0 +1,332 @@
+:root {
+    --primary-color: #2c5530;
+    /* Dark forest green */
+    --secondary-color: #4a7350;
+    /* Medium forest green */
+    --tertiary-color: #e1eae1;
+    /* Sage */
+    --background-color: #f4f7f4;
+    /* Light sage */
+    --text-color: #1a1f1a;
+    /* Dark green-gray */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+}
+
+.drop-zone {
+    border: 2px dashed var(--primary-color);
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    background-color: white;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.drop-zone.dragover {
+    background-color: rgba(0, 122, 255, 0.1);
+    border-color: var(--secondary-color);
+}
+
+.drop-zone p {
+    margin: 0;
+    font-size: 1.2em;
+    color: #666;
+}
+
+#fileInput {
+    display: none;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+#output {
+    margin-top: 30px;
+    margin-bottom: 60px;
+    /* Make room for footer */
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background-color);
+    padding: 2px 20px;
+    border-top: 1px solid var(--tertiary-color);
+    font-size: 0.8em;
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+footer label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.rubric-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.rubric-table th,
+.rubric-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.rubric-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.rubric-table th:first-child {
+    text-align: left;
+    width: 25%;
+}
+
+.rubric-table td:first-child {
+    width: 25%;
+}
+
+.rubric-table td {
+    width: 15%;
+    vertical-align: top;
+}
+
+.rubric-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+
+
+.debug-entry {
+    margin: 5px 0;
+    padding: 5px;
+    border-bottom: 1px solid #333;
+}
+
+.error-text {
+    color: #FF3B30;
+    font-weight: bold;
+    display: block;
+    margin-top: 4px;
+}
+
+.criterion-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.criterion-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.criterion-name {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.criterion-score {
+    color: #444;
+}
+
+.criterion-description {
+    margin: 8px 0;
+}
+
+.criterion-clos, .rating-points {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.instructions {
+    background-color: var(--tertiary-color);
+    border-radius: 6px;
+    padding: 20px 30px;
+    margin: 20px 0;
+    color: var(--text-color);
+}
+
+.instructions p {
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.instructions p strong {
+    color: var(--primary-color);
+}
+
+/* Preserve whitespace in cell content */
+td p {
+    white-space: pre-wrap;
+}
+
+/* Accordion styles */
+.rubric-accordion {
+    margin-bottom: 1em;
+}
+
+.rubric-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    margin: 0;
+    padding: 0.5em;
+    background-color: var(--tertiary-color);
+    border-radius: 4px;
+}
+
+.rubric-header:hover {
+    background-color: #d4e1d4;
+}
+
+.rubric-header h2 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.expand-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 0 6px 10px;
+    border-color: transparent transparent transparent var(--primary-color);
+    margin-right: 10px;
+    transition: transform 0.2s ease;
+}
+
+.expanded .expand-icon {
+    transform: rotate(90deg);
+}
+
+.rubric-content {
+    display: none;
+    padding: 1em 0;
+}
+
+.expanded .rubric-content {
+    display: block;
+}
+
+/* FAQ styles */
+.faq-section {
+    margin-top: 3em;
+    margin-bottom: 3em;
+    border-top: 1px solid var(--primary-color);
+}
+
+.faq-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5em;
+}
+
+.faq-item {
+    margin-bottom: 0.5em;
+}
+
+.faq-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.75em;
+    background-color: var(--tertiary-color);
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.faq-header:hover {
+    background-color: #d4e1d4;
+}
+
+.faq-header h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: var(--primary-color);
+}
+
+.faq-content {
+    display: none;
+    padding: 1em;
+    background-color: var(--background-color);
+    border-radius: 0 0 4px 4px;
+    margin-top: 2px;
+}
+
+.faq-item.expanded .faq-content {
+    display: block;
+}
+
+/* Style the note paragraph */
+.instructions .note {
+    background-color: var(--background-color);
+    padding: 15px;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-radius: 0 6px 6px 0;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid var(--primary-color);
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-decoration: none;
+    border-bottom: 2px solid var(--primary-color);
+}
