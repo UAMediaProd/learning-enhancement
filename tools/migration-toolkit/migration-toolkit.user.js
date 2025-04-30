@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.21
+// @version      0.31
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
@@ -20,7 +20,7 @@
 
 const AUMigrationToolkit = (function() {
     // Private variables
-    const VERSION = '0.21';
+    const VERSION = '0.31';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
@@ -172,6 +172,13 @@ const AUMigrationToolkit = (function() {
      */
     function makeDraggable(element, handle) {
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        let startX = 0, startY = 0;
+        let startTime = 0;
+        let hasMoved = false;
+        
+        // Constants for click vs. drag detection
+        const DRAG_THRESHOLD = 3; // pixels
+        const CLICK_TIME_THRESHOLD = 300; // milliseconds
         
         handle.onmousedown = dragMouseDown;
         
@@ -179,8 +186,14 @@ const AUMigrationToolkit = (function() {
             e = e || window.event;
             e.preventDefault();
             
-            // Set dragging flag
+            // Reset flags
             isDragging = false;
+            hasMoved = false;
+            
+            // Record start position and time
+            startX = e.clientX;
+            startY = e.clientY;
+            startTime = Date.now();
             
             // Get mouse position at startup
             pos3 = e.clientX;
@@ -194,8 +207,16 @@ const AUMigrationToolkit = (function() {
             e = e || window.event;
             e.preventDefault();
             
-            // If we've moved, we're definitely dragging
-            isDragging = true;
+            // Calculate distance moved
+            const dx = Math.abs(e.clientX - startX);
+            const dy = Math.abs(e.clientY - startY);
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // If we've moved beyond the threshold, mark as dragging
+            if (distance > DRAG_THRESHOLD) {
+                hasMoved = true;
+                isDragging = true;
+            }
             
             // Calculate new position
             pos1 = pos3 - e.clientX;
@@ -218,11 +239,22 @@ const AUMigrationToolkit = (function() {
             // Save position to localStorage
             savePosition();
             
-            // Reset the dragging flag after a short delay
-            // This allows click events to process first if there was no actual drag
-            setTimeout(() => {
+            // Calculate total time and determine if this was a click or drag
+            const totalTime = Date.now() - startTime;
+            
+            // If it was a short interaction with minimal movement, treat as a click
+            if (!hasMoved && totalTime < CLICK_TIME_THRESHOLD) {
                 isDragging = false;
-            }, 10);
+            } else if (hasMoved) {
+                // If there was significant movement, it was a drag
+                // Keep isDragging true for a moment to prevent accidental clicks
+                setTimeout(() => {
+                    isDragging = false;
+                }, 50);
+            } else {
+                // Reset the flag immediately for other cases
+                isDragging = false;
+            }
         }
     }
     
@@ -415,6 +447,30 @@ const AUMigrationToolkit = (function() {
                 toolsContainer.style.bottom = 'auto';
                 toolsContainer.style.right = 'auto';
             }
+            
+            // Check if the position is outside the viewport
+            setTimeout(() => {
+                const rect = toolsContainer.getBoundingClientRect();
+                const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+                const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+                
+                const isOutsideViewport = (
+                    rect.left < 0 ||
+                    rect.top < 0 ||
+                    rect.right > viewportWidth ||
+                    rect.bottom > viewportHeight
+                );
+                
+                if (isOutsideViewport) {
+                    console.log('[AU Migration Toolkit] Saved position is outside viewport, resetting to default');
+                    // Reset to default position (bottom right)
+                    toolsContainer.style.top = 'auto';
+                    toolsContainer.style.left = 'auto';
+                    toolsContainer.style.bottom = '20px';
+                    toolsContainer.style.right = '20px';
+                    savePosition(); // Update saved position
+                }
+            }, 0); // Use setTimeout to ensure the DOM has updated with the applied position
         } catch (error) {
             console.error('[AU Migration Toolkit] Error restoring position:', error);
         }
@@ -582,6 +638,144 @@ const AUMigrationToolkit = (function() {
     }
     
     /**
+     * Utility functions for working with Canvas pages
+     */
+    const CanvasUtils = {
+        /**
+         * Get the HTML content of the current Canvas page
+         * @returns {string|null} The HTML content of the page or null if not available
+         */
+        getPage: function() {
+            // Access ENV directly from the window object at the time of calling
+            // This ensures we get the current state of ENV, not the state when the script loaded
+            try {
+                // Try to access the ENV object in different ways
+                // 1. Direct window.ENV access
+                if (window.ENV && window.ENV.WIKI_PAGE && window.ENV.WIKI_PAGE.body) {
+                    console.log('[AU Migration Toolkit] Found page content via window.ENV');
+                    return window.ENV.WIKI_PAGE.body;
+                }
+                
+                // 2. Try to find it in the global scope
+                if (typeof ENV !== 'undefined' && ENV.WIKI_PAGE && ENV.WIKI_PAGE.body) {
+                    console.log('[AU Migration Toolkit] Found page content via global ENV');
+                    return ENV.WIKI_PAGE.body;
+                }
+                
+                // 3. Try to extract it from the page content if it exists in a script tag
+                const envScripts = document.querySelectorAll('script:not([src])');
+                for (const script of envScripts) {
+                    if (script.textContent.includes('ENV = {') || script.textContent.includes('ENV={')) {
+                        console.log('[AU Migration Toolkit] Attempting to extract ENV from script tag');
+                        try {
+                            // This is a bit risky but might work in some cases
+                            // Extract the ENV object definition and evaluate it
+                            const envMatch = script.textContent.match(/ENV\s*=\s*({[\s\S]*?});/);
+                            if (envMatch && envMatch[1]) {
+                                const extractedEnv = eval('(' + envMatch[1] + ')');
+                                if (extractedEnv.WIKI_PAGE && extractedEnv.WIKI_PAGE.body) {
+                                    console.log('[AU Migration Toolkit] Successfully extracted page content from script tag');
+                                    return extractedEnv.WIKI_PAGE.body;
+                                }
+                            }
+                        } catch (evalError) {
+                            console.error('[AU Migration Toolkit] Error evaluating ENV from script:', evalError);
+                        }
+                    }
+                }
+                
+                // No DOM fallback - we only want the original content from ENV
+                
+                console.log('[AU Migration Toolkit] Could not find page content');
+                return null;
+            } catch (error) {
+                console.error('[AU Migration Toolkit] Error getting page content:', error);
+                return null;
+            }
+        },
+        
+        /**
+         * Get the current page path from ENV
+         * @returns {Object|null} Object containing courseId and pageUrl, or null if not available
+         */
+        getCurrentPageInfo: function() {
+            try {
+                // Try to get the page path from ENV
+                let pagePath = null;
+                
+                // Check different ENV locations
+                if (window.ENV && window.ENV.WIKI_PAGE_SHOW_PATH) {
+                    pagePath = window.ENV.WIKI_PAGE_SHOW_PATH;
+                } else if (typeof ENV !== 'undefined' && ENV.WIKI_PAGE_SHOW_PATH) {
+                    pagePath = ENV.WIKI_PAGE_SHOW_PATH;
+                }
+                
+                if (!pagePath) {
+                    console.log('[AU Migration Toolkit] Could not find page path in ENV');
+                    return null;
+                }
+                
+                // Extract course ID and page URL from the path
+                // Format: /courses/4493/pages/home-page-intbus-3002-2024
+                const match = pagePath.match(/\/courses\/(\d+)\/pages\/([^\/]+)/);
+                if (!match) {
+                    console.log('[AU Migration Toolkit] Could not parse page path:', pagePath);
+                    return null;
+                }
+                
+                return {
+                    courseId: match[1],
+                    pageUrl: match[2]
+                };
+            } catch (error) {
+                console.error('[AU Migration Toolkit] Error getting current page info:', error);
+                return null;
+            }
+        },
+        
+        /**
+         * Update the current Canvas page
+         * @param {string} newBody - The new HTML content for the page
+         * @param {Object} options - Additional options for the update
+         * @returns {Promise} A promise that resolves when the page is updated
+         */
+        updatePage: async function(newBody, options = {}) {
+            try {
+                // Get the current page info
+                const pageInfo = this.getCurrentPageInfo();
+                if (!pageInfo) {
+                    throw new Error('Could not determine current page information');
+                }
+                
+                const { courseId, pageUrl } = pageInfo;
+                
+                // Prepare the update data
+                const updateData = {
+                    body: newBody,
+                    ...options
+                };
+                
+                // Use the Canvas API to update the page
+                console.log(`[AU Migration Toolkit] Updating page ${pageUrl} in course ${courseId}`);
+                const result = await CanvasAPI.updatePage(courseId, pageUrl, updateData);
+                
+                console.log('[AU Migration Toolkit] Page updated successfully:', result);
+                
+                // Refresh the page to show the changes
+                if (options.refresh !== false) {
+                    console.log('[AU Migration Toolkit] Refreshing page...');
+                    setTimeout(() => window.location.reload(), 500);
+                }
+                
+                return result;
+            } catch (error) {
+                console.error('[AU Migration Toolkit] Error updating page:', error);
+                throw error;
+            }
+        }
+    };
+    
+    /**
      * Canvas LMS API Client
      */
     const CanvasAPI = {
@@ -633,6 +827,14 @@ const AUMigrationToolkit = (function() {
                 const response = await fetch(url, fetchOptions);
                 
                 if (!response.ok) {
+                    // Handle specific error codes
+                    if (response.status === 401) {
+                        console.error('[AU Migration Toolkit] Authentication failed: Invalid API key');
+                        alert('Canvas API authentication failed. Your API key may be invalid or expired. Please check your settings.');
+                        openSettings(); // Open settings dialog to let user update the key
+                        throw new Error('Authentication failed: Invalid API key');
+                    }
+                    
                     throw new Error(`Canvas API error: ${response.status} ${response.statusText}`);
                 }
                 
@@ -684,7 +886,8 @@ const AUMigrationToolkit = (function() {
         defineTool,
         categories,
         VERSION,
-        CanvasAPI // Expose the Canvas API client
+        CanvasAPI, // Expose the Canvas API client
+        CanvasUtils // Expose Canvas utility functions
     };
 })();
 
@@ -727,11 +930,49 @@ AUMigrationToolkit.defineTool(
 AUMigrationToolkit.defineTool(
     'hello-world',
     'Hello World',
-    'Description of what this tool does',
+    'Demonstrates getting the current page content',
     ['.*\\.adelaide\\.edu\\.au.*'], // URL patterns where this tool should appear
     function() {
-        // Tool implementation goes here
-        alert('Hello World!');
+        // Get the current page content using CanvasUtils
+        const pageContent = AUMigrationToolkit.CanvasUtils.getPage();
+        
+        if (pageContent) {
+            console.log('Current page content:', pageContent);
+        } else {
+            console.log('No page content available. Are you on a Canvas wiki page?');
+        }
+    },
+    { category: AUMigrationToolkit.categories.CONTENT }
+);
+
+// Update Page demonstration tool
+AUMigrationToolkit.defineTool(
+    'update-page',
+    'Update Page',
+    'Updates the current page with Hello World content',
+    ['.*\\.adelaide\\.edu\\.au.*'], // URL patterns where this tool should appear
+    async function() {
+        try {
+            // Get the current page info to confirm we're on a wiki page
+            const pageInfo = AUMigrationToolkit.CanvasUtils.getCurrentPageInfo();
+            if (!pageInfo) {
+                alert('Could not determine current page information. Are you on a Canvas wiki page?');
+                return;
+            }
+            
+            // Confirm before updating
+            if (!confirm(`Are you sure you want to update the page "${pageInfo.pageUrl}" in course ${pageInfo.courseId}?`)) {
+                return;
+            }
+            
+            // Update the page with Hello World content
+            await AUMigrationToolkit.CanvasUtils.updatePage('<h1>HELLO WORLD!</h1>');
+            
+            // Note: The page will automatically refresh after update
+        } catch (error) {
+            console.error('Error updating page:', error);
+            alert(`Error updating page: ${error.message}`);
+        }
     },
     { category: AUMigrationToolkit.categories.CONTENT }
 );
@@ -740,24 +981,53 @@ AUMigrationToolkit.defineTool(
 AUMigrationToolkit.defineTool(
     'fix-dp-grid',
     'Fix DP Grid Layout',
-    'Fixes display problems with DP grid layouts',
+    'Fixes display problems with DP grid layouts and saves the changes',
     ['.*\\.unisa\\.edu\\.au.*', '.*\\.adelaide\\.edu\\.au.*'],
-    function() {
-        const dpGrids = document.querySelectorAll('.dp-link-grid');
-        if (dpGrids.length === 0) {
-            alert('No DP grids found on this page.');
-            return;
-        }
-        
-        dpGrids.forEach(grid => {
-            grid.querySelectorAll('*').forEach(child => {
-                child.removeAttribute('style');
-                child.style.margin = 'initial';
+    async function() {
+        try {
+            // Get the current page content
+            const pageContent = AUMigrationToolkit.CanvasUtils.getPage();
+            if (!pageContent) {
+                alert('Could not retrieve the page content. Are you on a Canvas wiki page?');
+                return;
+            }
+            
+            // Create a temporary DOM element to manipulate the content
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = pageContent;
+            
+            // Find DP grids in the temporary DOM
+            const dpGrids = tempContainer.querySelectorAll('.dp-link-grid');
+            if (dpGrids.length === 0) {
+                alert('No DP grids found on this page.');
+                return;
+            }
+            
+            // Fix the grids in the temporary DOM
+            dpGrids.forEach(grid => {
+                grid.querySelectorAll('*').forEach(child => {
+                    child.removeAttribute('style');
+                    child.style.margin = 'initial';
+                });
+                grid.style.fontSize = '12pt';
             });
-            grid.style.fontSize = '0.9rem';
-        });
-        
-        alert(`Fixed ${dpGrids.length} DP grid(s) on this page.`);
+            
+            // Confirm before updating the page
+            if (!confirm(`Found ${dpGrids.length} DP grid(s) on this page. Update the page with the fixed content?`)) {
+                return;
+            }
+            
+            // Get the updated content
+            const updatedContent = tempContainer.innerHTML;
+            
+            // Update the page with the fixed content
+            await AUMigrationToolkit.CanvasUtils.updatePage(updatedContent);
+            
+            // Note: The page will automatically refresh after update
+        } catch (error) {
+            console.error('[AU Migration Toolkit] Error fixing DP grids:', error);
+            alert(`Error fixing DP grids: ${error.message}`);
+        }
     },
     { category: AUMigrationToolkit.categories.LAYOUT }
 );
