@@ -9,6 +9,7 @@
 // @match        https://myuni.adelaide.edu.au/*
 // @require      https://raw.githubusercontent.com/UAMediaProd/learning-enhancement/refs/heads/main/tools/migration-toolkit/toolkit.js
 // ==/UserScript==
-(function () {
-    console.log('[AU Migration Toolkit] Script loaded...');
-})();
+
+// The toolkit.js file handles all initialization and functionality
+// This script just loads the toolkit via @require
+// When toolkit.js is updated, all users will automatically get the updates
