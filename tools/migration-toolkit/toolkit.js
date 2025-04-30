@@ -1,0 +1,1 @@
+console.log('[AU Migration Toolkit] Hello from toolkit.js!')
