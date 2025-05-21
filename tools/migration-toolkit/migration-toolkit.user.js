@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.49
+// @version      0.50
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
@@ -11,6 +11,7 @@
 // @downloadURL  http://127.0.0.1:3000/tools/migration-toolkit/migration-toolkit.user.js
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @require      https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js
 // ==/UserScript==
 
 /**
@@ -22,7 +23,7 @@ const AUMigrationToolkit = (function () {
     if (window.top != window.self)  //d on't run on frames or iframes
         return;
     // Private variables
-    const VERSION = '0.49';
+    const VERSION = '0.50';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
@@ -765,13 +766,13 @@ const AUMigrationToolkit = (function () {
                 if (options.refresh !== false) {
                     // Try to get the edit path from ENV
                     let editPath = null;
-                    
+
                     if (window.ENV && window.ENV.WIKI_PAGE_EDIT_PATH) {
                         editPath = window.ENV.WIKI_PAGE_EDIT_PATH;
                     } else if (typeof ENV !== 'undefined' && ENV.WIKI_PAGE_EDIT_PATH) {
                         editPath = ENV.WIKI_PAGE_EDIT_PATH;
                     }
-                    
+
                     if (editPath) {
                         console.log('[AU Migration Toolkit] Navigating to edit page...');
                         setTimeout(() => window.location.href = editPath, 500);
@@ -1193,7 +1194,7 @@ AUMigrationToolkit.defineTool(
 
                     // Create a new list item with DesignPlus classes
                     const li = document.createElement('li');
-                    
+
                     // Check if the original item has the 'full' class
                     if (item.classList.contains('full')) {
                         // Full-width item
@@ -1215,32 +1216,32 @@ AUMigrationToolkit.defineTool(
 
                     // Combine text from headings and paragraphs
                     const headings = item.querySelectorAll('h1, h2, h3, h4, h5, h6');
-                    
+
                     let combinedText = '';
-                    
+
                     // Add heading text
                     headings.forEach((heading, index) => {
                         if (index > 0) combinedText += '<br>';
                         combinedText += heading.textContent.trim();
                     });
-                    
+
                     // Always add the link text
                     if (combinedText) combinedText += '<br>';
                     combinedText += link.textContent.trim();
-                    
+
                     // If we somehow have no combined text, use just the link text
                     if (!combinedText) {
                         combinedText = link.textContent.trim();
                     }
-                    
+
                     // Set the link's HTML content
                     a.innerHTML = combinedText;
-                    
+
                     // Preserve title attribute if it exists
                     if (link.hasAttribute('title')) {
                         a.setAttribute('title', link.getAttribute('title'));
                     }
-                    
+
                     // Preserve data attributes for Canvas API integration
                     if (link.hasAttribute('data-api-endpoint')) {
                         a.setAttribute('data-api-endpoint', link.getAttribute('data-api-endpoint'));
@@ -1316,9 +1317,9 @@ AUMigrationToolkit.defineTool(
                 '.adx-direction-write', '.adx-direction-university', '.adx-direction-hsm',
                 '.adx-direction-ib', '.adx-direction-investigate'
             ].join(',');
-            
+
             const adxDirections = tempContainer.querySelectorAll(adxDirectionSelector);
-            
+
             if (adxDirections.length === 0) {
                 alert('No ADX Direction elements found on this page.');
                 return;
@@ -1331,14 +1332,14 @@ AUMigrationToolkit.defineTool(
             adxDirections.forEach(adxDirection => {
                 // Get the original content
                 const originalContent = adxDirection.innerHTML;
-                
+
                 // Determine the type of direction based on classes
                 let directionType = '';
                 let calloutTitle = 'Action';
                 let iconClass = 'far fa-hand-pointer';
                 let borderColor = '#0073CF'; // Default DP primary color
                 let backgroundColor = '#F2F9FF'; // Default DP primary light color
-                
+
                 // Check which direction class is present
                 for (const className of adxDirection.classList) {
                     if (className.startsWith('adx-direction-')) {
@@ -1346,7 +1347,7 @@ AUMigrationToolkit.defineTool(
                         break;
                     }
                 }
-                
+
                 // Set specific properties based on direction type
                 switch (directionType) {
                     case 'assessment':
@@ -1439,16 +1440,16 @@ AUMigrationToolkit.defineTool(
                         borderColor = '#052A8A'; // Default to dark blue
                         backgroundColor = '#e6eaf3';
                 }
-                
+
                 // Create a new DP Callout element
                 const dpCallout = document.createElement('div');
                 dpCallout.className = 'dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-color-dp-primary dp-out-primary dp-border-dir-all dp-callout-type-info dp-action-box dp-action migrated-content';
 
                 console.log(``)
-                
+
                 // Apply styles with !important using cssText
                 dpCallout.style.cssText = `border-left: 10px solid ${borderColor} !important; background-color: ${backgroundColor} !important;`;
-                
+
                 // Create the callout HTML structure
                 dpCallout.innerHTML = `
                     <div class="dp-callout-side-emphasis"><i class="dp-icon ${iconClass} dp-default-icon">​</i></div>
@@ -1457,7 +1458,7 @@ AUMigrationToolkit.defineTool(
                         <div class="card-text dp-border-dir-none">${originalContent}</div>
                     </div>
                 `;
-                
+
                 // Replace the original element with the new callout
                 adxDirection.parentNode.replaceChild(dpCallout, adxDirection);
                 convertedCount++;
@@ -1494,9 +1495,156 @@ AUMigrationToolkit.defineTool(
     'Download Rubric CSV',
     'Converts UniSA rubrics to CSV format and downloads them.',
     ['.*\\.load\\.lo\\.unisa\\.edu\\.au.*'], // URL patterns where this tool should appear
-    function() {
+    function () {
         // Tool implementation goes here
-        console.log('Custom tool executed!');
+        console.log('Rubric tool started!');
+        // Function to normalize text content (remove line breaks and extra spaces)
+        function normalizeText(text) {
+            if (!text) return '';
+            // Replace line breaks and multiple spaces with a single space
+            return text.replace(/\s+/g, ' ').trim();
+        }
+
+        // Function to add the download button
+        function addDownloadButton() {
+            console.log('addDownloadButton function called');
+            const rubricTable = document.getElementById('rubric-criteria');
+            if (!rubricTable) {
+                console.log('Rubric table not found');
+                return;
+            }
+            console.log('Rubric table found:', rubricTable);
+
+            const button = document.createElement('button');
+            button.textContent = 'Download CSV';
+            button.style.margin = '10px 0';
+            button.style.padding = '8px 16px';
+            button.style.backgroundColor = '#4CAF50';
+            button.style.color = 'white';
+            button.style.border = 'none';
+            button.style.borderRadius = '4px';
+            button.style.cursor = 'pointer';
+
+            button.addEventListener('click', generateAndDownloadCSV);
+
+            rubricTable.parentNode.insertBefore(button, rubricTable.nextSibling);
+            console.log('Download button added to the page');
+        }
+
+        // Function to generate and download the CSV
+        function generateAndDownloadCSV() {
+            console.log('generateAndDownloadCSV function called');
+            const rubricName = normalizeText(document.querySelector('.page-header-headings h1')?.textContent || 'Rubric');
+            console.log('Rubric name:', rubricName);
+
+            const rubricTable = document.getElementById('rubric-criteria');
+
+            if (!rubricTable) {
+                console.log('Rubric table not found in generateAndDownloadCSV');
+                alert('Rubric table not found!');
+                return;
+            }
+
+            // Get all criterion rows
+            const criterionRows = rubricTable.querySelectorAll('tr.criterion');
+            console.log('Number of criterion rows found:', criterionRows.length);
+
+            // Prepare CSV data
+            const csvData = [];
+
+            criterionRows.forEach((row, index) => {
+                const criterionNumber = index + 1;
+                const criterionName = `Criterion ${criterionNumber}`;
+                const criterionDescription = normalizeText(row.querySelector('.description')?.textContent || '');
+                console.log(`Processing criterion ${criterionNumber}:`, criterionDescription);
+
+                // Get all rating cells in this criterion row
+                const ratingCells = row.querySelectorAll('td.level');
+                console.log(`Number of rating cells for criterion ${criterionNumber}:`, ratingCells.length);
+
+                // Prepare the row data
+                const rowData = {
+                    'Rubric Name': rubricName,
+                    'Criteria Name': criterionName,
+                    'Criteria Description': criterionDescription,
+                    'Criteria Enable Range': 'false'
+                };
+
+                // Add rating data
+                ratingCells.forEach((cell, ratingIndex) => {
+                    // const ratingName = `(Rating Name)`;
+                    const ratingName = normalizeText(cell.querySelector('.score')?.textContent || '(Rating name not found)');
+                    const ratingDescription = normalizeText(cell.querySelector('.definition')?.textContent || '(Rating description)');
+                    const ratingPoints = normalizeText(cell.querySelector('.scorevalue')?.textContent || '0');
+
+                    rowData[`Rating Name${ratingIndex + 1}`] = ratingName;
+                    rowData[`Rating Description${ratingIndex + 1}`] = ratingDescription;
+                    rowData[`Rating Points${ratingIndex + 1}`] = ratingPoints;
+
+                    console.log(`Rating ${ratingIndex + 1} for criterion ${criterionNumber}:`, ratingDescription, ratingPoints);
+                });
+
+                csvData.push(rowData);
+            });
+
+            console.log('CSV data prepared:', csvData);
+
+            // Convert to CSV using Papa Parse
+            const csv = Papa.unparse(csvData);
+            console.log('CSV generated');
+
+            // Create and trigger download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `${rubricName.replace(/\s+/g, '_')}_rubric.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            console.log('CSV download triggered');
+        }
+
+        // Initialize when the page is fully loaded
+        window.addEventListener('load', function () {
+            console.log('Window load event fired');
+            // Check if the rubric table exists
+            const rubricTable = document.getElementById('rubric-criteria');
+            console.log('Rubric table found on load:', !!rubricTable);
+
+            if (rubricTable) {
+                console.log('Calling addDownloadButton');
+                addDownloadButton();
+            } else {
+                console.log('No rubric table found on page load');
+
+                // Try again after a short delay in case the page is still loading
+                setTimeout(function () {
+                    console.log('Checking for rubric table after delay');
+                    const delayedRubricTable = document.getElementById('rubric-criteria');
+                    console.log('Rubric table found after delay:', !!delayedRubricTable);
+
+                    if (delayedRubricTable) {
+                        console.log('Calling addDownloadButton after delay');
+                        addDownloadButton();
+                    }
+                }, 1000);
+            }
+        });
+
+        // Also try to run immediately in case the page is already loaded
+        console.log('Checking if document is already loaded');
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            console.log('Document already loaded, checking for rubric table');
+            const rubricTable = document.getElementById('rubric-criteria');
+            console.log('Rubric table found on immediate check:', !!rubricTable);
+
+            if (rubricTable) {
+                console.log('Calling addDownloadButton immediately');
+                addDownloadButton();
+            }
+        }
     },
     { category: AUMigrationToolkit.categories.ASSESSMENTS }
 );
