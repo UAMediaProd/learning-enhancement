@@ -1495,7 +1495,7 @@ AUMigrationToolkit.defineTool(
     'Download Rubric CSV',
     'Converts UniSA rubrics to CSV format and downloads them.',
     ['.*\\.load\\.lo\\.unisa\\.edu\\.au.*'], // URL patterns where this tool should appear
-    function () {
+    async function () {
         // Tool implementation goes here
         console.log('Rubric tool started!');
         // Function to normalize text content (remove line breaks and extra spaces)
