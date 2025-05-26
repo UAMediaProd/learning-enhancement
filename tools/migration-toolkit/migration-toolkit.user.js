@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.50
+// @version      0.52
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
 // @match        https://learn.adelaide.edu.au/*
 // @match        https://myuni.adelaide.edu.au/*
-// @updateURL    http://127.0.0.1:3000/tools/migration-toolkit/migration-toolkit.user.js
-// @downloadURL  http://127.0.0.1:3000/tools/migration-toolkit/migration-toolkit.user.js
+// @updateURL    https://mediaproduction.adelaide.edu.au/learning-enhancement/tools/migration-toolkit/migration-toolkit.user.js
+// @downloadURL  https://mediaproduction.adelaide.edu.au/learning-enhancement/tools/migration-toolkit/migration-toolkit.user.js
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @require      https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js
@@ -23,7 +23,7 @@ const AUMigrationToolkit = (function () {
     if (window.top != window.self)  //d on't run on frames or iframes
         return;
     // Private variables
-    const VERSION = '0.50';
+    const VERSION = '0.52';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
@@ -966,7 +966,7 @@ AUMigrationToolkit.defineTool(
     'fix-dp-nav',
     'Fix DP Nav',
     'Fixes display problems with DP nav layouts and saves the changes',
-    ['.*\\.unisa\\.edu\\.au.*', '.*\\.adelaide\\.edu\\.au.*'],
+    ['.*\\.adelaide\\.edu\\.au.*'],
     async function () {
         try {
             // Get the current page content
@@ -1494,10 +1494,11 @@ AUMigrationToolkit.defineTool(
     'download-rubric-csv',
     'Download Rubric CSV',
     'Converts UniSA rubrics to CSV format and downloads them.',
-    ['.*\\.load\\.lo\\.unisa\\.edu\\.au.*'], // URL patterns where this tool should appear
+    ['.*\\.load\\.lo\\.unisa\\.edu\\.au.*','.*\\.unisa\\.edu\\.au.*'], // URL patterns where this tool should appear
     async function () {
         // Tool implementation goes here
-        console.log('Rubric tool started!');
+        console.log('Rubric CSV download tool started!');
+        
         // Function to normalize text content (remove line breaks and extra spaces)
         function normalizeText(text) {
             if (!text) return '';
@@ -1505,146 +1506,83 @@ AUMigrationToolkit.defineTool(
             return text.replace(/\s+/g, ' ').trim();
         }
 
-        // Function to add the download button
-        function addDownloadButton() {
-            console.log('addDownloadButton function called');
-            const rubricTable = document.getElementById('rubric-criteria');
-            if (!rubricTable) {
-                console.log('Rubric table not found');
-                return;
-            }
-            console.log('Rubric table found:', rubricTable);
+        // Generate and download the CSV immediately when the tool is clicked
+        console.log('Generating and downloading CSV');
+        const rubricName = normalizeText(document.querySelector('.page-header-headings h1')?.textContent || 'Rubric');
+        console.log('Rubric name:', rubricName);
 
-            const button = document.createElement('button');
-            button.textContent = 'Download CSV';
-            button.style.margin = '10px 0';
-            button.style.padding = '8px 16px';
-            button.style.backgroundColor = '#4CAF50';
-            button.style.color = 'white';
-            button.style.border = 'none';
-            button.style.borderRadius = '4px';
-            button.style.cursor = 'pointer';
+        const rubricTable = document.getElementById('rubric-criteria');
 
-            button.addEventListener('click', generateAndDownloadCSV);
-
-            rubricTable.parentNode.insertBefore(button, rubricTable.nextSibling);
-            console.log('Download button added to the page');
+        if (!rubricTable) {
+            console.log('Rubric table not found');
+            alert('Rubric table not found! Please make sure you are on a rubric page.');
+            return;
         }
 
-        // Function to generate and download the CSV
-        function generateAndDownloadCSV() {
-            console.log('generateAndDownloadCSV function called');
-            const rubricName = normalizeText(document.querySelector('.page-header-headings h1')?.textContent || 'Rubric');
-            console.log('Rubric name:', rubricName);
+        // Get all criterion rows
+        const criterionRows = rubricTable.querySelectorAll('tr.criterion');
+        console.log('Number of criterion rows found:', criterionRows.length);
 
-            const rubricTable = document.getElementById('rubric-criteria');
+        if (criterionRows.length === 0) {
+            console.log('No criterion rows found');
+            alert('No criterion rows found in the rubric!');
+            return;
+        }
 
-            if (!rubricTable) {
-                console.log('Rubric table not found in generateAndDownloadCSV');
-                alert('Rubric table not found!');
-                return;
-            }
+        // Prepare CSV data
+        const csvData = [];
 
-            // Get all criterion rows
-            const criterionRows = rubricTable.querySelectorAll('tr.criterion');
-            console.log('Number of criterion rows found:', criterionRows.length);
+        criterionRows.forEach((row, index) => {
+            const criterionNumber = index + 1;
+            const criterionName = `Criterion ${criterionNumber}`;
+            const criterionDescription = normalizeText(row.querySelector('.description')?.textContent || '');
+            console.log(`Processing criterion ${criterionNumber}:`, criterionDescription);
 
-            // Prepare CSV data
-            const csvData = [];
+            // Get all rating cells in this criterion row
+            const ratingCells = row.querySelectorAll('td.level');
+            console.log(`Number of rating cells for criterion ${criterionNumber}:`, ratingCells.length);
 
-            criterionRows.forEach((row, index) => {
-                const criterionNumber = index + 1;
-                const criterionName = `Criterion ${criterionNumber}`;
-                const criterionDescription = normalizeText(row.querySelector('.description')?.textContent || '');
-                console.log(`Processing criterion ${criterionNumber}:`, criterionDescription);
+            // Prepare the row data
+            const rowData = {
+                'Rubric Name': rubricName,
+                'Criteria Name': criterionName,
+                'Criteria Description': criterionDescription,
+                'Criteria Enable Range': 'false'
+            };
 
-                // Get all rating cells in this criterion row
-                const ratingCells = row.querySelectorAll('td.level');
-                console.log(`Number of rating cells for criterion ${criterionNumber}:`, ratingCells.length);
+            // Add rating data
+            ratingCells.forEach((cell, ratingIndex) => {
+                const ratingName = normalizeText(cell.querySelector('.score')?.textContent || '(Rating name not found)');
+                const ratingDescription = normalizeText(cell.querySelector('.definition')?.textContent || '(Rating description)');
+                const ratingPoints = normalizeText(cell.querySelector('.scorevalue')?.textContent || '0');
 
-                // Prepare the row data
-                const rowData = {
-                    'Rubric Name': rubricName,
-                    'Criteria Name': criterionName,
-                    'Criteria Description': criterionDescription,
-                    'Criteria Enable Range': 'false'
-                };
+                rowData[`Rating Name${ratingIndex + 1}`] = ratingName;
+                rowData[`Rating Description${ratingIndex + 1}`] = ratingDescription;
+                rowData[`Rating Points${ratingIndex + 1}`] = ratingPoints;
 
-                // Add rating data
-                ratingCells.forEach((cell, ratingIndex) => {
-                    // const ratingName = `(Rating Name)`;
-                    const ratingName = normalizeText(cell.querySelector('.score')?.textContent || '(Rating name not found)');
-                    const ratingDescription = normalizeText(cell.querySelector('.definition')?.textContent || '(Rating description)');
-                    const ratingPoints = normalizeText(cell.querySelector('.scorevalue')?.textContent || '0');
-
-                    rowData[`Rating Name${ratingIndex + 1}`] = ratingName;
-                    rowData[`Rating Description${ratingIndex + 1}`] = ratingDescription;
-                    rowData[`Rating Points${ratingIndex + 1}`] = ratingPoints;
-
-                    console.log(`Rating ${ratingIndex + 1} for criterion ${criterionNumber}:`, ratingDescription, ratingPoints);
-                });
-
-                csvData.push(rowData);
+                console.log(`Rating ${ratingIndex + 1} for criterion ${criterionNumber}:`, ratingDescription, ratingPoints);
             });
 
-            console.log('CSV data prepared:', csvData);
-
-            // Convert to CSV using Papa Parse
-            const csv = Papa.unparse(csvData);
-            console.log('CSV generated');
-
-            // Create and trigger download
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.setAttribute('href', url);
-            link.setAttribute('download', `${rubricName.replace(/\s+/g, '_')}_rubric.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            console.log('CSV download triggered');
-        }
-
-        // Initialize when the page is fully loaded
-        window.addEventListener('load', function () {
-            console.log('Window load event fired');
-            // Check if the rubric table exists
-            const rubricTable = document.getElementById('rubric-criteria');
-            console.log('Rubric table found on load:', !!rubricTable);
-
-            if (rubricTable) {
-                console.log('Calling addDownloadButton');
-                addDownloadButton();
-            } else {
-                console.log('No rubric table found on page load');
-
-                // Try again after a short delay in case the page is still loading
-                setTimeout(function () {
-                    console.log('Checking for rubric table after delay');
-                    const delayedRubricTable = document.getElementById('rubric-criteria');
-                    console.log('Rubric table found after delay:', !!delayedRubricTable);
-
-                    if (delayedRubricTable) {
-                        console.log('Calling addDownloadButton after delay');
-                        addDownloadButton();
-                    }
-                }, 1000);
-            }
+            csvData.push(rowData);
         });
 
-        // Also try to run immediately in case the page is already loaded
-        console.log('Checking if document is already loaded');
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            console.log('Document already loaded, checking for rubric table');
-            const rubricTable = document.getElementById('rubric-criteria');
-            console.log('Rubric table found on immediate check:', !!rubricTable);
+        console.log('CSV data prepared:', csvData);
 
-            if (rubricTable) {
-                console.log('Calling addDownloadButton immediately');
-                addDownloadButton();
-            }
-        }
+        // Convert to CSV using Papa Parse
+        const csv = Papa.unparse(csvData);
+        console.log('CSV generated');
+
+        // Create and trigger download
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `${rubricName.replace(/\s+/g, '_')}_rubric.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        console.log('CSV download triggered');
     },
     { category: AUMigrationToolkit.categories.ASSESSMENTS }
 );
