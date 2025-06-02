@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.55
+// @version      0.59
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
@@ -23,7 +23,7 @@ const AUMigrationToolkit = (function () {
     if (window.top != window.self)  //d on't run on frames or iframes
         return;
     // Private variables
-    const VERSION = '0.55';
+    const VERSION = '0.59';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
@@ -1493,16 +1493,16 @@ AUMigrationToolkit.defineTool(
     { category: AUMigrationToolkit.categories.CONTENT }
 );
 
-// Example of how to define a custom tool:
+// UniSA Rubric downloader
 AUMigrationToolkit.defineTool(
     'download-rubric-csv',
     'Download Rubric CSV',
     'Converts UniSA rubrics to CSV format and downloads them.',
-    ['.*\\.load\\.lo\\.unisa\\.edu\\.au.*','.*\\.unisa\\.edu\\.au.*'], // URL patterns where this tool should appear
+    ['.*\\.load\\.lo\\.unisa\\.edu\\.au.*', '.*\\.unisa\\.edu\\.au.*'], // URL patterns where this tool should appear
     async function () {
         // Tool implementation goes here
         console.log('Rubric CSV download tool started!');
-        
+
         // Function to normalize text content (remove line breaks and extra spaces)
         function normalizeText(text) {
             if (!text) return '';
@@ -1589,4 +1589,397 @@ AUMigrationToolkit.defineTool(
         console.log('CSV download triggered');
     },
     { category: AUMigrationToolkit.categories.ASSESSMENTS }
+);
+
+// Convert ADX Cues
+AUMigrationToolkit.defineTool(
+    'convert-adx-cues',
+    'Convert ADX cues',
+    'Converts ADX cues into DP callouts with inline customisations',
+    ['.*\\.adelaide\\.edu\\.au.*'], // URL patterns where this tool should appear
+    async function () {
+        try {
+            // Get the current page content
+            const pageContent = AUMigrationToolkit.CanvasUtils.getPage();
+            if (!pageContent) {
+                alert('Could not retrieve the page content. Are you on a Canvas wiki page?');
+                return;
+            }
+
+            // Create a temporary DOM element to manipulate the content
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = pageContent;
+
+            // Find all ADX Cue elements
+            const adxCueSelector = [
+                '.adx-cue',
+                '.adx-cue-left',
+                '.adx-cue-bordered',
+                '.adx-cue-note',
+                '.adx-cue-case-study',
+                '.adx-cue-example',
+                '.adx-cue-definition',
+                '.adx-cue-phil-toolkit',
+                '.adx-cue-notification',
+                '.adx-cue-attention',
+                '.adx-cue-content-warning',
+                '.adx-cue-summary',
+                '.adx-cue-reference'
+            ].join(',');
+
+            const adxCues = tempContainer.querySelectorAll(adxCueSelector);
+
+            if (adxCues.length === 0) {
+                alert('No ADX Cue elements found on this page.');
+                return;
+            }
+
+            // Keep track of how many we convert
+            let convertedCount = 0;
+
+            // Process each ADX Cue element
+            adxCues.forEach(adxCue => {
+                // Get the original content
+                const originalContent = adxCue.innerHTML;
+
+                // Create a temporary div to hold our HTML
+                const tempDiv = document.createElement('div');
+
+                // Check if this is a special type of cue
+                let isSpecialCue = false;
+                let htmlTemplate = '';
+
+                // Check for note cue
+                if (adxCue.classList.contains('adx-cue-note')) {
+                    console.log('Converting ADX note cue to DP callout with Note title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary migrated-content">
+                            <div class="card-body">
+                                <h3 class="card-title">Note</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Check for case study cue
+                if (adxCue.classList.contains('adx-cue-case-study')) {
+                    console.log('Converting ADX case study cue to DP callout with Case Study title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary migrated-content">
+                            <div class="card-body">
+                                <h3 class="card-title">Case Study</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Check for example cue
+                if (adxCue.classList.contains('adx-cue-example')) {
+                    console.log('Converting ADX example cue to DP callout with Example title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-color-dp-primary dp-callout-type-default dp-example-box migrated-content">
+                            <div class="card-body">
+                                <h3 class="card-title">Example</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Check for defintion cue
+                if (adxCue.classList.contains('adx-cue-definition')) {
+                    console.log('Converting ADX example cue to DP callout with Definition title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary migrated-content" style="background: #ECF7F3 !important">
+                            <div class="card-body">
+                                <h3 class="card-title">Definition</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Check for philosphical toolkit cue
+                if (adxCue.classList.contains('adx-cue-phil-toolkit')) {
+                    console.log('Converting ADX example cue to DP callout with philosophical toolkit title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary migrated-content" style="background: #F9F4F9 !important">
+                            <div class="card-body">
+                                <h3 class="card-title">Philosophical Toolkit</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Check for notification cue
+                if (adxCue.classList.contains('adx-cue-notification')) {
+                    console.log('Converting ADX Notification cue to DP callout with Notification title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary migrated-content" style="background: #E6EFF5 !important">
+                            <div class="card-body">
+                                <h3 class="card-title">Notification</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Check for attention cue
+                if (adxCue.classList.contains('adx-cue-attention')) {
+                    console.log('Converting ADX attention cue to DP callout with attention title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-color-dp-primary dp-callout-type-info dp-alert-box migrated-content">
+                            <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon">​</i></div>
+                            <div class="card-body">
+                                <h3 class="card-title">Attention</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Check for content warning cue
+                if (adxCue.classList.contains('adx-cue-content-warning')) {
+                    console.log('Converting ADX content-warning cue to DP callout with content warning title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-color-dp-primary dp-callout-type-info dp-content-warning migrated-content">
+                            <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle">​</i></div>
+                            <div class="card-body">
+                                <h3 class="card-title">Content Warning</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>                        
+                    `;
+                }
+
+                // Check for summary cue
+                if (adxCue.classList.contains('adx-cue-summary')) {
+                    console.log('Converting ADX summary cue to DP callout with summary title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-color-dp-primary dp-callout-type-default dp-summary-box migrated-content">
+                            <div class="card-body">
+                                <h3 class="card-title">Summary</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>                     
+                    `;
+                }
+
+                // Check for reference cue
+                if (adxCue.classList.contains('adx-cue-reference')) {
+                    console.log('Converting ADX reference cue to DP callout with References title');
+                    isSpecialCue = true;
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary dp-references-box">
+                            <div class="card-body">
+                                <h3 class="card-title">References</h3>
+                                <div class="card-text">${originalContent}</div>
+                            </div>
+                        </div>                  
+                    `;
+                }
+
+                // If not a special cue, use the default template
+                if (!isSpecialCue) {
+                    console.log(`Converting standard ADX cue to DP callout`);
+                    htmlTemplate = `
+                        <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary migrated-content">
+                            <div class="card-body">
+                                <p class="card-text">${originalContent}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Set the HTML content of the temp div
+                tempDiv.innerHTML = htmlTemplate;
+
+                // Get the first child (our callout div)
+                const dpCallout = tempDiv.firstElementChild;
+
+                // Replace the original element with the new callout
+                adxCue.parentNode.replaceChild(dpCallout, adxCue);
+                convertedCount++;
+            });
+
+            if (convertedCount === 0) {
+                alert('No valid ADX Cue elements could be converted.');
+                return;
+            }
+
+            // Confirm before updating the page
+            if (!confirm(`Found and converted ${convertedCount} ADX Cue element(s) to DesignPlus Callouts. Update the page with the converted content?`)) {
+                return;
+            }
+
+            // Get the updated content
+            const updatedContent = tempContainer.innerHTML;
+
+            // Update the page with the fixed content
+            await AUMigrationToolkit.CanvasUtils.updatePage(updatedContent);
+
+            // Note: The page will automatically navigate to the edit page after update
+        } catch (error) {
+            console.error('[AU Migration Toolkit] Error converting ADX Cues:', error);
+            alert(`Error converting ADX Cues: ${error.message}`);
+        }
+    },
+    { category: AUMigrationToolkit.categories.CONTENT }
+);
+
+// Convert ADX Direction Cues
+AUMigrationToolkit.defineTool(
+    'convert-adx-direction-cues',
+    'Convert ADX direction cues',
+    'Converts ADX direction cues into DP callouts with inline customisations',
+    ['.*\\.adelaide\\.edu\\.au.*'], // URL patterns where this tool should appear
+    async function () {
+        try {
+            // Get the current page content
+            const pageContent = AUMigrationToolkit.CanvasUtils.getPage();
+            if (!pageContent) {
+                alert('Could not retrieve the page content. Are you on a Canvas wiki page?');
+                return;
+            }
+
+            // Create a temporary DOM element to manipulate the content
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = pageContent;
+
+            // Find all ADX Cue elements
+            const adxDirectionCueSelector = [
+                '.adx-direction-cue-assessment',
+                '.adx-direction-cue-discussion',
+                '.adx-direction-cue-extra',
+                '.adx-direction-cue-interactive',
+                '.adx-direction-cue-investigate',
+                '.adx-direction-cue-practice',
+                '.adx-direction-cue-reading',
+                '.adx-direction-cue-reflect',
+                '.adx-direction-cue-watch',
+                '.adx-direction-cue-write'
+            ].join(',');
+
+            const adxDirectionCues = tempContainer.querySelectorAll(adxDirectionCueSelector);
+
+            if (adxDirectionCues.length === 0) {
+                alert('No ADX Direction Cue elements found on this page.');
+                return;
+            }
+
+            // Keep track of how many we convert
+            let convertedCount = 0;
+
+            // Process each ADX Direction Cue element
+            adxDirectionCues.forEach(adxCue => {
+                // Get the original content
+                const originalContent = adxCue.innerHTML;
+
+                // Create a temporary div to hold our HTML
+                const tempDiv = document.createElement('div');
+                
+                // Determine the direction type and set appropriate color and title
+                let borderColor = '#000000';
+                let title = 'Action';
+                
+                if (adxCue.classList.contains('adx-direction-cue-assessment')) {
+                    console.log('Converting ADX assessment direction cue');
+                    borderColor = '#3706BB'; 
+                    title = 'Assessment';
+                } else if (adxCue.classList.contains('adx-direction-cue-discussion')) {
+                    console.log('Converting ADX discussion direction cue');
+                    borderColor = '#9106BB'; 
+                    title = 'Discussion';
+                } else if (adxCue.classList.contains('adx-direction-cue-extra')) {
+                    console.log('Converting ADX extra direction cue');
+                    borderColor = '#BB068B'; 
+                    title = 'Extra';
+                } else if (adxCue.classList.contains('adx-direction-cue-interactive')) {
+                    console.log('Converting ADX interactive direction cue');
+                    borderColor = '#BB3706'; 
+                    title = 'Interactive';
+                } else if (adxCue.classList.contains('adx-direction-cue-investigate')) {
+                    console.log('Converting ADX investigate direction cue');
+                    borderColor = '#BB9106';
+                    title = 'Investigate';
+                } else if (adxCue.classList.contains('adx-direction-cue-practice')) {
+                    console.log('Converting ADX practice direction cue');
+                    borderColor = '#96BB06'; 
+                    title = 'Practice';
+                } else if (adxCue.classList.contains('adx-direction-cue-reading')) {
+                    console.log('Converting ADX reading direction cue');
+                    borderColor = '#3EBB06'; 
+                    title = 'Reading';
+                } else if (adxCue.classList.contains('adx-direction-cue-reflect')) {
+                    console.log('Converting ADX reflect direction cue');
+                    borderColor = '#058869'; 
+                    title = 'Reflect';
+                } else if (adxCue.classList.contains('adx-direction-cue-watch')) {
+                    console.log('Converting ADX watch direction cue');
+                    borderColor = '#046E8B'; 
+                    title = 'Watch';
+                } else if (adxCue.classList.contains('adx-direction-cue-write')) {
+                    console.log('Converting ADX write direction cue');
+                    borderColor = '#052A8A'; 
+                    title = 'Write';
+                } else {
+                    console.log('Converting generic ADX direction cue');
+                }
+                
+                // Create the HTML template with the specified border color and title
+                const htmlTemplate = `
+                    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary migrated-content" style="border-left: solid 10px ${borderColor} !important;">
+                        <div class="card-body">
+                            <h3 class="card-title">${title}</h3>
+                            <div class="card-text">${originalContent}</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Set the HTML content of the temp div
+                tempDiv.innerHTML = htmlTemplate;
+                
+                // Get the first child (our callout div)
+                const dpCallout = tempDiv.firstElementChild;
+                
+                // Replace the original element with the new callout
+                adxCue.parentNode.replaceChild(dpCallout, adxCue);
+                convertedCount++;
+            });
+
+            if (convertedCount === 0) {
+                alert('No valid ADX Cue elements could be converted.');
+                return;
+            }
+
+            // Confirm before updating the page
+            if (!confirm(`Found and converted ${convertedCount} ADX Cue element(s) to DesignPlus Callouts. Update the page with the converted content?`)) {
+                return;
+            }
+
+            // Get the updated content
+            const updatedContent = tempContainer.innerHTML;
+
+            // Update the page with the fixed content
+            await AUMigrationToolkit.CanvasUtils.updatePage(updatedContent);
+
+            // Note: The page will automatically navigate to the edit page after update
+        } catch (error) {
+            console.error('[AU Migration Toolkit] Error converting ADX Cues:', error);
+            alert(`Error converting ADX Cues: ${error.message}`);
+        }
+    },
+    { category: AUMigrationToolkit.categories.CONTENT }
 );
