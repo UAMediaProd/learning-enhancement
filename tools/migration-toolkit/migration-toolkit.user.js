@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.52
+// @version      0.55
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
@@ -23,7 +23,7 @@ const AUMigrationToolkit = (function () {
     if (window.top != window.self)  //d on't run on frames or iframes
         return;
     // Private variables
-    const VERSION = '0.52';
+    const VERSION = '0.55';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
@@ -103,11 +103,12 @@ const AUMigrationToolkit = (function () {
         const header = document.createElement('div');
         header.style.cssText = `
             padding: 10px;
-            background-color: #f5f5f5;
             cursor: move;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #836BFF;
+            color: white;
         `;
 
         const titleArea = document.createElement('div');
@@ -1311,6 +1312,7 @@ AUMigrationToolkit.defineTool(
 
             // Find all ADX Direction elements
             const adxDirectionSelector = [
+                '.adx-direction', // Generic adx-direction class
                 '.adx-direction-assessment', '.adx-direction-discussion', '.adx-direction-extra',
                 '.adx-direction-interactive', '.adx-direction-listen', '.adx-direction-practice',
                 '.adx-direction-reading', '.adx-direction-reflect', '.adx-direction-watch',
@@ -1437,18 +1439,20 @@ AUMigrationToolkit.defineTool(
                     default:
                         calloutTitle = 'Action';
                         iconClass = 'far fa-hand-pointer';
-                        borderColor = '#052A8A'; // Default to dark blue
-                        backgroundColor = '#e6eaf3';
+                        borderColor = 'unset';
+                        backgroundColor = 'unset';
                 }
 
                 // Create a new DP Callout element
                 const dpCallout = document.createElement('div');
                 dpCallout.className = 'dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-color-dp-primary dp-out-primary dp-border-dir-all dp-callout-type-info dp-action-box dp-action migrated-content';
 
-                console.log(``)
+                console.log(`Converting ${directionType || 'generic'} ADX direction to DP callout`)
 
-                // Apply styles with !important using cssText
-                dpCallout.style.cssText = `border-left: 10px solid ${borderColor} !important; background-color: ${backgroundColor} !important;`;
+                // Apply styles with !important using cssText, but only if it's not a generic adx-direction
+                if (directionType) {
+                    dpCallout.style.cssText = `border-left: 10px solid ${borderColor} !important; background-color: ${backgroundColor} !important;`;
+                }
 
                 // Create the callout HTML structure
                 dpCallout.innerHTML = `
