@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.59
+// @version      0.61
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
@@ -23,7 +23,7 @@ const AUMigrationToolkit = (function () {
     if (window.top != window.self)  //d on't run on frames or iframes
         return;
     // Private variables
-    const VERSION = '0.59';
+    const VERSION = '0.61';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
@@ -1889,26 +1889,26 @@ AUMigrationToolkit.defineTool(
 
                 // Create a temporary div to hold our HTML
                 const tempDiv = document.createElement('div');
-                
+
                 // Determine the direction type and set appropriate color and title
                 let borderColor = '#000000';
                 let title = 'Action';
-                
+
                 if (adxCue.classList.contains('adx-direction-cue-assessment')) {
                     console.log('Converting ADX assessment direction cue');
-                    borderColor = '#3706BB'; 
+                    borderColor = '#3706BB';
                     title = 'Assessment';
                 } else if (adxCue.classList.contains('adx-direction-cue-discussion')) {
                     console.log('Converting ADX discussion direction cue');
-                    borderColor = '#9106BB'; 
+                    borderColor = '#9106BB';
                     title = 'Discussion';
                 } else if (adxCue.classList.contains('adx-direction-cue-extra')) {
                     console.log('Converting ADX extra direction cue');
-                    borderColor = '#BB068B'; 
+                    borderColor = '#BB068B';
                     title = 'Extra';
                 } else if (adxCue.classList.contains('adx-direction-cue-interactive')) {
                     console.log('Converting ADX interactive direction cue');
-                    borderColor = '#BB3706'; 
+                    borderColor = '#BB3706';
                     title = 'Interactive';
                 } else if (adxCue.classList.contains('adx-direction-cue-investigate')) {
                     console.log('Converting ADX investigate direction cue');
@@ -1916,28 +1916,28 @@ AUMigrationToolkit.defineTool(
                     title = 'Investigate';
                 } else if (adxCue.classList.contains('adx-direction-cue-practice')) {
                     console.log('Converting ADX practice direction cue');
-                    borderColor = '#96BB06'; 
+                    borderColor = '#96BB06';
                     title = 'Practice';
                 } else if (adxCue.classList.contains('adx-direction-cue-reading')) {
                     console.log('Converting ADX reading direction cue');
-                    borderColor = '#3EBB06'; 
+                    borderColor = '#3EBB06';
                     title = 'Reading';
                 } else if (adxCue.classList.contains('adx-direction-cue-reflect')) {
                     console.log('Converting ADX reflect direction cue');
-                    borderColor = '#058869'; 
+                    borderColor = '#058869';
                     title = 'Reflect';
                 } else if (adxCue.classList.contains('adx-direction-cue-watch')) {
                     console.log('Converting ADX watch direction cue');
-                    borderColor = '#046E8B'; 
+                    borderColor = '#046E8B';
                     title = 'Watch';
                 } else if (adxCue.classList.contains('adx-direction-cue-write')) {
                     console.log('Converting ADX write direction cue');
-                    borderColor = '#052A8A'; 
+                    borderColor = '#052A8A';
                     title = 'Write';
                 } else {
                     console.log('Converting generic ADX direction cue');
                 }
-                
+
                 // Create the HTML template with the specified border color and title
                 const htmlTemplate = `
                     <div class="dp-callout dp-callout-placeholder card dp-callout-position-default dp-callout-type-default dp-callout-color-dp-primary migrated-content" style="border-left: solid 10px ${borderColor} !important;">
@@ -1947,13 +1947,13 @@ AUMigrationToolkit.defineTool(
                         </div>
                     </div>
                 `;
-                
+
                 // Set the HTML content of the temp div
                 tempDiv.innerHTML = htmlTemplate;
-                
+
                 // Get the first child (our callout div)
                 const dpCallout = tempDiv.firstElementChild;
-                
+
                 // Replace the original element with the new callout
                 adxCue.parentNode.replaceChild(dpCallout, adxCue);
                 convertedCount++;
@@ -1977,8 +1977,183 @@ AUMigrationToolkit.defineTool(
 
             // Note: The page will automatically navigate to the edit page after update
         } catch (error) {
-            console.error('[AU Migration Toolkit] Error converting ADX Cues:', error);
-            alert(`Error converting ADX Cues: ${error.message}`);
+            console.error('[AU Migration Toolkit] Error converting ADX Direction Cues:', error);
+            alert(`Error converting ADX Direction Cues: ${error.message}`);
+        }
+    },
+    { category: AUMigrationToolkit.categories.CONTENT }
+);
+
+// Convert ADX Buttons
+AUMigrationToolkit.defineTool(
+    'convert-adx-buttons',
+    'Convert ADX buttons',
+    'Converts ADX buttons into DP buttons',
+    ['.*\\.adelaide\\.edu\\.au.*'], // URL patterns where this tool should appear
+    async function () {
+        try {
+            // Get the current page content
+            const pageContent = AUMigrationToolkit.CanvasUtils.getPage();
+            if (!pageContent) {
+                alert('Could not retrieve the page content. Are you on a Canvas wiki page?');
+                return;
+            }
+
+            // Create a temporary DOM element to manipulate the content
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = pageContent;
+
+            // Find all ADX button elements
+            const adxButtonSelector = [
+                '.adx-button',
+                '.adx-button.brand-red',
+                '.adx-button.primary',
+                '.adx-button.accent',
+                '.adx-button.complimentary',
+                '.adx-button.brand-midblue'
+            ].join(',');
+
+            const adxButtons = tempContainer.querySelectorAll(adxButtonSelector);
+
+            if (adxButtons.length === 0) {
+                alert('No ADX button elements found on this page.');
+                return;
+            }
+
+            // Keep track of how many we convert
+            let convertedCount = 0;
+
+            adxButtons.forEach(adxButton => {
+                // Get the original content
+                const originalContent = adxButton.innerHTML;
+                
+                // Get the original href if it exists
+                const originalHref = adxButton.getAttribute('href') || '#';
+                
+                // Create a temporary div to hold our HTML
+                const tempDiv = document.createElement('div');
+                
+                // Determine which type of button it is
+                let htmlTemplate = '';
+                
+                if (adxButton.classList.contains('brand-red')) {
+                    console.log('Converting ADX brand-red button');
+                    htmlTemplate = `<a class="btn cph-bg-danger btn-outline-danger" href="${originalHref}">${originalContent}</a>`;
+                } else if (adxButton.classList.contains('primary')) {
+                    console.log('Converting ADX primary button');
+                    htmlTemplate = `<a class="btn btn-outline-primary" href="${originalHref}">${originalContent}</a>`;
+                } else if (adxButton.classList.contains('accent')) {
+                    console.log('Converting ADX accent button');
+                    htmlTemplate = `<a class="btn btn-outline-success cph-bg-success" href="${originalHref}">${originalContent}</a>`;
+                } else if (adxButton.classList.contains('complimentary')) {
+                    console.log('Converting ADX complimentary button');
+                    htmlTemplate = `<a class="btn btn-outline-dp-accent cph-bg-dp-accent" href="${originalHref}">${originalContent}</a>`;
+                } else if (adxButton.classList.contains('brand-midblue')) {
+                    console.log('Converting ADX brand-midblue button');
+                    htmlTemplate = `<a class="btn btn-outline-dp-primary cph-bg-dp-primary" href="${originalHref}">${originalContent}</a>`;
+                } else {
+                    // Default case for plain .adx-button
+                    console.log('Converting standard ADX button');
+                    htmlTemplate = `<a class="btn btn-outline-primary" href="${originalHref}">${originalContent}</a>`;
+                }
+                
+                // Set the HTML content of the temp div
+                tempDiv.innerHTML = htmlTemplate;
+                
+                // Get the first child (our button)
+                const dpButton = tempDiv.firstElementChild;
+                
+                // Replace the original element with the new button
+                adxButton.parentNode.replaceChild(dpButton, adxButton);
+                convertedCount++;
+            });
+            
+            if (convertedCount === 0) {
+                alert('No valid ADX button elements could be converted.');
+                return;
+            }
+
+            // Confirm before updating the page
+            if (!confirm(`Found and converted ${convertedCount} ADX button element(s) to DesignPlus buttons. Update the page with the converted content?`)) {
+                return;
+            }
+
+            // Get the updated content
+            const updatedContent = tempContainer.innerHTML;
+
+            // Update the page with the fixed content
+            await AUMigrationToolkit.CanvasUtils.updatePage(updatedContent);
+            
+            // Note: The page will automatically navigate to the edit page after update
+        } catch (error) {
+            console.error('[AU Migration Toolkit] Error converting ADX Tables:', error);
+            alert(`Error converting ADX Tables: ${error.message}`);
+        }
+    },
+    { category: AUMigrationToolkit.categories.CONTENT }
+);
+
+// Convert ADX Tables
+AUMigrationToolkit.defineTool(
+    'convert-adx-tables',
+    'Convert ADX tables',
+    'Converts ADX tables into DP tables',
+    ['.*\\.adelaide\\.edu\\.au.*'], // URL patterns where this tool should appear
+    async function () {
+        try {
+            // Get the current page content
+            const pageContent = AUMigrationToolkit.CanvasUtils.getPage();
+            if (!pageContent) {
+                alert('Could not retrieve the page content. Are you on a Canvas wiki page?');
+                return;
+            }
+
+            // Create a temporary DOM element to manipulate the content
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = pageContent;
+
+            // Find all ADX table elements
+            const adxTableSelector = 'table.adx, table.adx.simple';
+            const adxTables = tempContainer.querySelectorAll(adxTableSelector);
+
+            if (adxTables.length === 0) {
+                alert('No ADX table elements found on this page.');
+                return;
+            }
+
+            // Keep track of how many we convert
+            let convertedCount = 0;
+
+            adxTables.forEach(adxTable => {
+                console.log('Converting ADX table');
+                
+                // Remove the adx and simple classes and add aux class
+                adxTable.classList.remove('adx', 'simple');
+                adxTable.classList.add('aux');
+                
+                convertedCount++;
+            });
+            
+            if (convertedCount === 0) {
+                alert('No valid ADX table elements could be converted.');
+                return;
+            }
+
+            // Confirm before updating the page
+            if (!confirm(`Found and converted ${convertedCount} ADX table element(s) to DP tables. Update the page with the converted content?`)) {
+                return;
+            }
+
+            // Get the updated content
+            const updatedContent = tempContainer.innerHTML;
+
+            // Update the page with the fixed content
+            await AUMigrationToolkit.CanvasUtils.updatePage(updatedContent);
+            
+            // Note: The page will automatically navigate to the edit page after update
+        } catch (error) {
+            console.error('[AU Migration Toolkit] Error converting ADX Tables:', error);
+            alert(`Error converting ADX Tables: ${error.message}`);
         }
     },
     { category: AUMigrationToolkit.categories.CONTENT }
