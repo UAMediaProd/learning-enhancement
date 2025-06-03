@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.61
+// @version      0.66
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
@@ -20,19 +20,19 @@
  */
 
 const AUMigrationToolkit = (function () {
-    if (window.top != window.self)  //d on't run on frames or iframes
+    if (window.top != window.self)  //don't run on frames or iframes
         return;
     // Private variables
-    const VERSION = '0.61';
+    const VERSION = '0.66';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
     let isDragging = false; // Flag to track dragging state
 
     // Local storage keys
-    const STORAGE_KEY_POSITION = 'auMigrationToolkit_position';
-    const STORAGE_KEY_SHADED = 'auMigrationToolkit_shaded';
-    const STORAGE_KEY_API_KEY = 'auMigrationToolkit_apiKey';
+    const STORAGE_KEY_POSITION = 'AUMigrationToolkit_position';
+    const STORAGE_KEY_SHADED = 'AUMigrationToolkit_shaded';
+    const STORAGE_KEY_API_KEY = 'AUMigrationToolkit_apiKey';
 
     // Tool registry
     const tools = [];
@@ -94,7 +94,6 @@ const AUMigrationToolkit = (function () {
             border-radius: 5px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             z-index: 9999;
-            font-family: Arial, sans-serif;
             font-size: 14px;
             overflow: hidden;
         `;
@@ -140,7 +139,6 @@ const AUMigrationToolkit = (function () {
         contentArea = document.createElement('div');
         contentArea.style.cssText = `
             padding: 10px;
-            max-height: 400px;
             border-top: 1px solid #ddd;
             overflow-y: auto;
         `;
@@ -160,8 +158,9 @@ const AUMigrationToolkit = (function () {
 
         // Restore shade state
         const savedShadeState = localStorage.getItem(STORAGE_KEY_SHADED);
-        if (savedShadeState === 'true') {
+        if (savedShadeState === '1') {
             toggleShade(true);
+            // Width will be adjusted by the toggleShade function
         }
 
         return contentArea;
@@ -395,24 +394,86 @@ const AUMigrationToolkit = (function () {
      * @param {boolean} [forceState] - Force a specific state (optional)
      */
     function toggleShade(forceState) {
-        // If forceState is provided, use it; otherwise toggle current state
-        isShaded = forceState !== undefined ? forceState : !isShaded;
-
-        if (isShaded) {
-            contentArea.style.display = 'none';
-            toolsContainer.style.width = 'auto';
+        if (forceState !== undefined) {
+            isShaded = forceState;
         } else {
-            contentArea.style.display = 'block';
-            toolsContainer.style.width = '300px';
+            isShaded = !isShaded;
+        }
+
+        if (contentArea) {
+            contentArea.style.display = isShaded ? 'none' : 'block';
+        }
+        
+        // Adjust container width based on shaded state
+        if (toolsContainer) {
+            if (isShaded) {
+                // Remove width style when shaded for minimal width
+                toolsContainer.style.width = 'auto';
+            } else {
+                // Restore original width when unshaded
+                toolsContainer.style.width = '300px';
+            }
         }
 
         // Save state to localStorage
-        localStorage.setItem(STORAGE_KEY_SHADED, isShaded);
+        try {
+            localStorage.setItem(STORAGE_KEY_SHADED, isShaded ? '1' : '0');
+        } catch (e) {
+            console.warn('Could not save shaded state to localStorage');
+        }
     }
 
     /**
-     * Save the current position to localStorage
+     * Toggle highlighting of ADX elements
+     * @param {boolean} [forceState] - Force a specific state (optional)
      */
+    function toggleHighlightAdx(forceState) {
+        // Remove any existing highlight style element
+        const existingStyle = document.getElementById('au-migration-toolkit-highlight-style');
+        if (existingStyle) {
+            existingStyle.remove();
+        }
+        
+        // Get the current state or use the forced state
+        let highlightState;
+        if (forceState !== undefined) {
+            highlightState = forceState;
+        } else {
+            // Get from checkbox if available, otherwise toggle current state
+            const checkbox = document.getElementById('highlight-adx-checkbox');
+            if (checkbox) {
+                highlightState = checkbox.checked;
+            } else {
+                // Default to false if no checkbox and no forced state
+                highlightState = false;
+            }
+        }
+        
+        // Save state to localStorage
+        try {
+            localStorage.setItem('AUMigrationToolkit_highlightAdx', highlightState ? '1' : '0');
+        } catch (e) {
+            console.warn('Could not save highlight state to localStorage');
+        }
+        
+        // Apply highlighting if enabled
+        if (highlightState) {
+            const styleElement = document.createElement('style');
+            styleElement.id = 'au-migration-toolkit-highlight-style';
+            styleElement.textContent = `
+                [class*="adx"] {
+                    outline: 4px dashed red !important;
+                }
+            `;
+            document.head.appendChild(styleElement);
+        }
+        
+        // Update checkbox state if it exists
+        const checkbox = document.getElementById('highlight-adx-checkbox');
+        if (checkbox && checkbox.checked !== highlightState) {
+            checkbox.checked = highlightState;
+        }
+    }
     function savePosition() {
         if (!toolsContainer) return;
 
@@ -557,6 +618,45 @@ const AUMigrationToolkit = (function () {
             container.appendChild(section);
         });
 
+        // Create highlight ADX elements checkbox
+        const highlightContainer = document.createElement('div');
+        highlightContainer.style.cssText = `
+            user-select: none;
+        `;
+        
+        const highlightCheckbox = document.createElement('input');
+        highlightCheckbox.type = 'checkbox';
+        highlightCheckbox.id = 'highlight-adx-checkbox';
+        highlightCheckbox.style.marginRight = '8px';
+        
+        // Set initial state from localStorage
+        try {
+            const savedState = localStorage.getItem('AUMigrationToolkit_highlightAdx');
+            if (savedState) {
+                highlightCheckbox.checked = savedState === '1';
+                // Apply highlighting if checkbox is checked
+                if (highlightCheckbox.checked) {
+                    toggleHighlightAdx(true);
+                }
+            }
+        } catch (e) {
+            console.warn('Could not retrieve highlight state from localStorage');
+        }
+        
+        highlightCheckbox.addEventListener('change', function() {
+            toggleHighlightAdx();
+        });
+        
+        const highlightLabel = document.createElement('label');
+        highlightLabel.htmlFor = 'highlight-adx-checkbox';
+        highlightLabel.textContent = 'Highlight ADX elements';
+        highlightLabel.style.cursor = 'pointer';
+        
+        highlightContainer.appendChild(highlightCheckbox);
+        highlightContainer.appendChild(highlightLabel);
+        
+        container.appendChild(highlightContainer);
+        
         // Create a footer with version and settings
         const footer = document.createElement('div');
         footer.style.cssText = `
