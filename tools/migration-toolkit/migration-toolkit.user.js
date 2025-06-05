@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.67
+// @version      0.69
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
@@ -25,7 +25,7 @@ const AUMigrationToolkit = (function () {
         return;
     }
     // Private variables
-    const VERSION = '0.67';
+    const VERSION = '0.69';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
@@ -405,7 +405,7 @@ const AUMigrationToolkit = (function () {
         if (contentArea) {
             contentArea.style.display = isShaded ? 'none' : 'block';
         }
-        
+
         // Adjust container width based on shaded state
         if (toolsContainer) {
             if (isShaded) {
@@ -435,7 +435,7 @@ const AUMigrationToolkit = (function () {
         if (existingStyle) {
             existingStyle.remove();
         }
-        
+
         // Get the current state or use the forced state
         let highlightState;
         if (forceState !== undefined) {
@@ -450,14 +450,14 @@ const AUMigrationToolkit = (function () {
                 highlightState = false;
             }
         }
-        
+
         // Save state to localStorage
         try {
             localStorage.setItem('AUMigrationToolkit_highlightAdx', highlightState ? '1' : '0');
         } catch (e) {
             console.warn('Could not save highlight state to localStorage');
         }
-        
+
         // Apply highlighting if enabled
         if (highlightState) {
             const styleElement = document.createElement('style');
@@ -469,7 +469,7 @@ const AUMigrationToolkit = (function () {
             `;
             document.head.appendChild(styleElement);
         }
-        
+
         // Update checkbox state if it exists
         const checkbox = document.getElementById('highlight-adx-checkbox');
         if (checkbox && checkbox.checked !== highlightState) {
@@ -625,12 +625,12 @@ const AUMigrationToolkit = (function () {
         highlightContainer.style.cssText = `
             user-select: none;
         `;
-        
+
         const highlightCheckbox = document.createElement('input');
         highlightCheckbox.type = 'checkbox';
         highlightCheckbox.id = 'highlight-adx-checkbox';
         highlightCheckbox.style.marginRight = '8px';
-        
+
         // Set initial state from localStorage
         try {
             const savedState = localStorage.getItem('AUMigrationToolkit_highlightAdx');
@@ -644,21 +644,21 @@ const AUMigrationToolkit = (function () {
         } catch (e) {
             console.warn('Could not retrieve highlight state from localStorage');
         }
-        
-        highlightCheckbox.addEventListener('change', function() {
+
+        highlightCheckbox.addEventListener('change', function () {
             toggleHighlightAdx();
         });
-        
+
         const highlightLabel = document.createElement('label');
         highlightLabel.htmlFor = 'highlight-adx-checkbox';
         highlightLabel.textContent = 'Highlight ADX elements';
         highlightLabel.style.cursor = 'pointer';
-        
+
         highlightContainer.appendChild(highlightCheckbox);
         highlightContainer.appendChild(highlightLabel);
-        
+
         container.appendChild(highlightContainer);
-        
+
         // Create a footer with version and settings
         const footer = document.createElement('div');
         footer.style.cssText = `
@@ -767,26 +767,26 @@ const AUMigrationToolkit = (function () {
                 }
 
                 // 3. Try to extract it from the page content if it exists in a script tag
-                const envScripts = document.querySelectorAll('script:not([src])');
-                for (const script of envScripts) {
-                    if (script.textContent.includes('ENV = {') || script.textContent.includes('ENV={')) {
-                        console.log('[AU Migration Toolkit] Attempting to extract ENV from script tag');
-                        try {
-                            // This is a bit risky but might work in some cases
-                            // Extract the ENV object definition and evaluate it
-                            const envMatch = script.textContent.match(/ENV\s*=\s*({[\s\S]*?});/);
-                            if (envMatch && envMatch[1]) {
-                                const extractedEnv = eval('(' + envMatch[1] + ')');
-                                if (extractedEnv.WIKI_PAGE && extractedEnv.WIKI_PAGE.body) {
-                                    console.log('[AU Migration Toolkit] Successfully extracted page content from script tag');
-                                    return extractedEnv.WIKI_PAGE.body;
-                                }
-                            }
-                        } catch (evalError) {
-                            console.error('[AU Migration Toolkit] Error evaluating ENV from script:', evalError);
-                        }
-                    }
-                }
+                // const envScripts = document.querySelectorAll('script:not([src])');
+                // for (const script of envScripts) {
+                //     if (script.textContent.includes('ENV = {') || script.textContent.includes('ENV={')) {
+                //         console.log('[AU Migration Toolkit] Attempting to extract ENV from script tag');
+                //         try {
+                //             // This is a bit risky but might work in some cases
+                //             // Extract the ENV object definition and evaluate it
+                //             const envMatch = script.textContent.match(/ENV\s*=\s*({[\s\S]*?});/);
+                //             if (envMatch && envMatch[1]) {
+                //                 const extractedEnv = eval('(' + envMatch[1] + ')');
+                //                 if (extractedEnv.WIKI_PAGE && extractedEnv.WIKI_PAGE.body) {
+                //                     console.log('[AU Migration Toolkit] Successfully extracted page content from script tag');
+                //                     return extractedEnv.WIKI_PAGE.body;
+                //                 }
+                //             }
+                //         } catch (evalError) {
+                //             console.error('[AU Migration Toolkit] Error evaluating ENV from script:', evalError);
+                //         }
+                //     }
+                // }
 
                 // No DOM fallback - we only want the original content from ENV
 
@@ -841,6 +841,7 @@ const AUMigrationToolkit = (function () {
          * Update the current Canvas page
          * @param {string} newBody - The new HTML content for the page
          * @param {Object} options - Additional options for the update
+         * @param {boolean} [options.applyDPWrapper=true] - Whether to apply DP wrapper to content
          * @returns {Promise} A promise that resolves when the page is updated
          */
         updatePage: async function (newBody, options = {}) {
@@ -853,11 +854,25 @@ const AUMigrationToolkit = (function () {
 
                 const { courseId, pageUrl } = pageInfo;
 
+                // Apply DP wrapper to content if not disabled
+                let processedBody = newBody;
+                if (options.applyDPWrapper !== false) {
+                    console.log('[AU Migration Toolkit] Applying DP wrapper to content');
+                    // Create a temporary container to apply the wrapper
+                    const tempContainer = document.createElement('div');
+                    tempContainer.innerHTML = newBody;
+
+                    // Apply the wrapper
+                    const wrappedContainer = this.applyDPWrapper(tempContainer);
+                    processedBody = wrappedContainer.innerHTML;
+                }
+
                 // Prepare the update data
                 const updateData = {
-                    body: newBody,
+                    body: processedBody,
                     ...options
                 };
+                delete updateData.applyDPWrapper; // Remove our custom option
 
                 // Use the Canvas API to update the page
                 console.log(`[AU Migration Toolkit] Updating page ${pageUrl} in course ${courseId}`);
@@ -866,32 +881,63 @@ const AUMigrationToolkit = (function () {
                 console.log('[AU Migration Toolkit] Page updated successfully:', result);
 
                 // Navigate to the edit page instead of refreshing
-                if (options.refresh !== false) {
-                    // Try to get the edit path from ENV
-                    let editPath = null;
+                // if (options.refresh !== false) {
+                //     // Try to get the edit path from ENV
+                //     let editPath = null;
 
-                    if (window.ENV && window.ENV.WIKI_PAGE_EDIT_PATH) {
-                        editPath = window.ENV.WIKI_PAGE_EDIT_PATH;
-                    } else if (typeof ENV !== 'undefined' && ENV.WIKI_PAGE_EDIT_PATH) {
-                        editPath = ENV.WIKI_PAGE_EDIT_PATH;
-                    }
+                //     if (window.ENV && window.ENV.WIKI_PAGE_EDIT_PATH) {
+                //         editPath = window.ENV.WIKI_PAGE_EDIT_PATH;
+                //     } else if (typeof ENV !== 'undefined' && ENV.WIKI_PAGE_EDIT_PATH) {
+                //         editPath = ENV.WIKI_PAGE_EDIT_PATH;
+                //     }
 
-                    if (editPath) {
-                        console.log('[AU Migration Toolkit] Navigating to edit page...');
-                        setTimeout(() => window.location.href = editPath, 500);
-                    } else {
-                        // Fallback to refresh if edit path not found
-                        console.log('[AU Migration Toolkit] Edit path not found, refreshing page...');
-                        setTimeout(() => window.location.reload(), 500);
-                    }
-                }
+                //     if (editPath) {
+                //         console.log('[AU Migration Toolkit] Navigating to edit page...');
+                //         setTimeout(() => window.location.href = editPath, 500);
+                //     } else {
+                //         // Fallback to refresh if edit path not found
+                //         console.log('[AU Migration Toolkit] Edit path not found, refreshing page...');
+                //         setTimeout(() => window.location.reload(), 500);
+                //     }
+                // }
+                console.log('[AU Migration Toolkit] Refreshing page...');
+                setTimeout(() => window.location.reload(), 500);
 
                 return result;
             } catch (error) {
                 console.error('[AU Migration Toolkit] Error updating page:', error);
                 throw error;
             }
+        },
+
+        applyDPWrapper: function (tempContainer) {
+            // First check if there's already a dp-wrapper
+            const existingDpWrapper = tempContainer.querySelector('#dp-wrapper');
+            if (existingDpWrapper) {
+                // If it exists, unwrap its contents (remove the wrapper but keep contents)
+                const parent = existingDpWrapper.parentNode;
+                while (existingDpWrapper.firstChild) {
+                    parent.insertBefore(existingDpWrapper.firstChild, existingDpWrapper);
+                }
+                parent.removeChild(existingDpWrapper);
+            }
+            
+            // Create new wrapper
+            const newDPWrapper = document.createElement('div');
+            newDPWrapper.classList.add('dp-wrapper');
+            newDPWrapper.id = 'dp-wrapper';
+            
+            // Move all of tempContainer's children into the wrapper
+            while (tempContainer.firstChild) {
+                newDPWrapper.appendChild(tempContainer.firstChild);
+            }
+            
+            // Add the wrapper back to the container
+            tempContainer.appendChild(newDPWrapper);
+            
+            return tempContainer;
         }
+
     };
 
     /**
@@ -2128,16 +2174,16 @@ AUMigrationToolkit.defineTool(
             adxButtons.forEach(adxButton => {
                 // Get the original content
                 const originalContent = adxButton.innerHTML;
-                
+
                 // Get the original href if it exists
                 const originalHref = adxButton.getAttribute('href') || '#';
-                
+
                 // Create a temporary div to hold our HTML
                 const tempDiv = document.createElement('div');
-                
+
                 // Determine which type of button it is
                 let htmlTemplate = '';
-                
+
                 if (adxButton.classList.contains('brand-red')) {
                     console.log('Converting ADX brand-red button');
                     htmlTemplate = `<a class="btn cph-bg-danger btn-outline-danger" href="${originalHref}">${originalContent}</a>`;
@@ -2158,18 +2204,18 @@ AUMigrationToolkit.defineTool(
                     console.log('Converting standard ADX button');
                     htmlTemplate = `<a class="btn btn-outline-primary" href="${originalHref}">${originalContent}</a>`;
                 }
-                
+
                 // Set the HTML content of the temp div
                 tempDiv.innerHTML = htmlTemplate;
-                
+
                 // Get the first child (our button)
                 const dpButton = tempDiv.firstElementChild;
-                
+
                 // Replace the original element with the new button
                 adxButton.parentNode.replaceChild(dpButton, adxButton);
                 convertedCount++;
             });
-            
+
             if (convertedCount === 0) {
                 alert('No valid ADX button elements could be converted.');
                 return;
@@ -2185,7 +2231,7 @@ AUMigrationToolkit.defineTool(
 
             // Update the page with the fixed content
             await AUMigrationToolkit.CanvasUtils.updatePage(updatedContent);
-            
+
             // Note: The page will automatically navigate to the edit page after update
         } catch (error) {
             console.error('[AU Migration Toolkit] Error converting ADX Tables:', error);
@@ -2228,14 +2274,14 @@ AUMigrationToolkit.defineTool(
 
             adxTables.forEach(adxTable => {
                 console.log('Converting ADX table');
-                
+
                 // Remove the adx and simple classes and add aux class
                 adxTable.classList.remove('adx', 'simple');
                 adxTable.classList.add('aux');
-                
+
                 convertedCount++;
             });
-            
+
             if (convertedCount === 0) {
                 alert('No valid ADX table elements could be converted.');
                 return;
@@ -2251,7 +2297,7 @@ AUMigrationToolkit.defineTool(
 
             // Update the page with the fixed content
             await AUMigrationToolkit.CanvasUtils.updatePage(updatedContent);
-            
+
             // Note: The page will automatically navigate to the edit page after update
         } catch (error) {
             console.error('[AU Migration Toolkit] Error converting ADX Tables:', error);
