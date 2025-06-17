@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.69
+// @version      0.70
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
+// @match        https://load.uo.unisa.edu.au/*
 // @match        https://learn.adelaide.edu.au/*
 // @match        https://myuni.adelaide.edu.au/*
 // @updateURL    https://mediaproduction.adelaide.edu.au/learning-enhancement/tools/migration-toolkit/migration-toolkit.user.js
@@ -25,7 +26,7 @@ const AUMigrationToolkit = (function () {
         return;
     }
     // Private variables
-    const VERSION = '0.69';
+    const VERSION = '0.70';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
