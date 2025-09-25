@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AU Migration Toolkit
 // @namespace    http://tampermonkey.net/
-// @version      0.70
+// @version      0.71
 // @description  A bunch of handy tools to speed up AU migration work
 // @author       Tim Churchward
 // @match        https://load.lo.unisa.edu.au/*
@@ -26,7 +26,7 @@ const AUMigrationToolkit = (function () {
         return;
     }
     // Private variables
-    const VERSION = '0.70';
+    const VERSION = '0.71';
     let toolsContainer = null;
     let contentArea = null;
     let isShaded = false;
@@ -1682,6 +1682,14 @@ AUMigrationToolkit.defineTool(
             return;
         }
 
+        // First determine the maximum number of rating cells across all criteria
+        let maxRatingCount = 0;
+        criterionRows.forEach(row => {
+            const ratingCellCount = row.querySelectorAll('td.level').length;
+            maxRatingCount = Math.max(maxRatingCount, ratingCellCount);
+        });
+        console.log('Maximum number of rating cells found:', maxRatingCount);
+
         // Prepare CSV data
         const csvData = [];
 
@@ -1703,7 +1711,7 @@ AUMigrationToolkit.defineTool(
                 'Criteria Enable Range': 'false'
             };
 
-            // Add rating data
+            // Add rating data for all available ratings
             ratingCells.forEach((cell, ratingIndex) => {
                 const ratingName = normalizeText(cell.querySelector('.score')?.textContent || '(Rating name not found)');
                 const ratingDescription = normalizeText(cell.querySelector('.definition')?.textContent || '(Rating description)');
@@ -1715,6 +1723,13 @@ AUMigrationToolkit.defineTool(
 
                 console.log(`Rating ${ratingIndex + 1} for criterion ${criterionNumber}:`, ratingDescription, ratingPoints);
             });
+
+            // Ensure all rows have the same number of columns by adding empty values for missing ratings
+            for (let i = ratingCells.length + 1; i <= maxRatingCount; i++) {
+                rowData[`Rating Name${i}`] = '';
+                rowData[`Rating Description${i}`] = '';
+                rowData[`Rating Points${i}`] = '';
+            }
 
             csvData.push(rowData);
         });
